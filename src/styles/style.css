@@ -1,0 +1,148 @@
+@font-face {
+  font-family: 'Raleway';
+  src: local('Raleway Semi Bold'), local('Raleway-Semi-Bold'),
+    url('../assets/fonts/Raleway-SemiBold.woff2') format('woff2'),
+    url('../assets/fonts/Raleway-SemiBold.woff') format('woff'),
+    url('../assets/fonts/Raleway-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: local('Raleway Medium'), local('Raleway-Medium'),
+    url('../assets/fonts/Raleway-Medium.woff2') format('woff2'),
+    url('../assets/fonts/Raleway-Medium.woff') format('woff'),
+    url('../assets/fonts/Raleway-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Raleway';
+  src: local('Raleway Regular'), local('Raleway-Regular'),
+    url('../assets/fonts/Raleway-Regular.woff2') format('woff2'),
+    url('../assets/fonts/Raleway-Regular.woff') format('woff'),
+    url('../assets/fonts/Raleway-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --color-main-blue: #366AF3;
+  --color-white-on-blue: #FFFFFF;
+}
+
+body {
+  font-family: 'Raleway';
+	font-style: normal;
+  font-weight: 500;
+
+	font-size: 29px;
+	color: #000000;
+}
+
+.title {
+  font-size: 60px;
+  font-weight: 600;
+}
+
+/* Login - start */
+
+.login {
+  max-width: 1700px;
+  margin: 0 auto;
+
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.login::before {
+  position: fixed;
+  content: '';
+  top: 0;
+  right: 0;
+  width: 746px;
+  height: 230px;
+  background-image: url(../assets/images/loop-1.svg);
+
+  z-index: -2;
+}
+
+.login::after {
+  position: fixed;
+  content: '';
+  bottom: 0;
+  left: 0;
+  width: 844px;
+  height: 316px;
+  background-image: url(../assets/images/loop-2.svg);
+
+  z-index: -2;
+}
+
+.login__wrap {
+  margin-left: 80px;
+  width: 100%;
+  margin-bottom: 110px;
+
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.login__greeting-card {
+  max-width: 662px;
+  max-height: 317px;
+  padding: 50px;
+  border-radius: 16px;
+
+  background-color: var(--color-main-blue);
+  color: var(--color-white-on-blue);
+}
+
+.login__title {
+  margin-bottom: 26px;
+}
+
+.login__text {
+  font-size: 40px;
+  font-weight: 500;
+} 
+
+.login__auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  width: 623px;
+  padding: 40px 20px;
+  border-radius: 16px;
+
+  box-shadow: 7px 10px 10px 0px rgba(120, 120, 120, 0.25);
+
+  font-size: 25px;
+
+  background-color: #FFFFFF;
+}
+
+.login__auth-form_field {
+  padding: 14px 24px 13px 24px;
+  border-radius: 16px;
+
+  border: 1px solid #C7C7C7;
+
+  font-weight: 400;
+}
+
+.login__submit-btn {
+  background-color: var(--color-main-blue);
+  padding: 15px 29px;
+  color: var(--color-white-on-blue);
+  border-radius: 37px;
+
+  font-weight: 400;
+}
+
+/* Login - end */
