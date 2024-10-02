@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Institutes from './pages/Institutes/Institutes';
 import Sidemenu from './components/Sidemenu';
+import Institute from './pages/Institutes/Institute';
 
 export default function App() {
   return (
@@ -13,7 +14,7 @@ export default function App() {
         <Route path='/' element={<Sidemenu />} >
           <Route index element={<div>Главная страница</div>} />
           <Route path='/institutes' element={<Institutes />} />
-          <Route path='/institutes/:instituteId' element={<div>Институт</div>} />
+          <Route path='/institutes/:instituteId' element={<Institute />} />
         </Route>
       </Routes>
     </BrowserRouter>

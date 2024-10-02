@@ -19,26 +19,24 @@ const institutesList = [
   },
   {
     name: 'Уральский гуманитарный институт',
-    rating: 7.9
+    rating: 4.9
   }
 ]
 
 export default function Institutes() {
   return (
-    <>
-      <div className="institutes">
-        <h1 className="institutes__title title">Институты</h1>
-        <ul className="institutes__list">
-          {institutesList.map((item, index) => (
-            <InstitutesItem 
-              key={index} 
-              id={index}
-              name={item.name} 
-              rating={item.rating} 
-            />
-          ))}
-        </ul>
-      </div>
-    </>
+    <div className="institutes">
+      <h1 className="institutes__title title">Институты</h1>
+      <ul className="institutes__list">
+        {institutesList.map((item, index) => (
+          <InstitutesItem 
+            key={index} 
+            id={index}
+            name={item.name} 
+            rating={item.rating} 
+          />
+        ))}
+      </ul>
+    </div>
   )
 }

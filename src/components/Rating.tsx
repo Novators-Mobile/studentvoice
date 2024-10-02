@@ -12,6 +12,6 @@ export default function InstitutesItem({ rating }: {rating: number}) {
   const ratingStyle = { backgroundColor: color };
 
   return (
-    <p className="institutes__item_rating" style={ ratingStyle }>{rating}</p>
+    <p className="rating" style={ ratingStyle }>{rating}</p>
   )
 }

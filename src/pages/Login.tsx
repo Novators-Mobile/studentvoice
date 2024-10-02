@@ -1,6 +1,6 @@
 export default function Login() {
   return (
-    <>
+    <div className="login__container">
       <div className="login">
         <div className="login__wrap">
           <div className="login__greeting-card">
@@ -16,6 +16,6 @@ export default function Login() {
           </form>
         </div>
       </div>
-    </>
+    </div>
   )
 }
