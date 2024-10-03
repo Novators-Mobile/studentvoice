@@ -7,13 +7,21 @@ type DropdownListItem = {
   rating: number
 }
 
-export default function Dropdown({ title, list }: { title: string, list: DropdownListItem[] }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Dropdown({ type, title, list }: { type: string, title: string, list: DropdownListItem[] }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isEditing, setisEditing] = useState<boolean>(false);
+
+  const dropdownStatusHandler = (): void => {
+    if (isOpen) {
+      setisEditing(false);
+    }
+    setIsOpen(!isOpen);
+  }
 
   return (
     <>
       <div className="dropdown__wrapper">
-        <div className="dropdown" onClick={() => {setIsOpen(!isOpen)}}>
+        <div className="dropdown" onClick={dropdownStatusHandler}>
           <p className="dropdown__title">{title}</p>
           <div className={`dropdown__icon ${isOpen && 'open'}`}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none">
@@ -33,13 +41,28 @@ export default function Dropdown({ title, list }: { title: string, list: Dropdow
 
           <input type="text" className="dropdown__tools_search search-small" placeholder='Поиск' />
           <button className="dropdown__tools_excel-btn excel-btn">Перенести в Excel</button>
-          <button className="dropdown__tools_edit-btn">Редактировать</button>
+
+          {!isEditing && 
+          <button className="dropdown__tools_edit-btn" onClick={() => {setisEditing(!isEditing)}}>
+            Редактировать
+          </button>}
+
+          {isEditing && 
+          <button className="dropdown__save-btn" onClick={() => {setisEditing(!isEditing)}}>
+            Готово
+          </button>}
+          {isEditing && 
+          <button className="dropdown__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
+              <path d="M21 12H12V21H9V12H0V9H9V0H12V9H21V12Z" fill="#366AF3"/>
+            </svg>
+          </button>}
         </div>}
       </div>
 
       {isOpen && <ul className="dropdown__list">
         {list.map((item, index) => (
-          <DropdownItem key={index} title={item.title} rating={item.rating} />
+          <DropdownItem key={index} id={index} type={type} title={item.title} rating={item.rating} isEditing={isEditing} />
         ))}
       </ul>}
     </>

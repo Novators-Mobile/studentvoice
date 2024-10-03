@@ -191,6 +191,13 @@ body {
   font-weight: 500;
 }
 
+.dropdown__item_icons-wrap {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .dropdown__tools_edit-btn {
   font-size: 15px;
   font-weight: 500;
@@ -206,6 +213,19 @@ body {
   background-image: url(../assets/images/icon-edit.svg);
   background-repeat: no-repeat;
   background-position: right 12px center;
+}
+
+.dropdown__save-btn {
+  font-size: 20px;
+  font-weight: 400;
+
+  height: 33px;
+  padding: 0 12px;
+
+  color: var(--color-white-on-blue);
+
+  border-radius: 16px;
+  background-color: var(--color-main-blue);
 }
 
 /* Dropdown - end */

@@ -1,5 +1,4 @@
 import logo from '../assets/images/icon-logo.svg'
-import avatar from '../assets/images/avatar.svg'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 
 export default function Sidemenu() {
@@ -14,7 +13,18 @@ export default function Sidemenu() {
         </div>
 
         <div className="menu__user-info">
-          <img src={avatar} alt="Фото профиля" className="menu__user-info_avatar" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="124" height="123" viewBox="0 0 124 123" fill="none">
+          <g clipPath="url(#clip0_1814_634)">
+            <rect x="0.712097" width="123" height="123" rx="61.5" fill="#E7E7E7"/>
+            <circle cx="23.7143" cy="23.7143" r="23.7143" transform="matrix(-1 0 0 1 85.2142 29)" stroke="#808080" strokeWidth="7"/>
+            <path d="M19.9999 105.926C19.9999 104.235 21.0626 102.728 22.6546 102.159L50.4008 92.2496C57.5782 89.6863 65.4216 89.6863 72.599 92.2496L100.345 102.159C101.937 102.728 103 104.235 103 105.926V130.444C103 131.661 101.922 132.596 100.717 132.424L65.3183 127.367C62.7856 127.005 60.2143 127.005 57.6816 127.367L22.2828 132.424C21.0779 132.596 19.9999 131.661 19.9999 130.444V105.926Z" stroke="#808080" strokeWidth="7"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_1814_634">
+              <rect x="0.712097" width="123" height="123" rx="61.5" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
           <p className="menu__user-info_fio text-menu">Обабков Илья Николаевич</p>
         </div>
 
@@ -28,7 +38,7 @@ export default function Sidemenu() {
                 Главная страница
               </Link>
             </li>
-            <li className={`menu__nav_list-item ${location.pathname === '/institutes' ? 'active' : ''}`}>
+            <li className={`menu__nav_list-item ${location.pathname.startsWith('/institutes') ? 'active' : ''}`}>
               <Link 
                 to="/institutes" className="menu__nav_link text-menu">
                 <svg width="37" height="33" viewBox="0 0 37 33" fill="none" xmlns="http://www.w3.org/2000/svg">

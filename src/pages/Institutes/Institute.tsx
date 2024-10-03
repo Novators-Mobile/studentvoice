@@ -48,10 +48,10 @@ export default function Institute() {
       </div>
 
       <div className="institute__disciplines">
-        <Dropdown title='Дисциплины' list={subjectsList} />
+        <Dropdown type='discipline' title='Дисциплины' list={subjectsList} />
       </div>
       <div className="institute__teachers">
-        <Dropdown title='Преподаватели' list={teachersList} />
+        <Dropdown type='teacher' title='Преподаватели' list={teachersList} />
       </div>
     </div>
   )
