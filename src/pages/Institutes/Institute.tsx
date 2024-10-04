@@ -1,6 +1,6 @@
-import React from 'react'
-import Dropdown from '../../components/Dropdown/Dropdown'
-import Rating from '../../components/Rating'
+import React from 'react';
+import Dropdown from '../../components/Dropdown/Dropdown';
+import TitleBlock from '../../components/TitleBlock';
 
 const subjectsList = [
   {
@@ -43,17 +43,11 @@ const teachersList = [
 function Institute() {
   return (
     <div className='institute'>
-      <div className="institute__title-block">
-        <h1 className="institute__title title">Институт радиоэлектроники и информационных технологий-РТФ</h1>
-        <Rating rating={8.3} />
-      </div>
+      <TitleBlock title='Институт экономики и управления' rating={7.1} editBtn={false} />
 
-      <div className="institute__disciplines">
-        <Dropdown type='discipline' title='Дисциплины' list={subjectsList} />
-      </div>
-      <div className="institute__teachers">
-        <Dropdown type='teacher' title='Преподаватели' list={teachersList} />
-      </div>
+      <Dropdown type='discipline' title='Дисциплины' list={subjectsList} />
+      
+      <Dropdown type='teacher' title='Преподаватели' list={teachersList} />
     </div>
   )
 }
