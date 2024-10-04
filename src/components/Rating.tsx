@@ -1,17 +1,21 @@
-export default function InstitutesItem({ rating }: {rating: number}) {
-  let color: string = '#38C321';
+import React from "react";
 
+const getRatingColor = (rating: number): string => {
   if (rating >= 8) {
-    color = '#38C321';
+    return '#38C321'; // Зеленый
   } else if (rating >= 6) {
-    color = '#E8D31C';
+    return '#E8D31C'; // Желтый
   } else {
-    color = '#FF7171';
+    return '#FF7171'; // Красный
   }
+};
 
-  const ratingStyle = { backgroundColor: color };
+function InstitutesItem({ rating }: {rating: number}) {
+  const ratingStyle = { backgroundColor: getRatingColor(rating) };
 
   return (
     <p className="rating" style={ ratingStyle }>{rating}</p>
   )
 }
+
+export default React.memo(InstitutesItem)

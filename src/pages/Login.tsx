@@ -1,4 +1,6 @@
-export default function Login() {
+import React from "react"
+
+function Login() {
   return (
     <div className="login__container">
       <div className="login">
@@ -19,3 +21,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default React.memo(Login)

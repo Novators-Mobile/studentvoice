@@ -1,3 +1,4 @@
+import React from 'react'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import Rating from '../../components/Rating'
 
@@ -39,7 +40,7 @@ const teachersList = [
   }
 ]
 
-export default function Institute() {
+function Institute() {
   return (
     <div className='institute'>
       <div className="institute__title-block">
@@ -56,3 +57,5 @@ export default function Institute() {
     </div>
   )
 }
+
+export default React.memo(Institute)

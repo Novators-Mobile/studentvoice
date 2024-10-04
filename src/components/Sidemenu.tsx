@@ -1,7 +1,8 @@
+import React from 'react';
 import logo from '../assets/images/icon-logo.svg'
 import { Outlet, Link, useLocation } from 'react-router-dom'
 
-export default function Sidemenu() {
+function Sidemenu() {
   const location = useLocation();
 
   return (
@@ -81,3 +82,5 @@ export default function Sidemenu() {
     </div>
   )
 }
+
+export default React.memo(Sidemenu)

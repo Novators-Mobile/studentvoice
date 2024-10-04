@@ -1,3 +1,4 @@
+import React from "react"
 import InstitutesItem from "./InstitutesItem"
 
 const institutesList = [
@@ -23,7 +24,7 @@ const institutesList = [
   }
 ]
 
-export default function Institutes() {
+function Institutes() {
   return (
     <div className="institutes">
       <h1 className="institutes__title title">Институты</h1>
@@ -40,3 +41,5 @@ export default function Institutes() {
     </div>
   )
 }
+
+export default React.memo(Institutes)
