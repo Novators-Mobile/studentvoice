@@ -1,6 +1,6 @@
 import React from 'react';
-import Dropdown from '../../components/Dropdown/Dropdown';
-import TitleBlock from '../../components/TitleBlock';
+import Dropdown from '../components/Dropdown/Dropdown';
+import TitleBlock from '../components/TitleBlock';
 
 const subjectsList = [
   {
