@@ -31,7 +31,7 @@ function EditDiscipline() {
 
   return (
     <>
-      <h1 className="edit-discipline__title title">{title}</h1>
+      <h1 className="edit__title title">{title}</h1>
 
       <form className="edit-discipline__form">
         <fieldset className="edit-discipline__fieldset">

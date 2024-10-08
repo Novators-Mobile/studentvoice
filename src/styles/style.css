@@ -199,6 +199,8 @@ body {
   border-radius: 16px;
   background-color: var(--color-gray-item);
 
+  z-index: 100;
+
   max-height: 188px;
   overflow: hidden;
   overflow-y: auto;
@@ -675,9 +677,9 @@ body {
 /* Institute - end */
 
 
-/* EditDiscipline - start */
+/* EditDiscipline/EditTeacher - start */
 
-.edit-discipline__title {
+.edit__title {
   margin-bottom: var(--margin-bottom-title);
 }
 
@@ -707,5 +709,41 @@ body {
   justify-content: space-between;
   max-width: 405px;
 }
+
+.edit-teacher__fieldset {
+  margin-bottom: 40px;
+}
+
+.edit-teacher__fieldset_legend {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-gray-menu);
+  margin-bottom: 20px;
+}
+
+.edit-teacher__big-wrap {
+  display: flex;
+  gap: 26px;
+}
+
+.edit-teacher__fieldset_container {
+  display: flex;
+  gap: 20px;
+  max-width: 570px;
+  flex-wrap: wrap;
+}
+
+.edit-teacher__fieldset_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.edit-teacher__inner-wrap {
+  display: flex;
+  gap: 40px;
+  align-items: end;
+}
+
 
 /* EditDiscipline - end */
