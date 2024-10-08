@@ -13,14 +13,9 @@
     const location = useLocation();
     
     const linkPath = useMemo(() => {
-      // Разбиваем путь на части
       const pathSegments = location.pathname.split("/");
-      
-      // Предположим, что нам нужно сохранить первые три части пути
-      // Например: /institutes/0
       const basePath = pathSegments.slice(0, 3).join("/");
       
-      // Добавляем динамические параметры type и id
       return `${basePath}/${type}/${id}`;
     }, [location.pathname, type, id]);
 

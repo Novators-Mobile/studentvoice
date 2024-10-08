@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FilterModal from './FilterModal';
+import BtnPlus from './BtnPlus';
 
 type Props = {
   isEditing?: boolean,
@@ -53,7 +54,7 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
 
       {isFilterModalOpen && <FilterModal modalRef={modalRef} setFilterModalOpen={setFilterModalOpen} />}
 
-      <input type="text" className="tools_search search-small" placeholder='Поиск' />
+      <input type="search" className="tools_search search-small" placeholder='Поиск' />
       <button className="tools_excel-btn excel-btn">Перенести в Excel</button>
 
       {editBtn && !isEditing && (
@@ -62,18 +63,13 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
         </button>
       )}
       
-      {isEditing &&(
+      {isEditing && (
         <button className="dropdown__save-btn" onClick={saveBtnHandler}>
           Готово
         </button>
       )}  
 
-      {isEditing || !editBtn && 
-      <button className="dropdown__icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 21 21" fill="none">
-          <path d="M21 12H12V21H9V12H0V9H9V0H12V9H21V12Z" fill="#366AF3"/>
-        </svg>
-      </button>}
+      {(isEditing || !editBtn) && <BtnPlus />}
     </div>
   );
 }
