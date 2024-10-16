@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+.vscode
+.idea
+.DS_Store
+.netlify
+docker-compose.yml
+Dockerfile
