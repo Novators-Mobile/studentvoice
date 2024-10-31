@@ -1,16 +1,22 @@
-import React from 'react'
-import Rating from '../../components/Rating'
-import { Link } from 'react-router-dom'
+import React from "react";
+import Rating from "../../components/Rating";
+import { Link } from "react-router-dom";
 
-function InstitutesItem({ id, name, rating }: {id:number, name: string, rating: number}) {
+type Props = {
+  id: number;
+  name: string;
+  rating: number;
+};
+
+function InstitutesItem({ id, name, rating }: Props) {
   return (
     <li>
       <Link to={`/institutes/${id}`} className="institutes__item">
-        <p className="institutes__item_title">{name}</p>
+        <p className="medium-middle-text">{name}</p>
         <Rating rating={rating} />
       </Link>
     </li>
-  )
+  );
 }
 
-export default React.memo(InstitutesItem)
+export default React.memo(InstitutesItem);

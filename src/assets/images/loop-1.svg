@@ -1,8 +1,9 @@
-<svg width="746" height="230" viewBox="0 0 746 230" fill="none" xmlns="http://www.w3.org/2000/svg">
-<mask id="mask0_1701_544" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="746" height="230">
-<rect width="746" height="230" fill="#D9D9D9"/>
+<svg width="846" height="317" viewBox="0 0 846 317" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_2179_1226" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="846" height="317">
+<rect width="846" height="317" fill="#D9D9D9"/>
 </mask>
-<g mask="url(#mask0_1701_544)">
-<path d="M746 189.864C605.91 124.574 457.106 71.9004 316.568 49.5527C-29.3842 -5.45911 -45.8573 153.637 64.5424 201.724C205.862 263.279 470.351 213.251 456.552 0.109795" stroke="#366AF3" stroke-width="8" stroke-linecap="round"/>
+<g mask="url(#mask0_2179_1226)">
+<path d="M-57.1106 9.16061C69.4659 99.48 389.752 232.183 644.96 193.491C877.79 158.192 870.06 20.5805 792.207 6.18121C670.553 -16.3194 448.113 144.208 613.781 394.428" stroke="#1E4391" stroke-width="8" stroke-linecap="round"/>
+<circle cx="679.5" cy="188.5" r="11.5" fill="#1E4391"/>
 </g>
 </svg>
