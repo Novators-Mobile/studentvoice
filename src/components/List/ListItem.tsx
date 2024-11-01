@@ -1,31 +1,33 @@
-  import { Link, useLocation } from "react-router-dom"
-  import Rating from "../Rating"
-  import React, { useMemo } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Rating from "../Rating";
+import React, { useMemo } from "react";
 
-  type Props = {
-    id: number;
-    title: string;
-    rating: number;
-    type: string;
-  }
+type Props = {
+  id: number;
+  title: string;
+  rating: number;
+  type: string;
+};
 
-  function ListItem({ id, title, rating, type }: Props) {
-    const location = useLocation();
-    
-    const linkPath = useMemo(() => {
-      const pathSegments = location.pathname.split("/");
-      const basePath = pathSegments.slice(0, 3).join("/");
-      
-      return `${basePath}/${type}/${id}`;
-    }, [location.pathname, type, id]);
+function ListItem({ id, title, rating, type }: Props) {
+  const location = useLocation();
 
-    return (
-      <li className="list__item">
-        <Link to={linkPath} className="list__item_link">{title}</Link>
+  const linkPath = useMemo(() => {
+    const pathSegments = location.pathname.split("/");
+    const basePath = pathSegments.slice(0, 3).join("/");
 
-        <Rating rating={rating} />  
-      </li>
-    )
-  }
+    return `${basePath}/${type}/${id}`;
+  }, [location.pathname, type, id]);
 
-  export default React.memo(ListItem)
+  return (
+    <li className="list__item">
+      <Link to={linkPath} className="list__item_link regular-text">
+        {title}
+      </Link>
+
+      <Rating rating={rating} />
+    </li>
+  );
+}
+
+export default React.memo(ListItem);

@@ -19,15 +19,15 @@ function List({ type, title, list }: Props) {
     <>
       <div className="list__wrapper">
         <div className="list">
-          <p className="list__title semi-bold-text">{title}</p>
+          <p className="dropdown__title medium-big-text">{title}</p>
         </div>
 
         <Tools />
       </div>
 
-      <div className="list__items">
-        <p className="list__subtitle">Лекции</p>
-        <ul className="list__lectures">
+      <div className="list__items_wrap">
+        <p className="medium-middle-text">Лекции</p>
+        <ul className="list__items">
           {list.map((item, index) => (
             <ListItem 
               key={index} 
@@ -38,8 +38,8 @@ function List({ type, title, list }: Props) {
           ))}
         </ul>
         
-        <p className="list__subtitle">Практики</p>
-        <ul className="list__practices">
+        <p className="medium-middle-text">Практики</p>
+        <ul className="list__items">
           {list.map((item, index) => (
             <ListItem 
               key={index} 

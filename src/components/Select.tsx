@@ -1,15 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
+import SelectIcon from './Icons/SelectIcon';
 
 type Props = {
   label: string,
   options: string[],
-  placeholder?: string
+  placeholder?: string,
+  width?: string
 }
 
-function CustomSelect({ label, options, placeholder = 'Select...' }: Props) {
+function Select({ label, options, placeholder = 'Выбор...', width }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const selectRef = useRef<HTMLDivElement>(null);
+
+  const style = {
+    width: width
+  };
 
   const handleToggle = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -47,22 +53,26 @@ function CustomSelect({ label, options, placeholder = 'Select...' }: Props) {
 
   return (
     <div className='input__wrap'>
-      <p className="input__label">{label}</p>
+      <p className="medium-middle-text">{label}</p>
 
-      <div className={`custom-select ${isOpen ? 'open' : ''}`} onClick={handleToggle} ref={selectRef}>
-        <span className={`select-box ${!selectedOption && 'empty'}`}>
+      <div 
+        className={`select ${isOpen ? 'open' : ''}`} 
+        onClick={handleToggle} 
+        ref={selectRef}
+        style={style}
+      >
+        <span className={`select-box medium-middle-text ${!selectedOption && 'empty'}`}>
           {selectedOption ? selectedOption : placeholder}
         </span>
-        <svg className={`select__arrow-icon ${isOpen ? 'open' : ''}`}
-          xmlns="http://www.w3.org/2000/svg" width="33" height="33" viewBox="0 0 33 33" fill="none">
-          <rect width="33" height="33" rx="16" fill="#366AF3"/>
-          <path d="M16.5 25L8.70577 11.5L24.2942 11.5L16.5 25Z" fill="white"/>
-        </svg>
+        
+        <div className={`select-icon__wrap ${isOpen ? 'open' : ''}`}>
+          <SelectIcon />
+        </div>
 
-        <ul className="select-options">
+        <ul className="select-options" style={style}>
           {options.map((option, id) => (
             <li 
-              className='select-option' 
+              className='select-option medium-small-text' 
               key={id} 
               onClick={() => handleSelect(option)}
             >
@@ -77,4 +87,4 @@ function CustomSelect({ label, options, placeholder = 'Select...' }: Props) {
   );
 }
 
-export default React.memo(CustomSelect);
+export default React.memo(Select);

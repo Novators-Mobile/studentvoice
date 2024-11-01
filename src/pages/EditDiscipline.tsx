@@ -1,61 +1,53 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import CustomInput from '../components/CustomInput';
-import CustomSearch from '../components/CustomSearch';
-import BtnPlus from '../components/BtnPlus';
-import BtnMinus from '../components/BtnMinus';
-import CustomBtn from '../components/CustomBtn';
-import CustomSelect from '../components/CustomSelect';
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Input from "../components/Input";
+import Search from "../components/Search";
+import Select from "../components/Select";
+import Button from "../components/Button";
 
-const options = [
-  'ИРИТ-РТФ',
-  'ИНМиТ',
-  'ФТИ',
-  'ИНЭУ',
-  'ИСА',
-  'УГИ'
-];
+const options = ["ИРИТ-РТФ", "ИНМиТ", "ФТИ", "ИНЭУ", "ИСА", "УГИ"];
 
 function EditDiscipline() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  let title: string = '';
+  let title: string = "";
 
-  if (location.pathname.endsWith('edit')) {
-    title = 'Редактировать дисциплину';
-  } else if (location.pathname.endsWith('new-discipline')) {
-    title = 'Новая дисциплина';
+  if (location.pathname.endsWith("edit")) {
+    title = "Редактировать дисциплину";
+  } else if (location.pathname.endsWith("new-discipline")) {
+    title = "Новая дисциплина";
   }
-  
 
   return (
     <>
-      <h1 className="edit__title title">{title}</h1>
+      <h1 className="edit__title header-text">{title}</h1>
 
       <form className="edit-discipline__form">
         <fieldset className="edit-discipline__fieldset">
-          <CustomInput label='Название' />
+          <Input label="Название" width="448px" />
 
-          <CustomSelect label='Интститут' options={options} placeholder='Выберите институт'/>
+          <Select
+            label="Интститут"
+            options={options}
+            width="448px"
+          />
+        </fieldset>
 
-        </fieldset>  
-        
-        <h2 className="edit-disipline__title title">Преподаватели</h2>
+        <h2 className="edit-disipline__title medium-big-text">Преподаватели</h2>
 
         <fieldset className="edit-discipline__fieldset">
-          <CustomSearch label='Лекции' />
-          <CustomSearch label='Практики' />
-
-          <div className="edit__control-btns">
-            <BtnPlus />
-            <BtnMinus />
-          </div>
+          <Search label="Лекции" width="448px" />
+          <Search label="Практики" width="448px" />
         </fieldset>
 
         <div className="edit__form-btns">
-          <CustomBtn text='Отменить' type='reset' onClick={() => navigate(-1)} />
-          <CustomBtn text='Сохранить' type='submit' />
+          <Button
+            text="Отменить"
+            type="reset"
+            onClick={() => navigate(-1)}
+          />
+          <Button text="Сохранить" type="submit" />
         </div>
       </form>
     </>

@@ -75,7 +75,9 @@
 
   --border-radius: 20px;
 
-  --input-width: 270px;
+  --list-width: 912px;
+  --input-width: 293px;
+  --input-height: 49px;
 }
 
 body {
@@ -203,52 +205,70 @@ input {
   background-color: var(--color-rate-gray);
 }
 
-.search-small {
+.search {
   width: var(--input-width);
-  height: 33px;
+  height: var(--input-height);
 
-  padding-left: 13px;
-  padding-right: 44px;
-
-  font-size: 15px;
-  font-weight: 500;
+  padding: 10px 0 10px 16px;
+  padding-right: calc(16px + 21px + 5px);
 
   border-radius: var(--border-radius);
   background-color: var(--color-bg-gray);
-  background-image: url(../assets/images/icon-search.svg);
+  background-image: url(../assets/images/icon-search-small.svg);
   background-repeat: no-repeat;
-  background-position: right 12px center;
+  background-position: right 16px center;
 }
 
-.search-small::placeholder {
+.search::placeholder {
+  color: var(--color-inactive-gray);
+}
+
+.big.search {
+  padding: 10px 0 10px 20px;
+  padding-right: calc(20px + 27px + 5px);
+  background-image: url(../assets/images/icon-search-big.svg);
+}
+
+.big.search::placeholder {
   color: var(--color-blue);
 }
 
-.custom-btn {
+.button {
+  padding: 10px 20px;
+  
   border-radius: var(--border-radius);
-  padding: 10px;
-  background-color: var(--color-blue);
-
-  font-size: 20px;
-  font-weight: 500;
   color: var(--color-white);
+  background-color: var(--color-blue);
 }
 
-.custom-btn[type='reset'] {
+.button.reset {
   background-color: var(--color-red);
 }
 
-.excel-btn {
-  font-size: 20px;
-  font-weight: 400;
+.button.excel {
+  background-color: var(--color-green);
+}
 
-  height: 33px;
-  padding: 0 12px;
+.button.disabled,
+.disabled.button:hover,
+.disabled.button:active {
+  color: var(--color-inactive-gray);
+  background-color: var(--color-bg-gray);
+}
 
-  color: var(--color-white);
+.button:hover,
+.button:active {
+  background-color: var(--color-active-blue);
+}
 
-  border-radius: var(--border-radius);
-  background-color: #41AA1C;
+.reset.button:hover,
+.reset.button:active {
+  background-color: var(--color-active-red);
+}
+
+.excel.button:hover,
+.excel.button:active {
+  background-color: var(--color-active-green);
 }
 
 .input__wrap {
@@ -257,25 +277,19 @@ input {
   gap: 15px;
 }
 
-.input__label {
-  font-size: 20px;
-}
-
-.custom-input {
-  font-size: 15px;
-  font-weight: 500;
+.input {
   width: var(--input-width);
 
   border-radius: var(--border-radius);
-  padding: 7px 16px 8px 16px;
+  padding: 10px 16px;
   background-color: var(--color-bg-gray);
 }
 
-.custom-input::placeholder {
+.input::placeholder {
   color: var(--color-inactive-gray);
 }
 
-.custom-select {
+.select {
   display: flex;
   justify-content: space-between;
 
@@ -288,9 +302,7 @@ input {
 }
 
 .select-box {
-  padding: 7px 16px 8px 16px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 10px 16px;
 }
 
 .select-box.empty {
@@ -299,7 +311,7 @@ input {
 
 .select-options {
   position: absolute;
-  top: 48px;
+  top: 55px;
   left: 0;
 
   display: flex;
@@ -311,13 +323,13 @@ input {
   border-radius: var(--border-radius);
   background-color: var(--color-bg-gray);
 
-  z-index: 100;
+  z-index: 10;
 
-  max-height: 188px;
+  /* max-height: 188px;
   overflow: hidden;
   overflow-y: auto;
 
-  scrollbar-width: thin;
+  scrollbar-width: thin; */
 
   opacity: 0;
   transform: translateY(-15px);
@@ -325,18 +337,43 @@ input {
   pointer-events: none;
 }
 
-.custom-select.open .select-options {
+.select.open .select-options {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
 .select-option {
-  font-size: 15px;
-  font-weight: 500;
+  cursor: pointer;
 }
 
-.select__arrow-icon.open {
+.select-icon__wrap {
+  min-width: 50px;
+  max-width: 50px;
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 14px;
+
+  border-radius: var(--border-radius);
+  background-color: var(--color-blue);
+
+  z-index: 20;
+}
+
+.select-icon__wrap > svg {
+  margin-top: 5px;
+
+  transition: .1s;
+}
+
+.select-icon__wrap.open > svg {
+  margin-top: 0;
+  margin-bottom: 4px;
+
   transform: rotate(180deg);
 }
 
@@ -481,7 +518,7 @@ input {
 
 .dropdown__list {
   margin-bottom: 32px;
-  max-width: 912px;
+  max-width: var(--list-width);
 
   border-top: 1px solid var(--color-rate-gray);
 }
@@ -508,23 +545,6 @@ input {
 
 .dropdown__item_icons-wrap > .rating {
   margin-bottom: 7px;
-}
-
-.dropdown__tools_edit-btn {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-blue);
-
-  padding-left: 12px;
-  padding-right: 42px;
-
-  height: 33px;
-  border-radius: var(--border-radius);
-
-  background-color: var(--color-bg-gray);
-  background-image: url(../assets/images/icon-edit.svg);
-  background-repeat: no-repeat;
-  background-position: right 12px center;
 }
 
 .dropdown__save-btn {
@@ -560,37 +580,30 @@ input {
 
 }
 
+.list__items_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  max-width: var(--list-width);
+
+  margin-bottom: 35px;
+}
+
 .list__items {
-  margin-left: 10px;
-  margin-bottom: 60px;
-  max-width: 850px;
-}
-
-.list__subtitle {
-  font-size: 20px;
-  margin-bottom: 20px;
-}
-
-.list__subtitle:last-of-type {
-  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .list__item {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-}
-
-.list__item:last-of-type {
-  margin-bottom: 0;
 }
 
 .list__item_link {
   width: 100%;
   display: block;
-
-  font-size: 20px;
-  font-weight: 400;
 }
 
 /* List - end */
@@ -730,6 +743,8 @@ input {
 
   background-color: var(--color-white);
   box-shadow: 5px 4px 10px 0px rgba(0, 0, 0, 0.25);
+
+  z-index: 999;
 }
 
 .menu__title_wrap {
@@ -824,6 +839,17 @@ input {
   margin-bottom: 16px;
 }
 
+.title-block__icons_wrap {
+  display: flex;
+  gap: 73px;
+  align-items: center;
+}
+
+.title-block__edit-btn {
+  display: flex;
+  align-items: center;
+}
+
 /* Institute - end */
 
 
@@ -836,9 +862,9 @@ input {
 .edit-discipline__fieldset {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
 
-  margin-bottom: 60px;
+  margin-bottom: 32px;
 }
 
 .edit-discipline__fieldset:last-of-type {
@@ -846,7 +872,7 @@ input {
 }
 
 .edit-disipline__title {
-  margin-bottom: var(--margin-bottom-title);
+  margin-bottom: 32px;
 }
 
 .edit__control-btns {
@@ -857,7 +883,7 @@ input {
 .edit__form-btns {
   display: flex;
   justify-content: space-between;
-  max-width: 405px;
+  max-width: 618px;
 }
 
 .edit-teacher__fieldset {

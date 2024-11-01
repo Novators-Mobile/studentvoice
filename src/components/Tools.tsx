@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import FilterModal from './FilterModal';
-import ToolsBtn from './ToolsBtn';
-import DoubleArrowBtn from './Icons/DoubleArrowBtn';
-import PlusIcon from './Icons/PlusIcon';
+import React, { useEffect, useRef, useState } from "react";
+import FilterModal from "./FilterModal";
+import ToolsBtn from "./ToolsBtn";
+import DoubleArrowBtn from "./Icons/DoubleArrowBtn";
+import PlusIcon from "./Icons/PlusIcon";
+import Search from "./Search";
+import Button from "./Button";
 
 type Props = {
-  isEditing?: boolean,
-  editBtn?: boolean,
-  editBtnHandler?: () => void,
-  saveBtnHandler?: () => void
-}
+  isEditing?: boolean;
+  editBtn?: boolean;
+  editBtnHandler?: () => void;
+  saveBtnHandler?: () => void;
+};
 
 function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
@@ -21,7 +23,7 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
   };
 
   const handleEscPress = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       setFilterModalOpen(false);
     }
   };
@@ -34,13 +36,13 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
 
   useEffect(() => {
     if (isFilterModalOpen) {
-      document.addEventListener('click', handleClickOutside);
-      document.addEventListener('keydown', handleEscPress);
-    } 
+      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("keydown", handleEscPress);
+    }
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscPress);
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleEscPress);
     };
   }, [isFilterModalOpen]);
 
@@ -48,26 +50,24 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
     <div className="tools">
       <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
 
-      {isFilterModalOpen && <FilterModal modalRef={modalRef} setFilterModalOpen={setFilterModalOpen} />}
+      {isFilterModalOpen && (
+        <FilterModal
+          modalRef={modalRef}
+          setFilterModalOpen={setFilterModalOpen}
+        />
+      )}
 
-      <input type="search" className="tools_search search-small" placeholder='Поиск' />
+      <Search />
 
-      
       {editBtn && !isEditing && (
-        <button className="dropdown__tools_edit-btn" onClick={editBtnHandler}>
-          Редактировать
-        </button>
+        <Button text="Редактировать" onClick={editBtnHandler} />
       )}
 
       {(isEditing || !editBtn) && <ToolsBtn icon={<PlusIcon />} />}
 
-      {isEditing && (
-        <button className="dropdown__save-btn" onClick={saveBtnHandler}>
-          Сохранить
-        </button>
-      )} 
-      
-      <button className="tools_excel-btn excel-btn">Перенести в Excel</button>
+      {isEditing && <Button text="Сохранить" onClick={saveBtnHandler} />}
+
+      <Button text="Excel" type="excel" />
     </div>
   );
 }
