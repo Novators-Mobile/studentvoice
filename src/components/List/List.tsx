@@ -19,7 +19,7 @@ function List({ type, title, list }: Props) {
     <>
       <div className="list__wrapper">
         <div className="list">
-          <p className="list__title">{title}</p>
+          <p className="list__title semi-bold-text">{title}</p>
         </div>
 
         <Tools />

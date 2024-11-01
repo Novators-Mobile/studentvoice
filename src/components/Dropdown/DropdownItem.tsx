@@ -1,7 +1,8 @@
-import { Link, useLocation } from "react-router-dom"
-import Rating from "../Rating"
+import { Link, useLocation } from "react-router-dom";
+import Rating from "../Rating";
 import React, { useMemo } from "react";
-import BtnMinus from "../BtnMinus";
+import ToolsBtn from "../ToolsBtn";
+import MinusIcon from "../Icons/MinusIcon";
 
 type Props = {
   id: number;
@@ -9,24 +10,28 @@ type Props = {
   rating: number;
   type: string;
   isEditing: boolean;
-}
+};
 
 function DropdownItem({ id, title, rating, type, isEditing }: Props) {
   const location = useLocation();
-  const linkPath = useMemo(() => `${location.pathname}/${type}/${id}`, [location.pathname, type, id]);
+  const linkPath = useMemo(
+    () => `${location.pathname}/${type}/${id}`,
+    [location.pathname, type, id]
+  );
 
   return (
     <li className="dropdown__item">
-      <Link to={linkPath} className="dropdown__item_link">{title}</Link>
+      <Link to={linkPath} className="dropdown__item_link medium-middle-text">
+        {title}
+      </Link>
 
       <div className="dropdown__item_icons-wrap">
         <Rating rating={rating} />
 
-        {isEditing && <BtnMinus />}
+        {isEditing && <ToolsBtn icon={<MinusIcon />} />}
       </div>
-      
     </li>
-  )
+  );
 }
 
-export default React.memo(DropdownItem)
+export default React.memo(DropdownItem);

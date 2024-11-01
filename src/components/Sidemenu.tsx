@@ -21,7 +21,7 @@ function Sidemenu() {
 
         <nav className="menu__nav">
           <ul className="menu__nav_list">
-            <li className={`menu__nav_list-item ${location.pathname.startsWith('/institutes') ? 'active' : ''}`}>
+            <li className={`menu__nav_list-item ${location.pathname.startsWith('/institutes') || location.pathname.endsWith('/') ? 'active' : ''}`}>
               <Link 
                 to="/institutes" className="menu__nav_link semi-bold-text">
                 <svg width="37" height="33" viewBox="0 0 37 33" fill="none" xmlns="http://www.w3.org/2000/svg">
