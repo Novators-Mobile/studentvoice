@@ -234,11 +234,20 @@ input {
 }
 
 .button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   padding: 10px 20px;
   
   border-radius: var(--border-radius);
   color: var(--color-white);
   background-color: var(--color-blue);
+}
+
+.button.icon {
+  background-color: var(--color-bg-gray);
+  color: var(--color-blue);
 }
 
 .button.reset {
@@ -247,13 +256,6 @@ input {
 
 .button.excel {
   background-color: var(--color-green);
-}
-
-.button.disabled,
-.disabled.button:hover,
-.disabled.button:active {
-  color: var(--color-inactive-gray);
-  background-color: var(--color-bg-gray);
 }
 
 .button:hover,
@@ -271,10 +273,23 @@ input {
   background-color: var(--color-active-green);
 }
 
+.icon.button:hover,
+.icon.button:active {
+  background-color: var(--color-blue);
+  color: var(--color-bg-gray);
+}
+
+.button.disabled,
+.disabled.button:hover,
+.disabled.button:active {
+  color: var(--color-inactive-gray);
+  background-color: var(--color-bg-gray);
+}
+
 .input__wrap {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 32px;
 }
 
 .input {
@@ -297,8 +312,6 @@ input {
   background-color: var(--color-bg-gray);
 
   width: var(--input-width);
-
-  position: relative;
 }
 
 .select-box {
@@ -309,27 +322,24 @@ input {
   color: var(--color-inactive-gray);
 }
 
+.select-options__wrap {
+  position: relative;
+}
+
 .select-options {
   position: absolute;
-  top: 55px;
-  left: 0;
 
   display: flex;
   width: var(--input-width);
   padding: 15px 20px;
   flex-direction: column;
   gap: 10px;
+  margin-top: 5px;
 
   border-radius: var(--border-radius);
   background-color: var(--color-bg-gray);
 
   z-index: 10;
-
-  /* max-height: 188px;
-  overflow: hidden;
-  overflow-y: auto;
-
-  scrollbar-width: thin; */
 
   opacity: 0;
   transform: translateY(-15px);
@@ -337,7 +347,7 @@ input {
   pointer-events: none;
 }
 
-.select.open .select-options {
+.select-options__wrap.open .select-options {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -350,7 +360,6 @@ input {
 .select-icon__wrap {
   min-width: 50px;
   max-width: 50px;
-  height: 50px;
 
   display: flex;
   justify-content: center;
@@ -439,14 +448,11 @@ input {
 
 .filter-modal {
   position: absolute;
-  top: 48px;
+  top: 55px;
   left: 0;
 
   width: 300px;
   padding: 30px;
-
-  font-size: 20px;
-  font-weight: 400;
 
   display: flex;
   flex-direction: column;
@@ -498,11 +504,9 @@ input {
 }
 
 .modal__btn {
-  padding: 5px 10px;
+  padding: 10px;
   border-radius: var(--border-radius);
 
-  font-size: 15px;
-  font-weight: 500;
   color: var(--color-white);
 }
 
@@ -884,41 +888,42 @@ input {
   display: flex;
   justify-content: space-between;
   max-width: 618px;
+
+  margin-top: 60px;
 }
 
 .edit-teacher__fieldset {
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .edit-teacher__fieldset_legend {
-  font-size: 15px;
-  font-weight: 500;
   color: var(--color-inactive-gray);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .edit-teacher__big-wrap {
   display: flex;
-  gap: 26px;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .edit-teacher__fieldset_container {
   display: flex;
-  gap: 20px;
-  max-width: 570px;
-  flex-wrap: wrap;
+  gap: 165px;
 }
 
 .edit-teacher__fieldset_wrap {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  gap: 165px;
 }
 
-.edit-teacher__inner-wrap {
-  display: flex;
-  gap: 40px;
-  align-items: end;
+.generate-password__wrap {
+  position: relative;
+}
+
+.generate-password__inner-wrap {
+  position: absolute;
+  margin-top: 60px;
 }
 
 

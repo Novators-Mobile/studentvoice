@@ -6,6 +6,7 @@ import Select from "../components/Select";
 import Button from "../components/Button";
 
 const options = ["ИРИТ-РТФ", "ИНМиТ", "ФТИ", "ИНЭУ", "ИСА", "УГИ"];
+const inputWidth = "602px";
 
 function EditDiscipline() {
   const navigate = useNavigate();
@@ -25,20 +26,20 @@ function EditDiscipline() {
 
       <form className="edit-discipline__form">
         <fieldset className="edit-discipline__fieldset">
-          <Input label="Название" width="448px" />
+          <Input label="Название" width={inputWidth} />
 
           <Select
             label="Интститут"
             options={options}
-            width="448px"
+            width={inputWidth}
           />
         </fieldset>
 
         <h2 className="edit-disipline__title medium-big-text">Преподаватели</h2>
 
         <fieldset className="edit-discipline__fieldset">
-          <Search label="Лекции" width="448px" />
-          <Search label="Практики" width="448px" />
+          <Search label="Лекции" width={inputWidth} />
+          <Search label="Практики" width={inputWidth} />
         </fieldset>
 
         <div className="edit__form-btns">

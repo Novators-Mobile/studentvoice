@@ -55,18 +55,20 @@ function Select({ label, options, placeholder = 'Выбор...', width }: Props)
     <div className='input__wrap'>
       <p className="medium-middle-text">{label}</p>
 
-      <div 
-        className={`select ${isOpen ? 'open' : ''}`} 
-        onClick={handleToggle} 
-        ref={selectRef}
-        style={style}
-      >
-        <span className={`select-box medium-middle-text ${!selectedOption && 'empty'}`}>
-          {selectedOption ? selectedOption : placeholder}
-        </span>
-        
-        <div className={`select-icon__wrap ${isOpen ? 'open' : ''}`}>
-          <SelectIcon />
+      <div className={`select-options__wrap ${isOpen ? 'open' : ''}`}>
+        <div 
+          className="select"
+          onClick={handleToggle} 
+          ref={selectRef}
+          style={style}
+        >
+          <span className={`select-box medium-middle-text ${!selectedOption && 'empty'}`}>
+            {selectedOption ? selectedOption : placeholder}
+          </span>
+          
+          <div className={`select-icon__wrap ${isOpen ? 'open' : ''}`}>
+            <SelectIcon />
+          </div>
         </div>
 
         <ul className="select-options" style={style}>
@@ -81,8 +83,6 @@ function Select({ label, options, placeholder = 'Выбор...', width }: Props)
           ))}
         </ul>
       </div>
-
-      
     </div>
   );
 }

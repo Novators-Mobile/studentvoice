@@ -1,25 +1,17 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import CustomInput from "../components/Input";
-import CustomSelect from "../components/Select";
-import CustomSearch from "../components/CustomSearch";
-import BtnMinus from "../components/BtnMinus";
-import BtnPlus from "../components/BtnPlus";
-import CustomBtn from "../components/CustomBtn";
+import Search from "../components/Search";
+import Input from "../components/Input";
+import Select from "../components/Select";
+import Button from "../components/Button";
+
+import GenerateIcon from "../components/Icons/GenerateIcon";
 
 const departaments = [
   "Школа бакалавриата",
   "Кафедра вкусных булочек",
   "Департамент ИТиА",
   "Департамент ИИТ",
-];
-
-const posts = [
-  "Доцент",
-  "Кандидат наук",
-  "Старший преподаватель",
-  "Преподаватель",
-  "Стажер",
 ];
 
 const institutes = ["ИРИТ-РТФ", "ИНМиТ", "ФТИ", "ИНЭУ", "ИСА", "УГИ"];
@@ -39,84 +31,62 @@ function EditTeacher() {
 
   return (
     <>
-      <h1 className="edit__title title">{title}</h1>
+      <h1 className="edit__title header-text">{title}</h1>
 
       <form className="edit-teacher__form">
         <fieldset className="edit-teacher__fieldset">
-          <legend className="edit-teacher__fieldset_legend">
+          <legend className="edit-teacher__fieldset_legend medium-small-text">
             Персональная информация
           </legend>
 
           <div className="edit-teacher__fieldset_container">
-            <CustomInput label="Имя" />
-            <CustomInput label="Отчество" />
-            <CustomInput label="Фамилия" />
+            <Input label="Имя" />
+            <Input label="Отчество" />
+            <Input label="Фамилия" />
           </div>
         </fieldset>
 
         <fieldset className="edit-teacher__fieldset">
-          <legend className="edit-teacher__fieldset_legend">
+          <legend className="edit-teacher__fieldset_legend medium-small-text">
             Профессиональная информация
           </legend>
 
           <div className="edit-teacher__big-wrap">
             <div className="edit-teacher__fieldset_wrap">
-              <CustomSelect
-                label="Институт"
-                options={departaments}
-                placeholder="Выберите институт"
-              />
-              <CustomSelect
-                label="Должность"
-                options={posts}
-                placeholder="Выберите должность"
-              />
-              <CustomSelect
-                label="Кафедра"
-                options={institutes}
-                placeholder="Выберите кафедру"
-              />
+              <Select label="Институт" options={departaments} />
+              <Select label="Кафедра" options={institutes} />
             </div>
 
             <div className="edit-teacher__fieldset_wrap">
-              <CustomSearch label="Дисциплины" />
-
-              <div className="edit__control-btns">
-                <BtnPlus />
-                <BtnMinus />
-              </div>
-            </div>
-
-            <div className="edit-teacher__fieldset_wrap">
-              <CustomInput label="Лекции" />
-              <CustomInput label="Практики" />
+              <Search label="Дисциплины" />
+              <Search label="Лекции" />
+              <Search label="Практики" />
             </div>
           </div>
         </fieldset>
 
         <fieldset className="edit-teacher__fieldset">
-          <legend className="edit-teacher__fieldset_legend">
+          <legend className="edit-teacher__fieldset_legend medium-small-text">
             Профессиональная информация
           </legend>
 
           <div className="edit-teacher__fieldset_wrap">
-            <CustomInput label="Почта" />
-            <CustomInput label="Логин" />
+            <Input label="Почта" placeholder="example@mail.com" />
+            <Input label="Логин" placeholder="Логин" />
 
-            <div className="edit-teacher__inner-wrap">
-              <CustomInput label="Пароль" type="password" />
-              {!isEdit && <CustomBtn text="Сгенерировать пароль" />}
+            <div className="generate-password__wrap">
+              <Input label="Пароль" type="password" placeholder="Пароль" />
+              
+              <div className="generate-password__inner-wrap">
+                {!isEdit && <Button text="Сгенерировать" icon={<GenerateIcon />} />}
+              </div>
             </div>
           </div>
         </fieldset>
 
         <div className="edit__form-btns">
-          <CustomBtn
-            text="Отменить"
-            type="reset"
-            onClick={() => navigate(-1)}
-          />
-          <CustomBtn text="Сохранить" type="submit" />
+          <Button text="Отменить" type="reset" onClick={() => navigate(-1)} />
+          <Button text="Сохранить" type="submit" />
         </div>
       </form>
     </>
