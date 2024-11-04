@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 
 import Loader from "./components/Loader";
+import ScrollToTop from "./utils/ScrollToTop";
+import EditLesson from "./pages/EditLesson";
 
 const Login = lazy(() => import("./pages/Login"));
 const Institutes = lazy(() => import("./pages/Institutes/Institutes"));
@@ -10,11 +12,14 @@ const Institute = lazy(() => import("./pages/Institute"));
 const ItemInfo = lazy(() => import("./pages/ItemInfo"));
 const EditDiscipline = lazy(() => import("./pages/EditDiscipline"));
 const EditTeacher = lazy(() => import("./pages/EditTeacher"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
 
 export default function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
+        <ScrollToTop />
+
         <Routes>
           <Route path="/login" element={<Login />} />
 
@@ -37,15 +42,19 @@ export default function App() {
                   <Route path="edit" element={<EditDiscipline />} />
                 </Route>
 
-                <Route path="lesson/:lessonId" element={<div className="title">Какая-то пара...</div>} />
+                <Route path="lesson/:lessonId">
+                  <Route index element={<div className="title">Какая-то пара...</div>} />
+                  <Route path="edit" element={<EditLesson />} />
+                </Route>
               </Route>
             </Route>
 
-            <Route path="search" element={<div className="title">Поиск...</div>} />
+            <Route path="search" element={<SearchPage />} />
             <Route path="new-profile" element={<EditTeacher />} />
             <Route path="new-discipline" element={<EditDiscipline />} />
+            <Route path="new-lesson" element={<EditLesson />} />
 
-            <Route path="*" element={<div>Страница не найдена <b>404</b></div>} />
+            <Route path="*" element={<div>Страница не найдена <strong>404</strong></div>} />
           </Route>
         </Routes>
       </Suspense>

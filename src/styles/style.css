@@ -78,6 +78,7 @@
   --list-width: 912px;
   --input-width: 293px;
   --input-height: 49px;
+  --inputs-gap: 165px;
 }
 
 body {
@@ -90,7 +91,8 @@ body {
 }
 
 button,
-input {
+input,
+label {
   transition: 0.2s;
 }
 
@@ -224,6 +226,7 @@ input {
 }
 
 .big.search {
+  width: 758px;
   padding: 10px 0 10px 20px;
   padding-right: calc(20px + 27px + 5px);
   background-image: url(../assets/images/icon-search-big.svg);
@@ -360,6 +363,8 @@ input {
 .select-icon__wrap {
   min-width: 50px;
   max-width: 50px;
+  min-height: 50px;
+  max-height: 100%;
 
   display: flex;
   justify-content: center;
@@ -538,7 +543,7 @@ input {
 
 .dropdown__item_link {
   width: 100%;
-  display: block;
+  cursor: pointer;
 }
 
 .dropdown__item_icons-wrap {
@@ -607,7 +612,7 @@ input {
 
 .list__item_link {
   width: 100%;
-  display: block;
+  cursor: pointer;
 }
 
 /* List - end */
@@ -839,8 +844,10 @@ input {
   align-items: center;
   justify-content: space-between;
   gap: 40px;
+}
 
-  margin-bottom: 16px;
+.title__decryption {
+  margin-top: 16px;
 }
 
 .title-block__icons_wrap {
@@ -852,6 +859,7 @@ input {
 .title-block__edit-btn {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 /* Institute - end */
@@ -907,16 +915,6 @@ input {
   gap: 32px;
 }
 
-.edit-teacher__fieldset_container {
-  display: flex;
-  gap: 165px;
-}
-
-.edit-teacher__fieldset_wrap {
-  display: flex;
-  gap: 165px;
-}
-
 .generate-password__wrap {
   position: relative;
 }
@@ -928,3 +926,141 @@ input {
 
 
 /* EditDiscipline - end */
+
+
+/* Search - start */
+
+.search-title {
+  margin-bottom: var(--margin-bottom-title);
+}
+
+.search__items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  margin-top: 40px;
+  width: 758px;
+}
+
+.search__item {
+  cursor: pointer;
+}
+
+/* Search - end */
+
+
+/* EditLesson - start */
+
+.edit-lesson__form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fieldset-container {
+  display: flex;
+  gap: var(--inputs-gap);
+}
+
+.edit-lesson__inner_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.edit-lesson__time_wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.edit-lesson__time {
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg-gray);
+  padding: 10px;
+
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+input[type="time"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+
+  text-align: center;
+  width: auto;
+}
+
+.toggle-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.toggle-button {
+  color: var(--color-black);
+  background-color: var(--color-bg-gray);
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+}
+
+.toggle-button:hover, 
+.toggle-button:active,
+input[type="radio"]:checked + label:hover {
+  color: var(--color-white);
+  background-color: var(--color-active-blue);
+}
+
+/* EditLesson - end */
+
+
+.calendar {
+  position: relative;
+}
+
+.calendar-icon {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  right: 14px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background-image: url(../assets/images/icon-calendar.svg);
+  background-size: cover;
+  pointer-events: none;
+}
+
+
+.flatpickr-input.active {
+  color: var(--color-inactive-gray);
+}
+
+.flatpickr-day.selected {
+  background-color: var(--color-blue);
+}
+
+.flatpickr-day:hover,
+.flatpickr-day.today,
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover {
+  border-color: var(--color-blue);
+}
+
+.flatpickr-day.today:hover,
+.flatpickr-day.selected:hover {
+  background-color: var(--color-active-blue);
+}
+
+.flatpickr-day:hover {
+  background-color: var(--color-active-blue);
+  color: var(--color-white);
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import TitleBlock from "../components/TitleBlock";
 import List from "../components/List/List";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const subjectsList = [
   {
@@ -70,6 +70,7 @@ const lessonsList = [
 
 function ItemInfo() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   let mainTitle: string = "";
   let decryption: string = "";
@@ -95,7 +96,7 @@ function ItemInfo() {
 
       <List type={type} title={subTitle} list={list} />
 
-      <List type="lesson" title="Пары" list={lessonsList} />
+      <List type="lesson" title="Пары" list={lessonsList} onPlusClick={() => navigate("/new-lesson")} />
     </div>
   );
 }

@@ -14,9 +14,11 @@ function EditDiscipline() {
   const location = useLocation();
   let title: string = "";
 
-  if (location.pathname.endsWith("edit")) {
+  const normalizedPath = location.pathname.replace(/\/$/, "");
+
+  if (normalizedPath.endsWith("edit")) {
     title = "Редактировать дисциплину";
-  } else if (location.pathname.endsWith("new-discipline")) {
+  } else if (normalizedPath.endsWith("new-discipline")) {
     title = "Новая дисциплина";
   }
 

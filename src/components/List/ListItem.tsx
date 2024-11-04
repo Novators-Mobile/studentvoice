@@ -1,6 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
-import React, { useMemo } from "react";
+import React from "react";
 
 type Props = {
   id: number;
@@ -10,20 +10,16 @@ type Props = {
 };
 
 function ListItem({ id, title, rating, type }: Props) {
-  const location = useLocation();
-
-  const linkPath = useMemo(() => {
-    const pathSegments = location.pathname.split("/");
-    const basePath = pathSegments.slice(0, 3).join("/");
-
-    return `${basePath}/${type}/${id}`;
-  }, [location.pathname, type, id]);
+  const navigate = useNavigate();
 
   return (
     <li className="list__item">
-      <Link to={linkPath} className="list__item_link regular-text">
+      <p
+        onClick={() => navigate(`../${type}/${id}`)}
+        className="list__item_link regular-text"
+      >
         {title}
-      </Link>
+      </p>
 
       <Rating rating={rating} />
     </li>

@@ -11,9 +11,10 @@ type Props = {
   editBtn?: boolean;
   editBtnHandler?: () => void;
   saveBtnHandler?: () => void;
+  onPlusClick?: () => void;
 };
 
-function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
+function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler, onPlusClick }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   const toggleFilterModal = (event: React.MouseEvent) => {
@@ -36,7 +37,7 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler }: Props) {
         <Button text="Редактировать" onClick={editBtnHandler} />
       )}
 
-      {(isEditing || !editBtn) && <ToolsBtn icon={<PlusIcon />} />}
+      {(isEditing || !editBtn) && <ToolsBtn icon={<PlusIcon />} onClick={onPlusClick} />}
 
       {isEditing && <Button text="Сохранить" onClick={saveBtnHandler} />}
 

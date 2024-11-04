@@ -1,6 +1,6 @@
 import React from "react";
 import Rating from "./Rating";
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EditIcon from "./Icons/EditIcon";
 
 type Props = {
@@ -11,8 +11,7 @@ type Props = {
 };
 
 function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
-  const location = useLocation();
-  const path = `${location.pathname}/edit`;
+  const navigate = useNavigate();
 
   return (
     <div className="title-block__wrap">
@@ -21,9 +20,12 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
 
         <div className="title-block__icons_wrap">
           {editBtn && 
-            <Link to={path} className="title-block__edit-btn">
+            <div 
+              onClick={() => {navigate("./edit")}} 
+              className="title-block__edit-btn"
+            >
               <EditIcon />
-            </Link>
+            </div>
           }
 
           <Rating rating={rating} isBig={true} />

@@ -27,7 +27,7 @@ function Sidemenu() {
 
         <nav className="menu__nav">
           <ul className="menu__nav_list">
-            <li className={`menu__nav_list-item ${location.pathname.startsWith('/institutes') || location.pathname.endsWith('/') ? 'active' : ''}`}>
+            <li className={`menu__nav_list-item ${location.pathname.startsWith('/institutes') || location.pathname === '/' ? 'active' : ''}`}>
               <Link to="/institutes" className="menu__nav_link semi-bold-text">
                 <InstitutesMenuIcon /> Общая база
               </Link>

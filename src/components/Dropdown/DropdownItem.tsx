@@ -1,6 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
-import React, { useMemo } from "react";
+import React from "react";
 import ToolsBtn from "../ToolsBtn";
 import MinusIcon from "../Icons/MinusIcon";
 
@@ -13,17 +13,16 @@ type Props = {
 };
 
 function DropdownItem({ id, title, rating, type, isEditing }: Props) {
-  const location = useLocation();
-  const linkPath = useMemo(
-    () => `${location.pathname}/${type}/${id}`,
-    [location.pathname, type, id]
-  );
+  const navigate = useNavigate();
 
   return (
     <li className="dropdown__item">
-      <Link to={linkPath} className="dropdown__item_link medium-middle-text">
+      <div
+        onClick={() => navigate(`./${type}/${id}`)}
+        className="dropdown__item_link medium-middle-text"
+      >
         {title}
-      </Link>
+      </div>
 
       <div className="dropdown__item_icons-wrap">
         <Rating rating={rating} />

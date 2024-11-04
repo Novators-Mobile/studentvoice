@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import SelectIcon from './Icons/SelectIcon';
 
 type Props = {
-  label: string,
+  label?: string,
   options: string[],
   placeholder?: string,
   width?: string
@@ -53,7 +53,7 @@ function Select({ label, options, placeholder = 'Выбор...', width }: Props)
 
   return (
     <div className='input__wrap'>
-      <p className="medium-middle-text">{label}</p>
+      {label && <p className="medium-middle-text">{label}</p>}
 
       <div className={`select-options__wrap ${isOpen ? 'open' : ''}`}>
         <div 

@@ -14,7 +14,8 @@ function Input({ label, placeholder = "Введите текст", type = "text"
       
       <input 
         type={type} 
-        className="input medium-middle-text" 
+        className={`input ${type === "time" ? "regular-text" : "medium-middle-text"}`}
+        defaultValue={type === "time" ? "00:00" : ""}
         placeholder={placeholder} 
         style={{ width: width }}
       />

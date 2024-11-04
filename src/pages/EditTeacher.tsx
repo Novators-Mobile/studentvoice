@@ -22,10 +22,12 @@ function EditTeacher() {
   let title: string = "";
   let isEdit: boolean = false;
 
-  if (location.pathname.endsWith("edit")) {
+  const normalizedPath = location.pathname.replace(/\/$/, "");
+
+  if (normalizedPath.endsWith("edit")) {
     title = "Редактировать профиль";
     isEdit = true;
-  } else if (location.pathname.endsWith("new-profile")) {
+  } else if (normalizedPath.endsWith("new-profile")) {
     title = "Новый профиль преподавателя";
   }
 
@@ -39,7 +41,7 @@ function EditTeacher() {
             Персональная информация
           </legend>
 
-          <div className="edit-teacher__fieldset_container">
+          <div className="fieldset-container">
             <Input label="Имя" />
             <Input label="Отчество" />
             <Input label="Фамилия" />
@@ -52,12 +54,12 @@ function EditTeacher() {
           </legend>
 
           <div className="edit-teacher__big-wrap">
-            <div className="edit-teacher__fieldset_wrap">
+            <div className="fieldset-container">
               <Select label="Институт" options={departaments} />
               <Select label="Кафедра" options={institutes} />
             </div>
 
-            <div className="edit-teacher__fieldset_wrap">
+            <div className="fieldset-container">
               <Search label="Дисциплины" />
               <Search label="Лекции" />
               <Search label="Практики" />
@@ -70,7 +72,7 @@ function EditTeacher() {
             Профессиональная информация
           </legend>
 
-          <div className="edit-teacher__fieldset_wrap">
+          <div className="fieldset-container">
             <Input label="Почта" placeholder="example@mail.com" />
             <Input label="Логин" placeholder="Логин" />
 
