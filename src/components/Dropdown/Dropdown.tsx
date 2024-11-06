@@ -16,9 +16,10 @@ type Props = {
   type: string;
   title: string;
   list: DropdownListItem[];
+  onPlusClick?: () => void;
 };
 
-function Dropdown({ type, title, list }: Props) {
+function Dropdown({ type, title, list, onPlusClick }: Props) {
   const [state, setState] = useState({
     isOpen: false,
     isEditing: false,
@@ -47,7 +48,7 @@ function Dropdown({ type, title, list }: Props) {
 
         <ToolsBtn icon={<ArrowIcon />} isOpen={state.isOpen} onClick={dropdownStatusHandler} />
 
-        {!state.isOpen && <Rating rating={7.1} />}
+        {!state.isOpen && <Rating rating={4.5} />}
 
         {state.isOpen && (
           <Tools
@@ -55,6 +56,7 @@ function Dropdown({ type, title, list }: Props) {
             editBtn={true}
             editBtnHandler={editBtnHandler}
             saveBtnHandler={saveBtnHandler}
+            onPlusClick={onPlusClick}
           />
         )}
       </div>

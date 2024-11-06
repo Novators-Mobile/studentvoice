@@ -4,11 +4,11 @@ import InstitutesItem from "./InstitutesItem";
 const institutesList = [
   {
     name: "Институт радиоэлектроники и информационных технологий - РТФ",
-    rating: 8.3,
+    rating: 4,
   },
   {
     name: "Физико-технологический институт",
-    rating: 7.5,
+    rating: 3,
   },
   {
     name: "Институт экономики и управления",
@@ -16,11 +16,11 @@ const institutesList = [
   },
   {
     name: "Институт строительства и архитектуры",
-    rating: 6.7,
+    rating: 2,
   },
   {
     name: "Уральский гуманитарный институт",
-    rating: 4.9,
+    rating: 1,
   },
 ];
 

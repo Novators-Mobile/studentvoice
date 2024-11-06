@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import Loader from "./components/Loader";
 import ScrollToTop from "./utils/ScrollToTop";
 import EditLesson from "./pages/EditLesson";
+import NotFound from "./pages/NotFound";
 
 const Login = lazy(() => import("./pages/Login"));
 const Institutes = lazy(() => import("./pages/Institutes/Institutes"));
@@ -54,7 +55,7 @@ export default function App() {
             <Route path="new-discipline" element={<EditDiscipline />} />
             <Route path="new-lesson" element={<EditLesson />} />
 
-            <Route path="*" element={<div>Страница не найдена <strong>404</strong></div>} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Suspense>

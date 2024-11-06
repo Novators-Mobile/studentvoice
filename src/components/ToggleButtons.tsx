@@ -17,7 +17,7 @@ type TToggleButton = {
 
 const ToggleButton = ({ button, name }: TToggleButton) => (
   <>
-    <input type="radio" id={button.id} name={name} />
+    <input type="radio" id={button.id} name={name} className="radio-input" />
     <label htmlFor={button.id} className="button toggle-button regular-text">
       {button.text}
     </label>

@@ -1,14 +1,14 @@
 import React from "react";
 
 const getRatingColor = (rating: number): string => {
-  if (rating >= 8) {
-    return "#38C321"; // Зеленый
-  } else if (rating >= 5) {
-    return "#E8D31C"; // Желтый
+  if (rating >= 4) {
+    return "excellent"; // Зеленый
+  } else if (rating >= 2.5) {
+    return "good"; // Желтый
   } else if (rating > 0) {
-    return "#EF302B"; // Красный
+    return "bad"; // Красный
   } else {
-    return "#C7C7C7"; // Серый
+    return ""; // Стандартный (серый)
   }
 };
 
@@ -18,14 +18,13 @@ type Props = {
 };
 
 function InstitutesItem({ rating, isBig = false }: Props) {
-  const ratingStyle = { 
-    backgroundColor: getRatingColor(rating),
-    padding: isBig ? "10px 17px" : "7px 15px",
-    minWidth: isBig ? "84px" : "67px",
-  };
-
   return (
-    <p className={`rating medium-${isBig ? "big" : "middle"}-text`} style={ratingStyle}>
+    <p
+      className={`rating 
+        ${getRatingColor(rating)} 
+        ${isBig && "big"}  
+        medium-${isBig ? "big" : "middle"}-text`}
+    >
       {rating.toFixed(1)}
     </p>
   );

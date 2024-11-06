@@ -6,19 +6,19 @@ import { useLocation, useNavigate } from "react-router-dom";
 const subjectsList = [
   {
     title: "Основы проектной деятельности",
-    rating: 8.3,
+    rating: 4,
     lecture: true,
     practive: true,
   },
   {
     title: "Программирование C# 1Ч.",
-    rating: 7.5,
+    rating: 1,
     lecture: false,
     practive: true,
   },
   {
     title: "Управление требованиями",
-    rating: 8.6,
+    rating: 4,
     lecture: false,
     practive: true,
   },
@@ -27,19 +27,19 @@ const subjectsList = [
 const teachersList = [
   {
     title: "Новиков Максим Юрьевич",
-    rating: 8.3,
+    rating: 4,
     lecture: true,
     practive: true,
   },
   {
     title: "Шадрин Денис Борисович",
-    rating: 7.5,
+    rating: 1,
     lecture: false,
     practive: true,
   },
   {
     title: "Астафьева Анна Викторовна",
-    rating: 8.6,
+    rating: 5,
     lecture: false,
     practive: true,
   },
@@ -48,22 +48,22 @@ const teachersList = [
 const lessonsList = [
   {
     title: "Основы проектной деятельности (17.09.24)",
-    rating: 8.3,
+    rating: 4,
     type: "lecture",
   },
   {
     title: "Основы проектной деятельности (17.09.24)",
-    rating: 8.3,
+    rating: 4,
     type: "practice",
   },
   {
     title: "Основы проектной деятельности (17.09.24)",
-    rating: 8.3,
+    rating: 4,
     type: "practice",
   },
   {
     title: "Основы проектной деятельности (17.09.24)",
-    rating: 8.3,
+    rating: 4,
     type: "practice",
   },
 ];
@@ -92,9 +92,9 @@ function ItemInfo() {
 
   return (
     <div className="item-info">
-      <TitleBlock title={mainTitle} decryption={decryption} rating={8.4} />
+      <TitleBlock title={mainTitle} decryption={decryption} rating={4} />
 
-      <List type={type} title={subTitle} list={list} />
+      <List type={type} title={subTitle} list={list} onPlusClick={() => navigate(`/new-${type === "discipline" ? type : "profile"}`)} />
 
       <List type="lesson" title="Пары" list={lessonsList} onPlusClick={() => navigate("/new-lesson")} />
     </div>
