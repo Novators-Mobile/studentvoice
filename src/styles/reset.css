@@ -61,6 +61,10 @@ input, textarea, button, select {
     background-color: transparent;
 }
 
+textarea {
+  outline: none;       
+}
+
 input::-ms-clear {
 	display: none;
 }

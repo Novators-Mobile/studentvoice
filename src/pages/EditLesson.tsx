@@ -2,9 +2,10 @@ import React from "react";
 import Search from "../components/Search";
 import Select from "../components/Select";
 import Input from "../components/Input";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ToggleButtons from "../components/ToggleButtons";
 import DatePicker from "../components/DatePicker";
+import Button from "../components/Button";
 
 const time = [
   "Не повторять",
@@ -25,6 +26,7 @@ const toggleButtons = [
 ];
 
 function EditLesson() {
+  const navigate = useNavigate();
   const location = useLocation();
   let title: string = "";
   let decryption: string = "";
@@ -57,9 +59,9 @@ function EditLesson() {
             <p className="medium-middle-text">Время</p>
 
             <div className="edit-lesson__time_wrap">
-              <Input type="time" /> 
+              <Input type="time" isRequired={true} /> 
               <span>—</span>
-              <Input type="time" />            
+              <Input type="time"  isRequired={true} />            
             </div>
 
             <Select options={time} />
@@ -72,6 +74,15 @@ function EditLesson() {
             
           </div>
         </fieldset>
+
+        <div className="edit__form-btns">
+          <Button
+            text="Отменить"
+            type="reset"
+            onClick={() => navigate(-1)}
+          />
+          <Button text="Сохранить" type="submit" />
+        </div>
       </form>
     </>
   );

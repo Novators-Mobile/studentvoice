@@ -5,6 +5,7 @@ import Loader from "./components/Loader";
 import ScrollToTop from "./utils/ScrollToTop";
 import EditLesson from "./pages/EditLesson";
 import NotFound from "./pages/NotFound";
+import SurveyForm from "./pages/SurveyForm";
 
 const Login = lazy(() => import("./pages/Login"));
 const Institutes = lazy(() => import("./pages/Institutes/Institutes"));
@@ -23,6 +24,8 @@ export default function App() {
 
         <Routes>
           <Route path="/login" element={<Login />} />
+
+          <Route path="/:formId/viewform" element={<SurveyForm />} />
 
           <Route path="/" element={<Sidemenu />}>
             <Route index element={<Institutes />} />

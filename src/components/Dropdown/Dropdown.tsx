@@ -3,9 +3,6 @@ import Rating from "../Rating";
 import DropdownItem from "./DropdownItem";
 import React from "react";
 import Tools from "../Tools";
-import ToolsBtn from "../ToolsBtn";
-
-import ArrowIcon from "../Icons/ArrowIcon";
 
 type DropdownListItem = {
   title: string;
@@ -44,9 +41,7 @@ function Dropdown({ type, title, list, onPlusClick }: Props) {
   return (
     <>
       <div className="dropdown">
-        <p className="dropdown__title medium-big-text">{title}</p>
-
-        <ToolsBtn icon={<ArrowIcon />} isOpen={state.isOpen} onClick={dropdownStatusHandler} />
+        <p className="dropdown__title medium-big-text" onClick={dropdownStatusHandler}>{title}</p>
 
         {!state.isOpen && <Rating rating={4.5} />}
 

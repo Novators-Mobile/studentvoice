@@ -5,6 +5,7 @@ import DoubleArrowBtn from "./Icons/DoubleArrowBtn";
 import PlusIcon from "./Icons/PlusIcon";
 import Search from "./Search";
 import Button from "./Button";
+import ArrowIcon from "./Icons/ArrowIcon";
 
 type Props = {
   isEditing?: boolean;
@@ -24,6 +25,8 @@ function Tools({ isEditing, editBtn, editBtnHandler, saveBtnHandler, onPlusClick
 
   return (
     <div className="tools">
+      {editBtn && !isEditing && <ToolsBtn icon={<ArrowIcon />} />}
+      
       <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
 
       <FilterModal
