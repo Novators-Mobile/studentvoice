@@ -299,6 +299,20 @@ function SurveyForm() {
     clearForm();
   };
 
+  const isCurrentPageValid = (): boolean => {
+    const currentPage = content[pageNumber];
+  
+    if (currentPage.type === "greeting") {
+      return !!formData.lastName && !!formData.firstName && !!formData.patronymic;
+    } else if (currentPage.type === "question") {
+      return !!formData[currentPage.name as keyof FormData];
+    } else if (currentPage.type === "comment") {
+      return !!formData[currentPage.name as keyof FormData];
+    }
+    
+    return true;
+  };
+
   return (
     <form className="form-wrap" onSubmit={handleFormSubmit}>
       <FormPage
@@ -322,11 +336,12 @@ function SurveyForm() {
                 pageNumber === 0 ? "Перейти к опросу" : "Следующий вопрос"
               }`}
               onClick={() => setPageNumber((prev) => prev + 1)}
+              disabled={!isCurrentPageValid()}
             />
           )}
 
           {pageNumber === content.length - 1 && (
-            <Button text="Завершить опрос" type="submit" />
+            <Button text="Завершить опрос" type="submit" disabled={!isCurrentPageValid()} />
           )}
         </div>
       </div>
