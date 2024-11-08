@@ -7,22 +7,19 @@ import ToggleButtons from "../components/ToggleButtons";
 import DatePicker from "../components/DatePicker";
 import Button from "../components/Button";
 
-const time = [
-  "Не повторять",
-  "Ежедневно",
-  "Еженедельно",
-  "Каждый будний день",
-];
+const time = ["Не повторять", "Ежедневно", "Еженедельно", "Каждый будний день"];
 
 const toggleButtons = [
   {
     id: "lecture",
-    text: "Лекция"
+    text: "Лекция",
+    name: "format",
   },
   {
     id: "practice",
-    text: "Практика"
-  }
+    text: "Практика",
+    name: "format",
+  },
 ];
 
 function EditLesson() {
@@ -35,7 +32,7 @@ function EditLesson() {
 
   if (normalizedPath.endsWith("edit")) {
     title = "Название пары";
-    decryption = "Расшифровка аббревиатуры"
+    decryption = "Расшифровка аббревиатуры";
   } else if (normalizedPath.endsWith("new-lesson")) {
     title = "Новая пара";
   }
@@ -59,9 +56,9 @@ function EditLesson() {
             <p className="medium-middle-text">Время</p>
 
             <div className="edit-lesson__time_wrap">
-              <Input type="time" isRequired={true} /> 
+              <Input type="time" isRequired={true} />
               <span>—</span>
-              <Input type="time"  isRequired={true} />            
+              <Input type="time" isRequired={true} />
             </div>
 
             <Select options={time} />
@@ -70,17 +67,12 @@ function EditLesson() {
           <div className="edit-lesson__inner_wrap">
             <p className="medium-middle-text">Формат</p>
 
-            <ToggleButtons buttons={toggleButtons} name="format" />
-            
+            <ToggleButtons buttons={toggleButtons} />
           </div>
         </fieldset>
 
         <div className="edit__form-btns">
-          <Button
-            text="Отменить"
-            type="reset"
-            onClick={() => navigate(-1)}
-          />
+          <Button text="Отменить" type="reset" onClick={() => navigate(-1)} />
           <Button text="Сохранить" type="submit" />
         </div>
       </form>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { ToggleButton } from "../components/ToggleButtons";
+import { useParams } from "react-router-dom";
 
 type pageType = {
   type: string;
@@ -49,13 +51,13 @@ const content: pageType[] = [
     type: "comment",
     title: "Комментарии",
     text: "Опишите подробнее позитивные впечатления от занятия и чем они вызваны.",
-    name: "comment1"
+    name: "comment1",
   },
   {
     type: "comment",
     title: "Комментарии",
     text: "Опишите подробнее негативные впечатления от занятия и чем они вызваны.",
-    name: "comment2"
+    name: "comment2",
   },
 ];
 
@@ -100,7 +102,11 @@ function FormPage({ pageInfo, formData, handleInputChange }: FormPageProps) {
       )}
 
       {pageInfo.type === "comment" && (
-        <Comments name={pageInfo.name} formData={formData} handleInputChange={handleInputChange} />
+        <Comments
+          name={pageInfo.name}
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
       )}
     </>
   );
@@ -164,21 +170,25 @@ function AnswerOptions({
         Оцените свои впечатления по&nbsp;шкале от&nbsp;1&nbsp;до&nbsp;5
       </p>
 
-      <fieldset className="form__questions_wrap">
-        {[1, 2, 3, 4, 5].map((value) => (
-          <div key={value} className="form__input_wrap regular-big-text">
-            <input
-              type="radio"
+      <div className="form__questions_outside-wrap">
+        <fieldset className="form__questions_wrap">
+          {[1, 2, 3, 4, 5].map((value) => (
+            <ToggleButton
+              key={value}
               id={String(value)}
-              name={name}
-              value={value}
-              checked={name ? formData[name as keyof FormData] === String(value) : false}
+              text={String(value)}
+              name={name!}
+              checked={
+                name
+                  ? formData[name as keyof FormData] === String(value)
+                  : false
+              }
+              value={String(value)}
               onChange={handleInputChange}
             />
-            <label htmlFor={String(value)}>{value}</label>
-          </div>
-        ))}
-      </fieldset>
+          ))}
+        </fieldset>
+      </div>
     </>
   );
 }
@@ -207,9 +217,11 @@ function Comments({ name, formData, handleInputChange }: CommentsProps) {
 }
 
 function SurveyForm() {
-  const savedFormData = JSON.parse(localStorage.getItem("formData") || '{}');
-  const savedPageNumber = Number(localStorage.getItem("pageNumber") || 0);
+  const { formId } = useParams<{ formId: string }>();
 
+  const savedPageNumber = Number(localStorage.getItem("pageNumber") || 0);
+  const savedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
+  
   const [pageNumber, setPageNumber] = useState<number>(savedPageNumber);
   const [formData, setFormData] = useState<FormData>({
     lastName: "",
@@ -222,8 +234,29 @@ function SurveyForm() {
     question5: "",
     comment1: "",
     comment2: "",
-    ...savedFormData
+    ...savedFormData,
   });
+
+  useEffect(() => {
+    const savedFormID = localStorage.getItem("formId");
+    if (savedFormID !== formId) {
+      localStorage.clear();
+      localStorage.setItem("formId", formId || "");
+      setFormData({
+        lastName: "",
+        firstName: "",
+        patronymic: "",
+        question1: "",
+        question2: "",
+        question3: "",
+        question4: "",
+        question5: "",
+        comment1: "",
+        comment2: "",
+      });
+      setPageNumber(0);
+    }
+  }, [formId]);
 
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
@@ -241,9 +274,7 @@ function SurveyForm() {
     }));
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const clearForm = () => {
     localStorage.removeItem("formData");
     localStorage.removeItem("pageNumber");
 
@@ -260,6 +291,12 @@ function SurveyForm() {
       comment2: "",
     });
     setPageNumber(0);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    clearForm();
   };
 
   return (

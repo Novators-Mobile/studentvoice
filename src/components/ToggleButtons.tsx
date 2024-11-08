@@ -1,34 +1,54 @@
 import React from "react";
 
-type Button = {
-  id: string;
-  text: string;
+type Props = {
+  buttons: TToggleButton[];
 };
 
-type Props = {
-  buttons: Button[];
-  name: string;
-}
-
 type TToggleButton = {
-  button: Button;
+  id: string;
+  text: string;
   name: string;
-}
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  checked?: boolean;
+  value?: string;
+};
 
-const ToggleButton = ({ button, name }: TToggleButton) => (
+export const ToggleButton = ({
+  id,
+  text,
+  name,
+  onChange,
+  checked = false,
+  value,
+}: TToggleButton) => (
   <>
-    <input type="radio" id={button.id} name={name} className="radio-input" />
-    <label htmlFor={button.id} className="button toggle-button regular-text">
-      {button.text}
+    <input
+      type="radio"
+      id={id}
+      name={name}
+      className="radio-input"
+      onChange={onChange}
+      checked={checked}
+      value={value}
+    />
+    <label htmlFor={id} className="button toggle-button regular-text">
+      {text}
     </label>
   </>
 );
 
-function ToggleButtons({ buttons, name }: Props) {
+function ToggleButtons({ buttons }: Props) {
   return (
     <fieldset className="toggle-buttons">
       {buttons.map((button, index) => (
-        <ToggleButton key={index} button={button} name={name} />
+        <ToggleButton
+          key={index}
+          id={button.id}
+          text={button.text}
+          name={button.name}
+        />
       ))}
     </fieldset>
   );

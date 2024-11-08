@@ -37,9 +37,9 @@ function FilterModal({ isOpen, onClose }: Props) {
   return (
     <form ref={modalRef} className="filter-modal regular-text">
       <fieldset className="modal__radio-wrap">
-        <div>
+        <div className='modal__radio_inner-wrap'>
           <input 
-            className='modal__radio' 
+            className='custom-radio' 
             type="radio" 
             name="filter" 
             id="from-best"
@@ -47,9 +47,9 @@ function FilterModal({ isOpen, onClose }: Props) {
           <label htmlFor="from-best" className="modal__radio_label">От большей</label>
         </div>
         
-        <div>
+        <div className='modal__radio_inner-wrap'>
           <input 
-            className='modal__radio' 
+            className='custom-radio' 
             type="radio" 
             name="filter" 
             id="from-worst"
