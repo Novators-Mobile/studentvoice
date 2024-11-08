@@ -15,6 +15,7 @@ const ItemInfo = lazy(() => import("./pages/ItemInfo"));
 const EditDiscipline = lazy(() => import("./pages/EditDiscipline"));
 const EditTeacher = lazy(() => import("./pages/EditTeacher"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
+const LessonInfo = lazy(() => import("./pages/LessonInfo"));
 
 export default function App() {
   return (
@@ -47,7 +48,7 @@ export default function App() {
                 </Route>
 
                 <Route path="lesson/:lessonId">
-                  <Route index element={<div className="title">Какая-то пара...</div>} />
+                  <Route index element={<LessonInfo />} />
                   <Route path="edit" element={<EditLesson />} />
                 </Route>
               </Route>

@@ -20,7 +20,7 @@ export const ToggleButton = ({
   text,
   name,
   onChange,
-  checked = false,
+  checked,
   value,
 }: TToggleButton) => (
   <>

@@ -1247,6 +1247,66 @@ input[type="time"] {
 /* Form - end */
 
 
+/* Lesson - start */
+
+.lesson__info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  max-width: 1064px;
+  
+  margin-bottom: 32px;
+}
+
+.lesson__statistics_control-btns {
+  display: flex;
+  justify-content: space-between;
+
+  max-width: 1167px;
+}
+
+.control-btns__wrap {
+  display: flex;
+  gap: 16px;
+}
+
+/* Lesson - end */
+
+.radar-chart {
+  margin-top: 10px;
+}
+
+.feedback {
+  margin-top: 45px;
+}
+
+.feedback__wrap {
+  margin-bottom: 32px;
+}
+
+.feedback__list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.feedback__item {
+  display: flex;
+  gap: 24px;
+}
+
+.feedback__text {
+  margin-bottom: 32px;
+}
+
+.circle {
+  min-width: 39px;
+  height: 39px;
+  border-radius: 100%;
+
+  background-color: var(--color-rate-gray);
+}
 
 /* Adaptive - start */
 
