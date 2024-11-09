@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ListItem from "./ListItem";
 import Tools from "../Tools";
 
@@ -15,6 +15,16 @@ type Props = {
 };
 
 function List({ type, title, list, onPlusClick }: Props) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const editBtnHandler = (): void => {
+    setIsEditing(true);
+  };
+
+  const saveBtnHandler = (): void => {
+    setIsEditing(false);
+  };
+
   return (
     <>
       <div className="list__wrapper">
@@ -22,7 +32,13 @@ function List({ type, title, list, onPlusClick }: Props) {
           <p className="dropdown__title medium-big-text">{title}</p>
         </div>
 
-        <Tools onPlusClick={onPlusClick} />
+        <Tools
+          onPlusClick={onPlusClick}
+          isEditing={isEditing}
+          editBtnHandler={editBtnHandler}
+          saveBtnHandler={saveBtnHandler}
+          isList={true}
+        />
       </div>
 
       <div className="list__items_wrap">
@@ -35,6 +51,7 @@ function List({ type, title, list, onPlusClick }: Props) {
               type={type}
               title={item.title}
               rating={item.rating}
+              isEditing={isEditing}
             />
           ))}
         </ul>
@@ -48,6 +65,7 @@ function List({ type, title, list, onPlusClick }: Props) {
               type={type}
               title={item.title}
               rating={item.rating}
+              isEditing={isEditing}
             />
           ))}
         </ul>

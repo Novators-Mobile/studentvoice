@@ -17,12 +17,12 @@ function DropdownItem({ id, title, rating, type, isEditing }: Props) {
 
   return (
     <li className="dropdown__item">
-      <div
+      <p
         onClick={() => navigate(`./${type}/${id}`)}
         className="dropdown__item_link medium-middle-text"
       >
         {title}
-      </div>
+      </p>
 
       <div className="dropdown__item_icons-wrap">
         <Rating rating={rating} />

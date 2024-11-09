@@ -1,15 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
 import React from "react";
+import ToolsBtn from "../ToolsBtn";
+import MinusIcon from "../Icons/MinusIcon";
 
 type Props = {
   id: number;
   title: string;
   rating: number;
   type: string;
+  isEditing: boolean;
 };
 
-function ListItem({ id, title, rating, type }: Props) {
+function ListItem({ id, title, rating, type, isEditing }: Props) {
   const navigate = useNavigate();
 
   return (
@@ -21,7 +24,11 @@ function ListItem({ id, title, rating, type }: Props) {
         {title}
       </p>
 
-      <Rating rating={rating} />
+      <div className="dropdown__item_icons-wrap">
+        <Rating rating={rating} />
+
+        {isEditing && <ToolsBtn icon={<MinusIcon />} />}
+      </div>
     </li>
   );
 }

@@ -448,7 +448,6 @@ label {
 .dropdown {
   display: flex;
   align-items: center;
-  gap: 24px;
   margin-bottom: 24px;
 
   height: 50px;

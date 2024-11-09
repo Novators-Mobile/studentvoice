@@ -1,5 +1,6 @@
 import React from "react";
-import InstitutesItem from "./InstitutesItem";
+import { Link } from "react-router-dom";
+import Rating from "../components/Rating";
 
 const institutesList = [
   {
@@ -23,6 +24,23 @@ const institutesList = [
     rating: 1,
   },
 ];
+
+type InstItemProps = {
+  id: number;
+  name: string;
+  rating: number;
+};
+
+function InstitutesItem({ id, name, rating }: InstItemProps) {
+  return (
+    <li>
+      <Link to={`/institutes/${id}`} className="institutes__item">
+        <p className="medium-middle-text">{name}</p>
+        <Rating rating={rating} />
+      </Link>
+    </li>
+  );
+}
 
 function Institutes() {
   return (

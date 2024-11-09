@@ -17,7 +17,7 @@ type Props = {
   isBig?: boolean;
 };
 
-function InstitutesItem({ rating, isBig = false }: Props) {
+function Rating({ rating, isBig = false }: Props) {
   return (
     <p
       className={`rating 
@@ -30,4 +30,4 @@ function InstitutesItem({ rating, isBig = false }: Props) {
   );
 }
 
-export default React.memo(InstitutesItem);
+export default React.memo(Rating);

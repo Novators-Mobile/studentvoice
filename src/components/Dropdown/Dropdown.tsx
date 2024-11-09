@@ -48,7 +48,6 @@ function Dropdown({ type, title, list, onPlusClick }: Props) {
         {state.isOpen && (
           <Tools
             isEditing={state.isEditing}
-            editBtn={true}
             editBtnHandler={editBtnHandler}
             saveBtnHandler={saveBtnHandler}
             onPlusClick={onPlusClick}

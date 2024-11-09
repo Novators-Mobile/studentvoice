@@ -8,7 +8,7 @@ import NotFound from "./pages/NotFound";
 import SurveyForm from "./pages/SurveyForm";
 
 const Login = lazy(() => import("./pages/Login"));
-const Institutes = lazy(() => import("./pages/Institutes/Institutes"));
+const Institutes = lazy(() => import("./pages/Institutes"));
 const Sidemenu = lazy(() => import("./components/Sidemenu"));
 const Institute = lazy(() => import("./pages/Institute"));
 const ItemInfo = lazy(() => import("./pages/ItemInfo"));
