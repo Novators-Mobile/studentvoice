@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TitleBlock from "../components/TitleBlock";
 import { ToggleButton } from "../components/ToggleButtons";
 import Button from "../components/Button";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import StatsIndicators from "../components/StatsIndicators";
 
 const STATS_MODE = {
@@ -60,9 +60,20 @@ function LessonInfo() {
     searchParams.get("mode") || STATS_MODE.allStats
   );
 
+  const [qrGenerated, setQrGenerated] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     setSearchParams({ mode: mode });
   }, [mode]);
+
+  const handleQrClick = () => {
+    if (!qrGenerated) {
+      setQrGenerated(true);
+    } else {
+      navigate("./qr");
+    }
+  };
 
   return (
     <>
@@ -108,7 +119,10 @@ function LessonInfo() {
           </div>
 
           <div className="control-btns__wrap">
-            <Button text="Сгенерировать QR" />
+            <Button
+              text={qrGenerated ? "Открыть QR" : "Сгенерировать QR"}
+              onClick={handleQrClick}
+            />
             <Button text="Excel" type="excel" />
           </div>
         </div>

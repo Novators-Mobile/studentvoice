@@ -31,7 +31,7 @@ function StatsIndicators() {
           tick={{ fill: "#292929" }}
           tickSize={25}
         />
-        <PolarRadiusAxis scale="pow" angle={90} domain={[0, 5]} />
+        <PolarRadiusAxis scale="pow" angle={90} domain={[1, 5]} />
         <Radar
           name="Рейтинг"
           dataKey="value"

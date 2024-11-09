@@ -16,6 +16,8 @@ const EditDiscipline = lazy(() => import("./pages/EditDiscipline"));
 const EditTeacher = lazy(() => import("./pages/EditTeacher"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const LessonInfo = lazy(() => import("./pages/LessonInfo"));
+const QR = lazy(() => import("./pages/QR"));
+const Statistics = lazy(() => import("./pages/Statistics"));
 
 export default function App() {
   return (
@@ -50,6 +52,7 @@ export default function App() {
                 <Route path="lesson/:lessonId">
                   <Route index element={<LessonInfo />} />
                   <Route path="edit" element={<EditLesson />} />
+                  <Route path="qr" element={<QR />} />
                 </Route>
               </Route>
             </Route>
@@ -58,6 +61,8 @@ export default function App() {
             <Route path="new-profile" element={<EditTeacher />} />
             <Route path="new-discipline" element={<EditDiscipline />} />
             <Route path="new-lesson" element={<EditLesson />} />
+
+            <Route path="statistics" element={<Statistics />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>

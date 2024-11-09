@@ -1307,6 +1307,33 @@ input[type="time"] {
   background-color: var(--color-rate-gray);
 }
 
+
+/* QR - start */
+
+.qr-header {
+  margin-bottom: var(--margin-bottom-title);
+}
+
+.qr__buttons_wrap {
+  display: flex;
+  gap: 17px;
+
+  margin-bottom: 40px;
+}
+
+.qr__wrap {
+  display: inline-block;
+  margin-bottom: 40px;
+}
+
+/* QR - end */
+
+
+.statistics-header {
+  margin-bottom: var(--margin-bottom-title);
+}
+
+
 /* Adaptive - start */
 
 @media (min-width: 1200px) and (max-width: 1600px){
