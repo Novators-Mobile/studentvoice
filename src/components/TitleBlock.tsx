@@ -28,7 +28,7 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
             </div>
           }
 
-          <Rating rating={rating} isBig={true} />
+          <Rating rating={rating} type="big" />
         </div>
       </div>
 

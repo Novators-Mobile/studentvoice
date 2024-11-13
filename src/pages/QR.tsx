@@ -25,6 +25,21 @@ function QR() {
     });
   };
 
+  const copyImageToClipboard = async () => {
+    const canvas = qrRef.current;
+    if (canvas && navigator.clipboard) {
+      canvas.toBlob(async (blob) => {
+        if (blob) {
+          const item = new ClipboardItem({ "image/png": blob });
+          await navigator.clipboard.write([item]);
+          // alert("Изображение скопировано в буфер обмена!");
+        }
+      });
+    } else {
+      alert("Ваш браузер не поддерживает копирование изображений.");
+    }
+  };
+
   return (
     <div className="qr">
       <h1 className="qr-header header-text">QR-код пары</h1>
@@ -32,6 +47,7 @@ function QR() {
       <div className="qr__buttons_wrap">
         <Button text="Скачать" onClick={downloadQR} />
         <Button text="Скопировать ссылку" onClick={copyLinkToClipboard} />
+        <Button text="Скопировать как изображение" onClick={copyImageToClipboard} />
       </div>
 
       <a href={qrLink} target="_blank" className="qr__wrap">

@@ -1,14 +1,16 @@
 import React from 'react';
 import logo from '../assets/images/icon-logo.svg';
 import userLogo from '../assets/images/user-logo.svg';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import InstitutesMenuIcon from './Icons/InstitutesMenuIcon';
 import SearchMenuIcon from './Icons/SearchMenuIcon';
 import NewProfileMenuIcon from './Icons/NewProfileMenuIcon';
 import NewDisciplineMenuIcon from './Icons/NewDisciplineMenuIcon';
+import Button from './Button';
 
 function Sidemenu() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className='wrapper'>
@@ -49,6 +51,10 @@ function Sidemenu() {
             </li>
           </ul>
         </nav>
+
+        <div className="exit-btn__wrap">
+          <Button text="Выйти" type="reset" onClick={() => navigate("./login")} />
+        </div>
       </div>
       
       <div className="outlet-container">

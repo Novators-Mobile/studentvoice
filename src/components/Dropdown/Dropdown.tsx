@@ -17,45 +17,28 @@ type Props = {
 };
 
 function Dropdown({ type, title, list, onPlusClick }: Props) {
-  const [state, setState] = useState({
-    isOpen: false,
-    isEditing: false,
-  });
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const dropdownStatusHandler = (): void => {
-    setState((prevState) => ({
-      ...prevState,
-      isOpen: !prevState.isOpen,
-      isEditing: prevState.isOpen ? false : prevState.isEditing,
-    }));
-  };
-
-  const editBtnHandler = (): void => {
-    setState((prevState) => ({ ...prevState, isEditing: true }));
-  };
-
-  const saveBtnHandler = (): void => {
-    setState((prevState) => ({ ...prevState, isEditing: false }));
+    setIsOpen((prev) => (!prev));
   };
 
   return (
     <>
       <div className="dropdown">
-        <p className="dropdown__title medium-big-text" onClick={dropdownStatusHandler}>{title}</p>
+        <p
+          className="dropdown__title medium-big-text"
+          onClick={dropdownStatusHandler}
+        >
+          {title}
+        </p>
 
-        {!state.isOpen && <Rating rating={4.5} />}
+        {!isOpen && <Rating rating={4.5} />}
 
-        {state.isOpen && (
-          <Tools
-            isEditing={state.isEditing}
-            editBtnHandler={editBtnHandler}
-            saveBtnHandler={saveBtnHandler}
-            onPlusClick={onPlusClick}
-          />
-        )}
+        {isOpen && <Tools onPlusClick={onPlusClick} />}
       </div>
 
-      {state.isOpen && (
+      {isOpen && (
         <ul className="dropdown__list">
           {list.map((item, index) => (
             <DropdownItem
@@ -64,7 +47,6 @@ function Dropdown({ type, title, list, onPlusClick }: Props) {
               type={type}
               title={item.title}
               rating={item.rating}
-              isEditing={state.isEditing}
             />
           ))}
         </ul>

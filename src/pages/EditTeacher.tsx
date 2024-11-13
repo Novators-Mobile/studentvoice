@@ -79,9 +79,7 @@ function EditTeacher() {
             <div className="generate-password__wrap">
               <Input label="Пароль" type="password" placeholder="Пароль" />
               
-              <div className="generate-password__inner-wrap">
-                {!isEdit && <Button text="Сгенерировать" icon={<GenerateIcon />} />}
-              </div>
+              {!isEdit && <Button text="Сгенерировать" icon={<GenerateIcon />} />}
             </div>
           </div>
         </fieldset>

@@ -8,14 +8,11 @@ import Button from "./Button";
 import ArrowIcon from "./Icons/ArrowIcon";
 
 type Props = {
-  isEditing?: boolean;
-  editBtnHandler?: () => void;
-  saveBtnHandler?: () => void;
   onPlusClick?: () => void;
   isList?: boolean;
 };
 
-function Tools({ isEditing, editBtnHandler, saveBtnHandler, onPlusClick, isList = false }: Props) {
+function Tools({ onPlusClick, isList = false }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   const toggleFilterModal = (event: React.MouseEvent) => {
@@ -36,13 +33,7 @@ function Tools({ isEditing, editBtnHandler, saveBtnHandler, onPlusClick, isList 
 
       <Search />
 
-      {!isEditing && (
-        <Button text="Редактировать" onClick={editBtnHandler} />
-      )}
-
-      {isEditing && <ToolsBtn icon={<PlusIcon />} onClick={onPlusClick} />}
-
-      {isEditing && <Button text="Сохранить" onClick={saveBtnHandler} />}
+      <ToolsBtn icon={<PlusIcon />} onClick={onPlusClick} />
 
       <Button text="Excel" type="excel" />
     </div>

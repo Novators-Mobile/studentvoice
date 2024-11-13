@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Rating from "../components/Rating";
 
 const institutesList = [
@@ -32,12 +32,18 @@ type InstItemProps = {
 };
 
 function InstitutesItem({ id, name, rating }: InstItemProps) {
+  const navigate = useNavigate();
+
   return (
-    <li>
-      <Link to={`/institutes/${id}`} className="institutes__item">
-        <p className="medium-middle-text">{name}</p>
-        <Rating rating={rating} />
-      </Link>
+    <li className="institutes__item_wrap">
+      <div
+        className="institutes__item"
+        onClick={() => navigate(`/institutes/${id}`)}
+      >
+        <p className="institutes__item_text medium-middle-text">{name}</p>
+      </div>
+
+      <Rating rating={rating} type="medium" />
     </li>
   );
 }

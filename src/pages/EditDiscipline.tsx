@@ -6,7 +6,7 @@ import Select from "../components/Select";
 import Button from "../components/Button";
 
 const options = ["ИРИТ-РТФ", "ИНМиТ", "ФТИ", "ИНЭУ", "ИСА", "УГИ"];
-const inputWidth = "602px";
+const inputWidth = "912px";
 
 function EditDiscipline() {
   const navigate = useNavigate();

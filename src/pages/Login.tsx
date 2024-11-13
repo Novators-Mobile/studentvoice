@@ -15,9 +15,10 @@ function Login() {
           </div>
 
           <form action="" className="login__auth-form">
-            <LoginInput placeholder="Логин" margin="0 0 16px 0" />
-
-            <LoginInput placeholder="Пароль" type="password" margin="0 0 40px 0" />
+            <div className="login__inputs_wrap">
+              <LoginInput placeholder="Логин" />
+              <LoginInput placeholder="Пароль" type="password" />
+            </div>
 
             <LoginButton text="Войти" type="submit" margin="0 0 24px 0" />
 

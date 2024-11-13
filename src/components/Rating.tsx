@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const getRatingColor = (rating: number): string => {
   if (rating >= 4) {
@@ -14,16 +15,32 @@ const getRatingColor = (rating: number): string => {
 
 type Props = {
   rating: number;
-  isBig?: boolean;
+  type?: "common" | "medium" | "big"
+  size?: React.CSSProperties;
 };
 
-function Rating({ rating, isBig = false }: Props) {
+function Rating({ rating, type = "common", size }: Props) {
+  const navigate = useNavigate();
+
+  let style = "";
+
+  switch(type) {
+    case "medium": 
+      style = "medium medium-middle-text";
+      break;
+    case "big": 
+      style = "big medium-big-text";
+      break;
+    default:
+      style = "medium-middle-text";
+      break;
+  }
+
   return (
     <p
-      className={`rating 
-        ${getRatingColor(rating)} 
-        ${isBig && "big"}  
-        medium-${isBig ? "big" : "middle"}-text`}
+      className={`rating ${getRatingColor(rating)} ${style}`} 
+      onClick={() => navigate("/statistics")}
+      style={size}
     >
       {rating.toFixed(1)}
     </p>
