@@ -13,6 +13,7 @@ type TToggleButton = {
   ) => void;
   checked?: boolean;
   value?: string;
+  role?: "answer" | "";
 };
 
 export const ToggleButton = ({
@@ -22,6 +23,7 @@ export const ToggleButton = ({
   onChange,
   checked,
   value,
+  role = ""
 }: TToggleButton) => (
   <>
     <input
@@ -33,7 +35,7 @@ export const ToggleButton = ({
       checked={checked}
       value={value}
     />
-    <label htmlFor={id} className="button toggle-button regular-text">
+    <label htmlFor={id} className={`button toggle-button ${role} ${role ? "regular-big-text" : "medium-middle-text"}`}>
       {text}
     </label>
   </>
