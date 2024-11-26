@@ -4,7 +4,7 @@ type Props = {
   text: string;
   type?: "button" | "submit" | "reset" | "excel";
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.FormEvent) => void;
   icon?: JSX.Element;
 };
 

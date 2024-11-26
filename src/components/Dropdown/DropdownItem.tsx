@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
 import React from "react";
 import ToolsBtn from "../ToolsBtn";
-import DeleteIcon from "../Icons/DeleteIcon";
+import DeleteIcon from "../../Icons/DeleteIcon";
 
 type Props = {
   id: number;

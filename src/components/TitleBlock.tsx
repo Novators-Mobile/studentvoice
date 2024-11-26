@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "./Rating";
 import { useNavigate } from "react-router-dom";
-import EditIcon from "./Icons/EditIcon";
+import EditIcon from "../Icons/EditIcon";
 
 type Props = {
   title: string;
@@ -19,14 +19,16 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
         <h1 className="header-text">{title}</h1>
 
         <div className="title-block__icons_wrap">
-          {editBtn && 
-            <div 
-              onClick={() => {navigate("./edit")}} 
+          {editBtn && (
+            <div
+              onClick={() => {
+                navigate("./edit");
+              }}
               className="title-block__edit-btn"
             >
               <EditIcon />
             </div>
-          }
+          )}
 
           <Rating rating={rating} type="big" />
         </div>
@@ -34,7 +36,6 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
 
       <p className="title__decryption medium-middle-text">{decryption}</p>
     </div>
-    
   );
 }
 

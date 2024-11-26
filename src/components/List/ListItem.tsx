@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Rating from "../Rating";
 import React from "react";
 import ToolsBtn from "../ToolsBtn";
-import DeleteIcon from "../Icons/DeleteIcon";
+import DeleteIcon from "../../Icons/DeleteIcon";
 
 type Props = {
   id: number;
@@ -26,7 +26,7 @@ function ListItem({ id, title, rating, type }: Props) {
       <div className="dropdown__item_icons-wrap">
         <Rating rating={rating} />
 
-         <ToolsBtn icon={<DeleteIcon />} />
+        <ToolsBtn icon={<DeleteIcon />} />
       </div>
     </li>
   );

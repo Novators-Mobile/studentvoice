@@ -5,7 +5,7 @@ import Input from "../components/Input";
 import Select from "../components/Select";
 import Button from "../components/Button";
 
-import GenerateIcon from "../components/Icons/GenerateIcon";
+import GenerateIcon from "../Icons/GenerateIcon";
 
 const departaments = [
   "Школа бакалавриата",
@@ -78,8 +78,10 @@ function EditTeacher() {
 
             <div className="generate-password__wrap">
               <Input label="Пароль" type="password" placeholder="Пароль" />
-              
-              {!isEdit && <Button text="Сгенерировать" icon={<GenerateIcon />} />}
+
+              {!isEdit && (
+                <Button text="Сгенерировать" icon={<GenerateIcon />} />
+              )}
             </div>
           </div>
         </fieldset>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import FilterModal from "./FilterModal";
 import ToolsBtn from "./ToolsBtn";
-import DoubleArrowBtn from "./Icons/DoubleArrowBtn";
-import PlusIcon from "./Icons/PlusIcon";
+import DoubleArrowBtn from "../Icons/DoubleArrowBtn";
+import PlusIcon from "../Icons/PlusIcon";
 import Search from "./Search";
 import Button from "./Button";
-import ArrowIcon from "./Icons/ArrowIcon";
+import ArrowIcon from "../Icons/ArrowIcon";
 
 type Props = {
   onPlusClick?: () => void;
@@ -23,7 +23,7 @@ function Tools({ onPlusClick, isList = false }: Props) {
   return (
     <div className="tools">
       {!isList && <ToolsBtn icon={<ArrowIcon />} />}
-      
+
       <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
 
       <FilterModal

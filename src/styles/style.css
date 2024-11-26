@@ -333,7 +333,9 @@ label {
 
 .button.disabled,
 .disabled.button:hover,
-.disabled.button:active {
+.disabled.button:active,
+.login__submit-btn.disabled,
+.disabled.login__submit-btn:hover {
   color: var(--color-inactive-gray);
   background-color: var(--color-bg-gray);
 }
@@ -791,13 +793,22 @@ label {
   border: 1px solid var(--color-inactive-gray);
 }
 
+.login-input.error {
+  border-color: var(--color-active-red);
+}
+
 .login-input::placeholder {
   color: var(--color-inactive-gray);
+}
+
+.error.login-input::placeholder {
+  color: var(--color-active-red);
 }
 
 .error-input-msg {
   margin-bottom: 2px;
   margin-top: 8px;
+  margin-left: 24px;
   height: 20px;
 
   font-size: var(--font-size-medium-small);
@@ -1508,3 +1519,49 @@ input[type="time"] {
 }
 
 /* Adaptive - end */
+
+
+/* Notifications - start */
+
+.custom-loading-toast {
+  background-color: var(--color-blue);
+}
+
+.Toastify__toast {
+  color: var(--color-white);
+  font-family: 'Montserrat'; 
+  border-radius: var(--border-radius);      
+  font-size: var(--font-size-medium-small);
+  padding: 10px 10px;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.Toastify__toast-body {
+  margin: 0;
+}
+
+.Toastify__toast--error {
+  background-color: var(--color-active-red); 
+}
+
+.Toastify__progress-bar--error {
+  background-color: var(--color-red);
+}
+
+.Toastify__toast--success {
+  background-color: var(--color-active-green); 
+}
+
+.Toastify__progress-bar--success {
+  background-color: var(--color-green);
+}
+
+.Toastify__toast--info {
+  background-color: var(--color-blue); 
+}
+
+.Toastify__progress-bar--info {
+  background-color: var(--color-active-blue);
+}
+
+/* Notifications - end */
