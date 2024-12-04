@@ -36,7 +36,7 @@ function Sidemenu() {
         <div className="menu__user-info">
           <img src={userLogo} alt="Изображение профиля" />
           <p className="menu__user-info_fio semi-bold-text">
-            Обабков Илья Николаевич
+            {localStorage.getItem("username")}
           </p>
         </div>
 

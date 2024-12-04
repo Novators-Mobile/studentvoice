@@ -11,7 +11,7 @@ export interface LoginResponse {
   user: {
     id: number;
     username: string;
-    password: string;
+    user_type: string;
   };
 }
 
@@ -19,7 +19,8 @@ export const login = async (data: LoginRequest): Promise<void> => {
   const response = await axiosInstance.post<LoginResponse>("/login/", data);
 
   localStorage.setItem("accessToken", response.data.token);
-  localStorage.setItem("role", response.data.user.username);
+  localStorage.setItem("role", response.data.user.user_type);
+  localStorage.setItem("username", response.data.user.username);
 };
 
 export const logout = async (): Promise<void> => {

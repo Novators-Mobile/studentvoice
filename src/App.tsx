@@ -33,7 +33,7 @@ export default function App() {
           <Route path="/:formId/viewform" element={<SurveyForm />} />
           <Route path="*" element={<NotFound />} />
 
-          <Route path="/" element={<PrivateRoute requiredRole="admin12345" />}>
+          <Route path="/" element={<PrivateRoute requiredRole="admin" />}>
           
             <Route path="/" element={<Sidemenu />}>
               <Route index element={<Institutes />} />
