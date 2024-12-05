@@ -929,12 +929,21 @@ label {
   gap: 20px;
 
   border-radius: var(--border-radius);
+  border: 1px solid var(--color-bg-gray);
+
   background-color: var(--color-bg-gray);
   padding: 10px 15px 10px 15px;
   align-items: center;
 
   width: 100%;
   cursor: pointer;
+
+  transition: .2s;
+}
+
+.institutes__item:hover {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-rate-gray);
 }
 
 /* Institutes - end */
@@ -1200,21 +1209,13 @@ input[type="time"] {
 
 .form-wrap {
   padding: 80px 195px;
-
-  /* position: relative; */
 }
 
 .form__greeting-block {
   display: flex;
   flex-direction: column;
-  gap: 48px; 
-}
-
-.crutch-wrap {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  gap: 32px; 
+  margin-bottom: 80px;
 }
 
 .form-wrap::before {
@@ -1231,7 +1232,7 @@ input[type="time"] {
   z-index: -999;
 }
 
-.crutch-wrap.form-wrap::after {
+.form-wrap::after {
   position: fixed;
   content: '';
   bottom: -106px;
@@ -1246,7 +1247,7 @@ input[type="time"] {
 .form__questions-block {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 32px;
 
   margin-bottom: 128px;
 }
@@ -1282,18 +1283,37 @@ input[type="time"] {
   justify-content: flex-end;
 }
 
+.form__greeting--inner-wrap {
+  display: flex;
+  column-gap: 95px;
+  row-gap: 32px;
+  justify-content: space-between;
+}
+
 .form__greeting_inputs-wrap {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 448px;
 
   flex-grow: 1;
+}
+
+.form__lesson-info {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 912px;
+
+  border-radius: var(--border-radius);
+  padding: 16px;
+  background-color: var(--color-bg-gray);
 }
 
 .form__comments-block {
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 32px;
 
   margin-bottom: 80px;
 }
@@ -1429,7 +1449,7 @@ input[type="time"] {
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
+@media (max-width: 1199px) {
   .form-wrap {
     padding: 80px 85px;
     gap: 24px;
@@ -1440,7 +1460,7 @@ input[type="time"] {
 
     transform: scale(0.8) rotate(-25deg);
   }
-  .crutch-wrap.form-wrap::after {
+  .form-wrap::after {
     bottom: -206px;
     left: -132px;
     transform: scale(0.8);
@@ -1450,6 +1470,10 @@ input[type="time"] {
   }
   .item__wrap {
     gap: 24px;
+  }
+  .form__greeting--inner-wrap {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
   }
 }
 
@@ -1492,6 +1516,9 @@ input[type="time"] {
     width: 50px;
     height: 49px;
   }
+  .regular-text {
+    font-size: var(--font-size-regular-small);
+  }
   .regular-big-text {
     font-size: var(--font-size-regular-small);
   }
@@ -1504,6 +1531,9 @@ input[type="time"] {
 
     transform: scale(0.27) rotate(-10deg);
   }
+  .form-wrap::after {
+    display: none;
+  }
   .form__answers_wrap {
     gap: 7px;
   }
@@ -1515,6 +1545,9 @@ input[type="time"] {
   }
   .form__comments-block {
     margin-bottom: 32px;
+  }
+  .form__greeting-block {
+    gap: 24px; 
   }
 }
 

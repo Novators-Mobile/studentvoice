@@ -87,30 +87,49 @@ function Greeting({ formData, handleInputChange }: GreetingProps) {
         Пожалуйста, введите своё ФИО, чтобы начать опрос по результатам занятия.
       </p>
 
-      <div className="form__greeting_inputs-wrap">
-        <Input
-          label="Фамилия"
-          width={inputWidth}
-          value={formData.lastName}
-          onChange={handleInputChange}
-          name="lastName"
-        />
+      <div className="form__greeting--inner-wrap">
+        <div className="form__greeting_inputs-wrap">
+          <Input
+            label="Фамилия"
+            width={inputWidth}
+            value={formData.lastName}
+            onChange={handleInputChange}
+            name="lastName"
+          />
 
-        <Input
-          label="Имя"
-          width={inputWidth}
-          value={formData.firstName}
-          onChange={handleInputChange}
-          name="firstName"
-        />
+          <Input
+            label="Имя"
+            width={inputWidth}
+            value={formData.firstName}
+            onChange={handleInputChange}
+            name="firstName"
+          />
 
-        <Input
-          label="Отчество"
-          width={inputWidth}
-          value={formData.patronymic}
-          onChange={handleInputChange}
-          name="patronymic"
-        />
+          <Input
+            label="Отчество"
+            width={inputWidth}
+            value={formData.patronymic}
+            onChange={handleInputChange}
+            name="patronymic"
+          />
+        </div>
+
+        <div className="form__lesson-info--wrap">
+          <div className="form__lesson-info">
+            <p className="regular-text">
+              <span className="medium-middle-text">Дисциплина: </span> 
+              Основы проектной деятельности
+            </p>
+            <p className="regular-text">
+              <span className="medium-middle-text">Пара: </span> 
+              Лабораторная работа 11
+            </p>
+            <p className="regular-text">
+              <span className="medium-middle-text">Дата: </span> 
+              23.09.2024
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -319,7 +338,10 @@ function SurveyForm() {
           <Button
             text="Перейти к опросу"
             disabled={!isGreetingComplete}
-            onClick={() => setPageNumber((prev) => prev + 1)}
+            onClick={() => {
+              setPageNumber((prev) => prev + 1);
+              window.scrollTo(0, 0);
+            }}
           />
         )}
 
