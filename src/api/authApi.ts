@@ -5,12 +5,13 @@ export interface LoginRequest {
   password: string;
 }
 
-// TODO: исправить тип возвращаемых данных
 export interface LoginResponse {
   token: string;
   user: {
     id: number;
-    username: string;
+    first_name: string;
+    second_name: string;
+    patronymic: string;
     user_type: string;
   };
 }
@@ -20,7 +21,11 @@ export const login = async (data: LoginRequest): Promise<void> => {
 
   localStorage.setItem("accessToken", response.data.token);
   localStorage.setItem("role", response.data.user.user_type);
-  localStorage.setItem("username", response.data.user.username);
+  localStorage.setItem("userId", String(response.data.user.id));
+  localStorage.setItem(
+    "fio",
+    `${response.data.user.second_name} ${response.data.user.first_name} ${response.data.user.patronymic}`
+  );
 };
 
 export const logout = async (): Promise<void> => {

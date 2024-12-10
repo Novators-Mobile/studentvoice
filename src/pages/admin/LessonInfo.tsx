@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import TitleBlock from "../components/TitleBlock";
-import { ToggleButton } from "../components/ToggleButtons";
-import Button from "../components/Button";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import StatsIndicators from "../components/StatsIndicators";
+import TitleBlock from "../../components/TitleBlock";
+import { ToggleButton } from "../../components/ToggleButtons";
+import Button from "../../components/Button";
+import { useNavigate, useParams } from "react-router-dom";
+import StatsIndicators from "../../components/StatsIndicators";
+import { getLesson, TLesson } from "../../api/lessonApi";
+import { getTeacher, TTeacher } from "../../api/teacherApi";
+import { getDiscipline, TDiscipline } from "../../api/disciplineApi";
+import dayjs from "dayjs";
 
 const STATS_MODE = {
   allStats: "allStats",
@@ -55,17 +59,35 @@ function Feedback() {
 }
 
 function LessonInfo() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [mode, setMode] = useState<string>(
-    searchParams.get("mode") || STATS_MODE.allStats
-  );
-
+  const [mode, setMode] = useState<string>(STATS_MODE.allStats);
   const [qrGenerated, setQrGenerated] = useState(false);
   const navigate = useNavigate();
 
+  const { lessonId } = useParams();
+  const [lesson, setLesson] = useState<TLesson>();
+  const [teacher, setTeacher] = useState<TTeacher>();
+  const [discipline, setDiscipline] = useState<TDiscipline>();
+
   useEffect(() => {
-    setSearchParams({ mode: mode });
-  }, [mode]);
+    const fetchData = async () => {
+      try {
+        const lesson = await getLesson(lessonId!);
+
+        const [teacher, discipline] = await Promise.all([
+          getTeacher(String(lesson.teacher)),
+          getDiscipline(String(lesson.subject)),
+        ]);
+
+        setLesson(lesson);
+        setTeacher(teacher);
+        setDiscipline(discipline);
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, [lessonId]);
 
   const handleQrClick = () => {
     if (!qrGenerated) {
@@ -78,24 +100,24 @@ function LessonInfo() {
   return (
     <>
       <TitleBlock
-        title="ОПД (23.09.24)"
-        decryption="Основы проектной деятельности"
-        rating={3}
+        title={dayjs(lesson?.date).format("DD.MM.YYYY") || ""}
+        decryption={discipline?.name}
+        rating={2}
         editBtn={true}
       />
 
       <div className="lesson__info">
         <p className="regular-big-text">
           <span className="medium-big-text">Преподаватель: </span>
-          Шадрин Денис Борисович, Астафьева Анна Викторовна
+          {`${teacher?.second_name} ${teacher?.first_name} ${teacher?.patronymic}`}
         </p>
         <p className="regular-big-text">
           <span className="medium-big-text">Формат: </span>
-          лекция
+          {lesson?.type === "lecture" ? "лекция" : "практика"}
         </p>
         <p className="regular-big-text">
           <span className="medium-big-text">Время: </span>
-          17:40 (МСК+2)
+          {dayjs(lesson?.date).format("HH:mm")}
         </p>
       </div>
 

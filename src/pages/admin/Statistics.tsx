@@ -1,5 +1,5 @@
 import React from "react";
-import StatisticsGraph from "../components/StatisticsGraph";
+import StatisticsGraph from "../../components/StatisticsGraph";
 
 const data = [
   { name: "Сентябрь", rating: 2 },

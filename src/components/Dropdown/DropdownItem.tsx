@@ -9,10 +9,14 @@ type Props = {
   title: string;
   rating: number;
   type: string;
+  onDelete?: (id: string) => void;
 };
 
-function DropdownItem({ id, title, rating, type }: Props) {
+function DropdownItem({ id, title, rating, type, onDelete }: Props) {
   const navigate = useNavigate();
+  const handleDelete = () => {
+    onDelete!(String(id));
+  };
 
   return (
     <li className="dropdown__item">
@@ -26,7 +30,7 @@ function DropdownItem({ id, title, rating, type }: Props) {
       <div className="dropdown__item_icons-wrap">
         <Rating rating={rating} />
 
-        <ToolsBtn icon={<DeleteIcon />} />
+        <ToolsBtn icon={<DeleteIcon />} onClick={handleDelete}/>
       </div>
     </li>
   );

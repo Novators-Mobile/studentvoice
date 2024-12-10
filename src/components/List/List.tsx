@@ -2,7 +2,8 @@ import React from "react";
 import ListItem from "./ListItem";
 import Tools from "../Tools";
 
-type TListItem = {
+export type TListItem = {
+  id: number;
   title: string;
   rating: number;
 };
@@ -10,11 +11,12 @@ type TListItem = {
 type Props = {
   type: string;
   title: string;
-  list: TListItem[];
+  firstList: TListItem[];
+  secondList: TListItem[];
   onPlusClick?: () => void;
 };
 
-function List({ type, title, list, onPlusClick }: Props) {
+function List({ type, title, firstList, secondList, onPlusClick }: Props) {
   return (
     <>
       <div className="list__wrapper">
@@ -22,19 +24,16 @@ function List({ type, title, list, onPlusClick }: Props) {
           <p className="dropdown__title medium-big-text">{title}</p>
         </div>
 
-        <Tools
-          onPlusClick={onPlusClick}
-          isList={true}
-        />
+        <Tools onPlusClick={onPlusClick} isList={true} />
       </div>
 
       <div className="list__items_wrap">
         <p className="medium-middle-text">Лекции</p>
         <ul className="list__items">
-          {list.map((item, index) => (
+          {firstList.map((item, index) => (
             <ListItem
               key={index}
-              id={index}
+              id={item.id}
               type={type}
               title={item.title}
               rating={item.rating}
@@ -44,10 +43,10 @@ function List({ type, title, list, onPlusClick }: Props) {
 
         <p className="medium-middle-text">Практики</p>
         <ul className="list__items">
-          {list.map((item, index) => (
+          {secondList.map((item, index) => (
             <ListItem
               key={index}
-              id={index}
+              id={item.id}
               type={type}
               title={item.title}
               rating={item.rating}

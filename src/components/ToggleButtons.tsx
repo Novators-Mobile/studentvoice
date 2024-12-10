@@ -16,6 +16,25 @@ type TToggleButton = {
   role?: "answer" | "";
 };
 
+const ToggleButtons = React.forwardRef<HTMLFieldSetElement, Props>(({ buttons }, ref) => {
+  return (
+    <fieldset className="toggle-buttons" ref={ref}>
+      {buttons.map((button, index) => (
+        <ToggleButton
+          key={index}
+          id={button.id}
+          text={button.text}
+          name={button.name}
+          onChange={button.onChange}
+          checked={button.checked}
+          value={button.value}
+          role={button.role}
+        />
+      ))}
+    </fieldset>
+  );
+});
+
 export const ToggleButton = ({
   id,
   text,
@@ -40,20 +59,5 @@ export const ToggleButton = ({
     </label>
   </>
 );
-
-function ToggleButtons({ buttons }: Props) {
-  return (
-    <fieldset className="toggle-buttons">
-      {buttons.map((button, index) => (
-        <ToggleButton
-          key={index}
-          id={button.id}
-          text={button.text}
-          name={button.name}
-        />
-      ))}
-    </fieldset>
-  );
-}
 
 export default React.memo(ToggleButtons);

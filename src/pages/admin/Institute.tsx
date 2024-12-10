@@ -1,0 +1,147 @@
+import React, { useEffect, useState } from "react";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import TitleBlock from "../../components/TitleBlock";
+import { useNavigate, useParams } from "react-router-dom";
+import StatisticsGraph from "../../components/StatisticsGraph";
+import { getInstitute, TInstitute } from "../../api/institutesApi";
+import { deleteDiscipline, getDisciplines, TDiscipline } from "../../api/disciplineApi";
+import { disciplineToListItem, teachersToListItem } from "../../utils/adapter";
+import { deleteTeacher, getTeachers, TTeacher } from "../../api/teacherApi";
+import { sortDisciplines, sortTeachers } from "../../utils/sort";
+import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
+
+const graphData = [
+  { name: "Сентябрь", rating: 2 },
+  { name: "Октябрь", rating: 3.4 },
+  { name: "Ноябрь", rating: 1.8 },
+  { name: "Декабрь", rating: 4.2 },
+  { name: "Январь", rating: 4.5 },
+];
+
+function Institute() {
+  const navigate = useNavigate();
+  const { instituteId } = useParams();
+  const [institute, setInstitute] = useState<TInstitute>();
+  const [disciplines, setDisciplines] = useState<TDiscipline[]>([]);
+  const [teachers, setTeachers] = useState<TTeacher[]>([]);
+  const [isReverseDisciplines, setIsReverseDisciplines] =
+    useState<boolean>(false);
+  const [isReverseTeachers, setIsReverseTeachers] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const instituteData = await getInstitute(instituteId!);
+        const disciplinesData = await getDisciplines({
+          universityId: instituteId,
+        });
+        const teachersData = await getTeachers({ universityId: instituteId });
+
+        setInstitute(instituteData);
+        setDisciplines(sortDisciplines(disciplinesData, isReverseDisciplines));
+        setTeachers(sortTeachers(teachersData, isReverseTeachers));
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const toggleSortDisciplines = () => {
+    setDisciplines(sortDisciplines(disciplines, !isReverseDisciplines));
+    setIsReverseDisciplines((prev) => !prev);
+  };
+
+  const toggleSortTeachers = () => {
+    setTeachers(sortTeachers(teachers, !isReverseTeachers));
+    setIsReverseTeachers((prev) => !prev);
+  };
+
+  const handleSearchDiscipline = async (searchText: string) => {
+    try {
+      const disciplinesData = await getDisciplines({
+        universityId: instituteId,
+        search: searchText,
+      });
+      setDisciplines(sortDisciplines(disciplinesData, isReverseDisciplines));
+    } catch (err) {
+      console.error("Ошибка при получении данных: ", err);
+    }
+  };
+
+  const handleSearchTeacher = async (searchText: string) => {
+    try {
+      const teachersData = await getTeachers({
+        universityId: instituteId,
+        search: searchText,
+      });
+      setTeachers(sortTeachers(teachersData, isReverseTeachers));
+    } catch (err) {
+      console.error("Ошибка при получении данных: ", err);
+    }
+  };
+
+  const handleDeleteDiscipline = async (id: string) => {
+    const loadingToast = AlertLoading("Удаление...");
+    try {
+      await deleteDiscipline(id);
+      setDisciplines(prev => prev.filter(item => String(item.id!) !== id));
+      AlertUpdate(loadingToast, "success", "Успешно удалено!");
+    } catch (error) {
+      AlertUpdate(loadingToast, "error", "Ошибка при удалении");
+      console.error("Ошибка при удаленииЖ ", error)
+    }
+  }
+
+  const handleDeleteTeacher = async (id: string) => {
+    const loadingToast = AlertLoading("Удаление...");
+    try {
+      await deleteTeacher(id);
+      setTeachers(prev => prev.filter(item => String(item.id!) !== id));
+      AlertUpdate(loadingToast, "success", "Успешно удалено!");
+    } catch (error) {
+      AlertUpdate(loadingToast, "error", "Ошибка при удалении");
+      console.error("Ошибка при удаленииЖ ", error)
+    }
+  }
+
+  return (
+    <div className="institute">
+      <TitleBlock
+        title="Аббревиатура"
+        decryption={institute?.name}
+        rating={2}
+        editBtn={false}
+      />
+
+      <Dropdown
+        type="discipline"
+        title="Дисциплины"
+        list={disciplineToListItem(disciplines)}
+        onPlusClick={() => navigate("/new-discipline")}
+        onSearch={handleSearchDiscipline}
+        onSortClick={toggleSortDisciplines}
+        isSortReversed={isReverseDisciplines}
+        onDelete={handleDeleteDiscipline}
+      />
+
+      <Dropdown
+        type="teacher"
+        title="Преподаватели"
+        list={teachersToListItem(teachers)}
+        onPlusClick={() => navigate("/new-profile")}
+        onSearch={handleSearchTeacher}
+        onSortClick={toggleSortTeachers}
+        isSortReversed={isReverseTeachers}
+        onDelete={handleDeleteTeacher}
+      />
+
+      <div className="institute__stats_wrap">
+        <StatisticsGraph data={graphData} width={1100} />
+      </div>
+    </div>
+  );
+}
+
+export default React.memo(Institute);

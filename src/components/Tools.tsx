@@ -9,10 +9,14 @@ import ArrowIcon from "../Icons/ArrowIcon";
 
 type Props = {
   onPlusClick?: () => void;
+  onSortClick?: () => void;
   isList?: boolean;
+  onSearch?: (query: string) => void;
+  debounceDelay?: number;
+  isSortReversed?: boolean;
 };
 
-function Tools({ onPlusClick, isList = false }: Props) {
+function Tools({ onPlusClick, isList = false, onSearch, debounceDelay, onSortClick, isSortReversed }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   const toggleFilterModal = (event: React.MouseEvent) => {
@@ -22,7 +26,7 @@ function Tools({ onPlusClick, isList = false }: Props) {
 
   return (
     <div className="tools">
-      {!isList && <ToolsBtn icon={<ArrowIcon />} />}
+      {!isList && <ToolsBtn icon={<ArrowIcon />} onClick={onSortClick} isOpen={isSortReversed} />}
 
       <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
 
@@ -31,7 +35,7 @@ function Tools({ onPlusClick, isList = false }: Props) {
         onClose={() => setFilterModalOpen(false)}
       />
 
-      <Search />
+      <Search onSearch={onSearch} debounceDelay={debounceDelay} />
 
       <ToolsBtn icon={<PlusIcon />} onClick={onPlusClick} />
 

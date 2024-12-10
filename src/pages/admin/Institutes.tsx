@@ -1,29 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Rating from "../components/Rating";
-
-const institutesList = [
-  {
-    name: "Институт радиоэлектроники и информационных технологий - РТФ",
-    rating: 4,
-  },
-  {
-    name: "Физико-технологический институт",
-    rating: 3,
-  },
-  {
-    name: "Институт экономики и управления",
-    rating: 0,
-  },
-  {
-    name: "Институт строительства и архитектуры",
-    rating: 2,
-  },
-  {
-    name: "Уральский гуманитарный институт",
-    rating: 1,
-  },
-];
+import Rating from "../../components/Rating";
+import { getInstitutes, TInstitute } from "../../api/institutesApi";
 
 type InstItemProps = {
   id: number;
@@ -49,16 +27,31 @@ function InstitutesItem({ id, name, rating }: InstItemProps) {
 }
 
 function Institutes() {
+  const [institutes, setInstitutes] = useState<TInstitute[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await getInstitutes();
+        setInstitutes(result);
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err)
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="institutes">
       <h1 className="institutes__title header-text">Институты</h1>
       <ul className="institutes__list">
-        {institutesList.map((item, index) => (
+        {institutes.map((item) => (
           <InstitutesItem
-            key={index}
-            id={index}
+            key={item.id}
+            id={item.id!}
             name={item.name}
-            rating={item.rating}
+            rating={2}
           />
         ))}
       </ul>

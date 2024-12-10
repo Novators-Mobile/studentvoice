@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import { QRCodeCanvas } from "qrcode.react";
 import { useNavigate } from "react-router-dom";
 
 function QR() {
   const navigate = useNavigate();
   const qrRef = useRef<HTMLCanvasElement>(null);
-  const qrLink = "https://studvoice.netlify.app/ergerg/viewform";
+  const qrLink = "http://localhost:5173/2655/viewform";
 
   const downloadQR = () => {
     const canvas = qrRef.current;
@@ -47,7 +47,10 @@ function QR() {
       <div className="qr__buttons_wrap">
         <Button text="Скачать" onClick={downloadQR} />
         <Button text="Скопировать ссылку" onClick={copyLinkToClipboard} />
-        <Button text="Скопировать как изображение" onClick={copyImageToClipboard} />
+        <Button
+          text="Скопировать как изображение"
+          onClick={copyImageToClipboard}
+        />
       </div>
 
       <a href={qrLink} target="_blank" className="qr__wrap">

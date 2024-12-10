@@ -219,6 +219,7 @@ label {
   background-color: var(--color-rate-gray);
 
   cursor: pointer;
+  transition: .2s;
 }
 
 .rating.big {
@@ -409,6 +410,11 @@ label {
 
 .select-option {
   cursor: pointer;
+  transition: .2s;
+}
+
+.select-option:hover {
+  color: var(--color-blue);
 }
 
 .select-icon__wrap {
@@ -1062,7 +1068,6 @@ label {
   gap: 40px;
 
   margin-top: 40px;
-  width: 758px;
 }
 
 .search__item {

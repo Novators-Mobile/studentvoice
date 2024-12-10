@@ -13,9 +13,16 @@ function PrivateRoute({ requiredRole }: PrivateRouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  // TODO: Исправить для каждой роли
+  // TODO: Прописать нужные роуты
   if (role !== requiredRole) {
-    return <Navigate to="/tempWrongRole" replace />;
+    switch(role) {
+      case 'admin':
+        return <Navigate to="/institutes" replace />;
+      case 'teacher': 
+        return <Navigate to="/profile" replace />;
+      default:
+        return <Navigate to="/wrongRole" replace />;
+    }
   }
 
   return <Outlet />;

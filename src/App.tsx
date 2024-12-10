@@ -10,16 +10,17 @@ const Login = lazy(() => import("./pages/Login"));
 const EditLesson = lazy(() => import("./pages/EditLesson"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SurveyForm = lazy(() => import("./pages/SurveyForm"));
-const Institutes = lazy(() => import("./pages/Institutes"));
+const Institutes = lazy(() => import("./pages/admin/Institutes"));
 const Sidemenu = lazy(() => import("./components/Sidemenu"));
-const Institute = lazy(() => import("./pages/Institute"));
-const ItemInfo = lazy(() => import("./pages/ItemInfo"));
-const EditDiscipline = lazy(() => import("./pages/EditDiscipline"));
-const EditTeacher = lazy(() => import("./pages/EditTeacher"));
-const SearchPage = lazy(() => import("./pages/SearchPage"));
-const LessonInfo = lazy(() => import("./pages/LessonInfo"));
-const QR = lazy(() => import("./pages/QR"));
-const Statistics = lazy(() => import("./pages/Statistics"));
+const Institute = lazy(() => import("./pages/admin/Institute"));
+const ItemInfo = lazy(() => import("./pages/admin/ItemInfo"));
+const EditDiscipline = lazy(() => import("./pages/admin/EditDiscipline"));
+const EditTeacher = lazy(() => import("./pages/admin/EditTeacher"));
+const SearchPage = lazy(() => import("./pages/admin/SearchPage"));
+const LessonInfo = lazy(() => import("./pages/admin/LessonInfo"));
+const QR = lazy(() => import("./pages/admin/QR"));
+const Statistics = lazy(() => import("./pages/admin/Statistics"));
+const Profile = lazy(() => import("./pages/teacher/Profile"));
 
 export default function App() {
   return (
@@ -34,7 +35,6 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
 
           <Route path="/" element={<PrivateRoute requiredRole="admin" />}>
-          
             <Route path="/" element={<Sidemenu />}>
               <Route index element={<Institutes />} />
               <Route path="institutes">
@@ -50,7 +50,7 @@ export default function App() {
                     <Route index element={<ItemInfo />} />
                     <Route path="edit" element={<EditDiscipline />} />
                   </Route>
-                  
+
                   <Route path="lesson/:lessonId">
                     <Route index element={<LessonInfo />} />
                     <Route path="edit" element={<EditLesson />} />
@@ -65,7 +65,14 @@ export default function App() {
               <Route path="new-lesson" element={<EditLesson />} />
               <Route path="statistics" element={<Statistics />} />
             </Route>
-            
+          </Route>
+
+          <Route path="/" element={<PrivateRoute requiredRole="teacher" />}>
+            <Route path="/" element={<Sidemenu />}>
+              <Route index element={<Profile />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="new-lesson" element={<EditLesson />} />
+            </Route>
           </Route>
         </Routes>
       </Suspense>
