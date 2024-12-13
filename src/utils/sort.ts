@@ -1,5 +1,5 @@
-import { TDiscipline } from "../api/disciplineApi";
-import { TTeacher } from "../api/teacherApi";
+import { TDiscipline } from "../api/admin/disciplineApi";
+import { TTeacher } from "../api/admin/teacherApi";
 
 export const sortDisciplines = (disciplines: TDiscipline[], isReverse: boolean = false ): TDiscipline[] => {
   return [...disciplines].sort((a, b) => {

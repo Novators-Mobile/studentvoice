@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
-import { TDiscipline } from "../api/disciplineApi";
-import { TInstitute } from "../api/institutesApi";
-import { TLesson } from "../api/lessonApi";
-import { TTeacher } from "../api/teacherApi";
+import { TDiscipline } from "../api/admin/disciplineApi";
+import { TInstitute } from "../api/admin/institutesApi";
+import { TLesson } from "../api/admin/lessonApi";
+import { TTeacher } from "../api/admin/teacherApi";
 import { DropdownListItem } from "../components/Dropdown/Dropdown";
 import { TListItem } from "../components/List/List";
 import { TSelectOption } from "../components/Select";

@@ -5,12 +5,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ToggleButtons from "../components/ToggleButtons";
 import DatePicker from "../components/DatePicker";
 import Button from "../components/Button";
-import { getDisciplines, TDiscipline } from "../api/disciplineApi";
-import { getTeachers, TTeacher } from "../api/teacherApi";
+import { getDisciplines, TDiscipline } from "../api/admin/disciplineApi";
+import { getTeachers, TTeacher } from "../api/admin/teacherApi";
 import { disciplinesToOption, teachersToOption } from "../utils/adapter";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Skeleton from "../components/Skeleton";
-import { getLesson, postLesson, putLesson, TLesson } from "../api/lessonApi";
+import { getLesson, postLesson, putLesson, TLesson } from "../api/admin/lessonApi";
 import dayjs from "dayjs";
 import { AlertLoading, AlertUpdate } from "../utils/Notifications";
 
