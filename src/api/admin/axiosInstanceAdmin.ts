@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const axiosAuthInstance = axios.create({
+const axiosInstanceAdmin = axios.create({
   baseURL: "http://localhost:8000/api/admin_api/",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axiosAuthInstance.interceptors.request.use(
+axiosInstanceAdmin.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -20,7 +20,7 @@ axiosAuthInstance.interceptors.request.use(
   }
 );
 
-axiosAuthInstance.interceptors.response.use(
+axiosInstanceAdmin.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
@@ -33,7 +33,7 @@ axiosAuthInstance.interceptors.response.use(
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-        return axiosAuthInstance(originalRequest);
+        return axiosInstanceAdmin(originalRequest);
       } catch (refreshError) {
         console.error("Ошибка обновления токена:", refreshError);
         localStorage.removeItem("accessToken");
@@ -45,4 +45,4 @@ axiosAuthInstance.interceptors.response.use(
   }
 );
 
-export default axiosAuthInstance;
+export default axiosInstanceAdmin;

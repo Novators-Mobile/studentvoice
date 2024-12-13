@@ -7,7 +7,7 @@ import SearchMenuIcon from "../Icons/SearchMenuIcon";
 import NewProfileMenuIcon from "../Icons/NewProfileMenuIcon";
 import NewDisciplineMenuIcon from "../Icons/NewDisciplineMenuIcon";
 import Button from "./Button";
-import { logout } from "../api/authApi";
+import { logout } from "../api/admin/authApi";
 
 function Sidemenu() {
   const location = useLocation();
@@ -36,8 +36,7 @@ function Sidemenu() {
         <div className="menu__user-info">
           <img src={userLogo} alt="Изображение профиля" />
           <p className="menu__user-info_fio semi-bold-text">
-            {/* {localStorage.getItem("fio")} */}
-            Администратор
+            {localStorage.getItem("role") === "admin" ? "Администрация" : localStorage.getItem("fio") }
           </p>
         </div>
 

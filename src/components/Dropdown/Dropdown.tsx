@@ -2,7 +2,7 @@ import { useState } from "react";
 import Rating from "../Rating";
 import DropdownItem from "./DropdownItem";
 import React from "react";
-import Tools from "../Tools";
+import Tools from "../Tools/Tools";
 
 export type DropdownListItem = {
   id: number;
@@ -49,7 +49,7 @@ function Dropdown({
           {title}
         </p>
 
-        {!isOpen && <Rating rating={4.5} />}
+        {!isOpen && <Rating rating={0} />}
 
         {isOpen && (
           <Tools
@@ -63,18 +63,21 @@ function Dropdown({
       </div>
 
       {isOpen && (
-        <ul className="dropdown__list">
-          {list.map((item) => (
-            <DropdownItem
-              key={item.id}
-              id={item.id}
-              type={type}
-              title={item.title}
-              rating={item.rating}
-              onDelete={onDelete}
-            />
-          ))}
-        </ul>
+        <>
+          {list.length === 0 && ("Список пуст")}
+          <ul className="dropdown__list">
+            {list.map((item) => (
+              <DropdownItem
+                key={item.id}
+                id={item.id}
+                type={type}
+                title={item.title}
+                rating={item.rating}
+                onDelete={onDelete}
+              />
+            ))}
+          </ul>
+        </>
       )}
     </>
   );

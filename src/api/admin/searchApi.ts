@@ -1,10 +1,10 @@
-import axiosInstance from "./axiosAuthInstance";
+import axiosInstance from "./axiosInstanceAdmin";
 
 type TSubject = {
   id: number;
   university_id: number;
   name: string;
-}
+};
 
 type TTeacher = {
   id: number;
@@ -23,12 +23,12 @@ type TTeacher = {
   patronymic: string;
   customuser_ptr_id: number;
   university_id: number;
-}
+};
 
 type TUniversity = {
   id: number;
   name: string;
-}
+};
 
 export interface TSearch {
   subjects: TSubject[];
@@ -36,9 +36,11 @@ export interface TSearch {
   universities: TUniversity[];
 }
 
-export const search = async ( search?: string ): Promise<TSearch> => {
-  const response = await axiosInstance.get<TSearch>("/search/", { params: {
-    search: search
-  }});
+export const search = async (search?: string): Promise<TSearch> => {
+  const response = await axiosInstance.get<TSearch>("/search/", {
+    params: {
+      search: search,
+    },
+  });
   return response.data;
 };

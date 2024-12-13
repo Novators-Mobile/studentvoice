@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "../components/Select";
 import Input from "../components/Input";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ToggleButtons from "../components/ToggleButtons";
 import DatePicker from "../components/DatePicker";
 import Button from "../components/Button";
@@ -9,7 +9,12 @@ import { getDisciplines, TDiscipline } from "../api/disciplineApi";
 import { getTeachers, TTeacher } from "../api/teacherApi";
 import { disciplinesToOption, teachersToOption } from "../utils/adapter";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import Skeleton from "../components/Skeleton";
+import { getLesson, postLesson, putLesson, TLesson } from "../api/lessonApi";
+import dayjs from "dayjs";
+import { AlertLoading, AlertUpdate } from "../utils/Notifications";
 
+const selectWidth = "480px";
 // const time = ["Не повторять", "Ежедневно", "Еженедельно", "Каждый будний день"];
 const toggleButtons = [
   {
@@ -24,18 +29,9 @@ const toggleButtons = [
   },
 ];
 
-type LessonForm = {
-  date: string;
-  discipline: string;
-  teacher: string;
-  startTime: string;
-  endTime: string;
-  format: string;
-};
-
 function EditLesson() {
   const navigate = useNavigate();
-  
+
   const location = useLocation();
   let title: string = "";
   let decryption: string = "";
@@ -46,40 +42,98 @@ function EditLesson() {
   } else if (normalizedPath.endsWith("new-lesson")) {
     title = "Новая пара";
   }
-  
+
+  const { disciplineId, teacherId, lessonId } = useParams();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const [disciplines, setDisciplines] = useState<TDiscipline[]>([]);
   const [teachers, setTeachers] = useState<TTeacher[]>([]);
 
-  const { handleSubmit, control, formState: { errors } } = useForm<LessonForm>({
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<TLesson>({
     defaultValues: {
+      subject: undefined,
       date: "",
-      discipline: "",
-      teacher: "",
-      startTime: "",
-      endTime: "",
-      format: "",
+      teacher: undefined,
+      type: undefined,
+      time: "",
     },
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const disciplinesData = await getDisciplines({});
-        const teachersData = await getTeachers({});
-        setDisciplines(disciplinesData);
+        setLoading(true);
+        setError(null);
+
+        const teachersData = await getTeachers({ subjectId: disciplineId });
+        const disciplinesData = await getDisciplines({ teacherId: teacherId });
         setTeachers(teachersData);
+        setDisciplines(disciplinesData);
+
+        if (disciplineId) {
+          reset({ subject: Number(disciplineId) });
+        } else if (teacherId) {
+          reset({ teacher: Number(teacherId) });
+        } else if (lessonId) {
+          const lessonData = await getLesson(lessonId);
+          reset({
+            subject: lessonData.subject,
+            date: lessonData.date,
+            teacher: lessonData.teacher,
+            type: lessonData.type,
+            time: dayjs(lessonData.date).format("HH:mm").toString(),
+          });
+        }
       } catch (err) {
+        setError("Не удалось загрузить данные. Попробуйте позже.");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [disciplineId, teacherId, lessonId, reset]);
 
-  const onSubmit: SubmitHandler<LessonForm> = async (data) => {
-    console.log("Данные формы:", data);
-    // navigate(-1);
+  const onSubmit: SubmitHandler<TLesson> = async (data) => {
+    const datePart = dayjs(data.date);
+    const [hours, minutes] = data.time!.split(":").map(Number);
+    const combinedDate = datePart.set("hour", hours).set("minute", minutes);
+
+    const transformedData = {
+      ...data,
+      date: combinedDate.toJSON(),
+      time: undefined,
+    };
+
+    const loadingToast = AlertLoading("Отправка...");
+    try {
+      if (lessonId) {
+        await putLesson(lessonId, transformedData);
+        AlertUpdate(loadingToast, "success", "Пара обновлена успешно!");
+      } else {
+        await postLesson(transformedData);
+        AlertUpdate(loadingToast, "success", "Пара создана успешно!");
+      }
+      navigate(-1);
+    } catch (err) {
+      AlertUpdate(loadingToast, "error", "Ошибка при отправке данных");
+      console.error("Ошибка при отправке данных: ", err);
+    }
   };
+
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <>
@@ -89,42 +143,30 @@ function EditLesson() {
       </div>
 
       <form className="edit-lesson__form" onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="fieldset-container">
+        <fieldset className="fieldset-container datetime">
           <Controller
             name="date"
             control={control}
-            rules={{ required: "Дата обязательна" }}
+            rules={{ required: "Обязательное поле" }}
             render={({ field }) => (
               <DatePicker
                 label="Дата"
                 error={errors.date?.message}
                 onChange={field.onChange}
                 ref={field.ref}
+                value={field.value ? dayjs(field.value).format("DD.MM.YYYY") : ""}
               />
             )}
           />
           <Controller
-            name="discipline"
+            name="time"
             control={control}
-            rules={{ required: "Дисциплина обязательна" }}
+            rules={{ required: "Обязательное поле" }}
             render={({ field }) => (
-              <Select
-                label="Дисциплина"
-                options={disciplinesToOption(disciplines)}
-                error={errors.discipline?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name="teacher"
-            control={control}
-            rules={{ required: "Преподаватель обязателен" }}
-            render={({ field }) => (
-              <Select
-                label="Преподаватель"
-                options={teachersToOption(teachers)}
-                error={errors.teacher?.message}
+              <Input
+                type="time"
+                label="Время"
+                error={errors.time?.message}
                 {...field}
               />
             )}
@@ -132,45 +174,71 @@ function EditLesson() {
         </fieldset>
 
         <fieldset className="fieldset-container">
-          <div className="edit-lesson__inner_wrap">
-            <p className="medium-middle-text">Время</p>
-            <div className="edit-lesson__time_wrap">
-              <Controller
-                name="startTime"
-                control={control}
-                rules={{ required: "Время начала обязательно" }}
-                render={({ field }) => (
-                  <Input type="time" error={errors.startTime?.message} {...field} />
-                )}
+          <Controller
+            name="subject"
+            control={control}
+            rules={{ required: "Обязательное поле" }}
+            render={({ field }) => (
+              <Select
+                label="Дисциплина"
+                options={disciplinesToOption(disciplines)}
+                error={errors.subject?.message}
+                value={field.value}
+                onChange={(id) => field.onChange(id)}
+                width={selectWidth}
+                disable={!!disciplineId || !!lessonId}
               />
-              <span></span>
-              <Controller
-                name="endTime"
-                control={control}
-                rules={{ required: "Время окончания обязательно" }}
-                render={({ field }) => (
-                  <Input type="time" error={errors.endTime?.message} {...field} />
-                )}
+            )}
+          />
+          <Controller
+            name="teacher"
+            control={control}
+            rules={{ required: "Обязательное поле" }}
+            render={({ field }) => (
+              <Select
+                label="Преподаватель"
+                options={teachersToOption(teachers)}
+                error={errors.teacher?.message}
+                value={field.value}
+                onChange={(id) => field.onChange(id)}
+                width={selectWidth}
+                disable={!!teacherId || !!lessonId}
               />
-            </div>
-          </div>
+            )}
+          />
+        </fieldset>
 
+        <fieldset className="fieldset-container">
           <div className="edit-lesson__inner_wrap">
-            <p className="medium-middle-text">Формат</p>
+            <p className="input-label medium-middle-text">Формат</p>
             <Controller
-              name="format"
+              name="type"
               control={control}
-              rules={{ required: "Формат обязателен" }}
+              rules={{ required: "Обязательное поле" }}
               render={({ field }) => (
-                <ToggleButtons buttons={toggleButtons} {...field} />
+                <ToggleButtons
+                  buttons={toggleButtons}
+                  error={errors.type?.message}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               )}
             />
           </div>
         </fieldset>
 
         <div className="edit__form-btns">
-          <Button text="Отменить" type="reset" onClick={() => navigate(-1)} />
-          <Button text="Сохранить" type="submit" />
+          <Button
+            text="Отменить"
+            type="reset"
+            onClick={() => navigate(-1)}
+            disabled={isSubmitting}
+          />
+          <Button
+            text={lessonId ? "Обновить" : "Сохранить"}
+            type="submit"
+            disabled={isSubmitting}
+          />
         </div>
       </form>
     </>

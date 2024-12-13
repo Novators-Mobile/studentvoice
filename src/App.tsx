@@ -44,11 +44,13 @@ export default function App() {
                   <Route path="teacher/:teacherId">
                     <Route index element={<ItemInfo />} />
                     <Route path="edit" element={<EditTeacher />} />
+                    <Route path="new-lesson" element={<EditLesson />} />
                   </Route>
 
                   <Route path="discipline/:disciplineId">
                     <Route index element={<ItemInfo />} />
                     <Route path="edit" element={<EditDiscipline />} />
+                    <Route path="new-lesson" element={<EditLesson />} />
                   </Route>
 
                   <Route path="lesson/:lessonId">
@@ -62,7 +64,6 @@ export default function App() {
               <Route path="search" element={<SearchPage />} />
               <Route path="new-profile" element={<EditTeacher />} />
               <Route path="new-discipline" element={<EditDiscipline />} />
-              <Route path="new-lesson" element={<EditLesson />} />
               <Route path="statistics" element={<Statistics />} />
             </Route>
           </Route>

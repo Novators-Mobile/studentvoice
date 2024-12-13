@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   RadarChart,
   PolarGrid,
@@ -7,21 +7,40 @@ import {
   Radar,
   Tooltip,
 } from "recharts";
+import { TPoll } from "../api/polls/pollsApi";
+
+interface Props {
+  stats: TPoll;
+}
 
 type DataType = {
   subject: string;
   value: number;
 }
 
-const data: DataType[] = [
-  { subject: "Взаимодействие с аудиторией", value: 4.1 },
-  { subject: "Информативность", value: 3.5 },
-  { subject: "Доступность", value: 2.9 },
-  { subject: "Интерес", value: 3.3 },
-  { subject: "Подача материала", value: 3.7 },
-];
+function StatsIndicators({ stats }: Props) {
+  const [data, setData] = useState<DataType[]>([
+    { subject: "Информативность", value: 1 },
+    { subject: "Доступность", value: 1 },
+    { subject: "Взаимодействие с аудиторией", value: 1 },
+    { subject: "Интерес", value: 1 },
+    { subject: "Подача материала", value: 1 },
+  ]);
 
-function StatsIndicators() {
+  useEffect(() => {
+    const round = (value: number | null): number =>
+      value !== null ? parseFloat(value.toFixed(1)) : 1;
+
+    const formattedData: DataType[] = [
+      { subject: "Информативность", value: round(stats.question1_avg_mark) },
+      { subject: "Доступность", value: round(stats.question2_avg_mark) },
+      { subject: "Взаимодействие с аудиторией", value: round(stats.question3_avg_mark) },
+      { subject: "Интерес", value: round(stats.question4_avg_mark) },
+      { subject: "Подача материала", value: round(stats.question5_avg_mark) },
+    ];
+    setData(formattedData);
+  }, [stats]);
+
   return (
     <div className="radar-chart">
       <RadarChart outerRadius="70%" width={1100} height={700} data={data}>

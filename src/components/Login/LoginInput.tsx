@@ -6,17 +6,18 @@ type Props = {
   error?: string;
 };
 
-const LoginInput = forwardRef<HTMLInputElement, Props>(({ placeholder, type = "text", error = '', ...rest }, ref) => {
+const LoginInput = forwardRef<HTMLInputElement, Props>(
+  ({ placeholder, type = "text", error = "", ...rest }, ref) => {
     return (
       <div className="login-input__wrap">
         <input
           type={type}
           placeholder={placeholder}
-          className={`login-input medium-middle-text ${error && 'error'}`}
+          className={`login-input medium-middle-text ${error && "error"}`}
           ref={ref}
           {...rest}
         />
-        <p className="error-input-msg">{error}</p>
+        <p className="error-login-input-msg">{error}</p>
       </div>
     );
   }

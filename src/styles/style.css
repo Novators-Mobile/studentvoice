@@ -339,12 +339,11 @@ label {
 .disabled.login__submit-btn:hover {
   color: var(--color-inactive-gray);
   background-color: var(--color-bg-gray);
+  cursor: not-allowed;
 }
 
-.input__wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.input-label {
+  margin-bottom: 24px;
 }
 
 .input {
@@ -353,6 +352,22 @@ label {
   border-radius: var(--border-radius);
   padding: 10px 16px;
   background-color: var(--color-bg-gray);
+}
+
+.input.error,
+.input:active.error,
+.select.error,
+.toggle-button.error {
+  outline: 1px solid var(--color-active-red);
+}
+
+.error-input-msg {
+  margin-top: 8px;
+  margin-left: 16px;
+  height: 20px;
+
+  font-size: var(--font-size-medium-small);
+  color: var(--color-active-red);
 }
 
 .input::placeholder {
@@ -367,6 +382,11 @@ label {
   background-color: var(--color-bg-gray);
 
   width: var(--input-width);
+}
+
+.select.disable {
+  opacity: .65;
+  cursor: not-allowed;
 }
 
 .select-box {
@@ -397,14 +417,14 @@ label {
   z-index: 10;
 
   opacity: 0;
-  transform: translateY(-15px);
+  transform: translateY(-35px);
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
 }
 
 .select-options__wrap.open .select-options {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(-25px);
   pointer-events: auto;
 }
 
@@ -482,6 +502,11 @@ label {
 
   color: var(--color-blue);
   background-color: var(--color-bg-gray);
+}
+
+.round-btn.disable {
+  opacity: .65;
+  cursor: not-allowed;
 }
 
 .round-btn:hover,
@@ -626,6 +651,8 @@ label {
 .dropdown__item {
   display: flex;
   align-items: center;
+
+  transition: .2s;
 }
 
 .dropdown__item_link {
@@ -691,6 +718,13 @@ label {
 .list__item {
   display: flex;
   align-items: center;
+
+  transition: .2s;
+}
+
+.dropdown__item:hover,
+.list__item:hover {
+  color: var(--color-blue);
 }
 
 .list__item_link {
@@ -811,7 +845,7 @@ label {
   color: var(--color-active-red);
 }
 
-.error-input-msg {
+.error-login-input-msg {
   margin-bottom: 2px;
   margin-top: 8px;
   margin-left: 24px;
@@ -935,7 +969,6 @@ label {
   gap: 20px;
 
   border-radius: var(--border-radius);
-  border: 1px solid var(--color-bg-gray);
 
   background-color: var(--color-bg-gray);
   padding: 10px 15px 10px 15px;
@@ -944,12 +977,12 @@ label {
   width: 100%;
   cursor: pointer;
 
-  transition: .2s;
+  transition: background-color .2s;
 }
 
 .institutes__item:hover {
   background-color: var(--color-white);
-  border: 1px solid var(--color-rate-gray);
+  outline: 1px solid var(--color-rate-gray);
 }
 
 /* Institutes - end */
@@ -982,6 +1015,8 @@ label {
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  width: 41px;
 }
 
 .institute__stats_wrap {
@@ -1001,8 +1036,13 @@ label {
 .edit-discipline__fieldset {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 12px;
 
+  margin-bottom: 12px;
+}
+
+.edit-discipline__fieldset.small {
+  gap: 32px;
   margin-bottom: 32px;
 }
 
@@ -1027,7 +1067,7 @@ label {
 }
 
 .edit-teacher__fieldset {
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 .edit-teacher__fieldset_legend {
@@ -1038,7 +1078,8 @@ label {
 .edit-teacher__big-wrap {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .generate-password__wrap {
@@ -1090,16 +1131,8 @@ label {
   gap: var(--inputs-gap);
 }
 
-.edit-lesson__inner_wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.edit-lesson__time_wrap {
-  display: flex;
-  align-items: center;
-  gap: 24px;
+.fieldset-container.datetime {
+  gap: 80px;
 }
 
 .edit-lesson__time {
@@ -1603,3 +1636,62 @@ input[type="time"] {
 }
 
 /* Notifications - end */
+
+
+/* Skeleton - start */
+
+/* From Uiverse.io by vk-uiux */ 
+.card {
+  width: 100%;
+  border-radius: 50px;
+}
+
+.card__skeleton {
+  background-image: linear-gradient(
+		90deg,
+		#ccc 0px,
+		rgb(229 229 229 / 90%) 40px,
+		#ccc 80px
+	);
+  background-size: 300%;
+  background-position: 100% 0;
+  border-radius: inherit;
+  animation: shimmer 2s infinite;
+}
+
+.card__title {
+  height: 70px;
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.card__second-title {
+  height: 30px;
+  width: 70%;
+  margin-bottom: 70px;
+}
+
+.card__item--wrap {
+  border-radius: 20px;
+  margin-bottom: 50px;
+}
+
+.card__item {
+  width: 85%;
+  height: 50px;
+  margin-bottom: 15px;
+}
+
+.card__subtitle {
+  width: 30%;
+  height: 50px;
+  margin-bottom: 25px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Skeleton - end */

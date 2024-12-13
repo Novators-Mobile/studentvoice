@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
-import Input from "../components/Input";
-import { ToggleButton } from "../components/ToggleButtons";
 import { useParams } from "react-router-dom";
+import Comments from "../components/SurveyForm/Comments";
+import Greeting from "../components/SurveyForm/Greeting";
+import Questions from "../components/SurveyForm/Questions";
 
-type questionType = {
+export type questionType = {
   type: "question" | "comment";
   text: string;
   name: string;
@@ -56,7 +57,7 @@ const questionsInfo = {
   comments: commentsList,
 };
 
-type FormData = {
+export type FormData = {
   lastName: string;
   firstName: string;
   patronymic: string;
@@ -69,153 +70,8 @@ type FormData = {
   comment2: string;
 };
 
-type GreetingProps = {
-  formData: FormData;
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-};
-
-function Greeting({ formData, handleInputChange }: GreetingProps) {
-  const inputWidth = "448px";
-
-  return (
-    <div className="form__greeting-block">
-      <h1 className="header-text question-header">Приветствие</h1>
-
-      <p className="logo-text question-text-wrap">
-        Пожалуйста, введите своё ФИО, чтобы начать опрос по результатам занятия.
-      </p>
-
-      <div className="form__greeting--inner-wrap">
-        <div className="form__greeting_inputs-wrap">
-          <Input
-            label="Фамилия"
-            width={inputWidth}
-            value={formData.lastName}
-            onChange={handleInputChange}
-            name="lastName"
-          />
-
-          <Input
-            label="Имя"
-            width={inputWidth}
-            value={formData.firstName}
-            onChange={handleInputChange}
-            name="firstName"
-          />
-
-          <Input
-            label="Отчество"
-            width={inputWidth}
-            value={formData.patronymic}
-            onChange={handleInputChange}
-            name="patronymic"
-          />
-        </div>
-
-        <div className="form__lesson-info--wrap">
-          <div className="form__lesson-info">
-            <p className="regular-text">
-              <span className="medium-middle-text">Дисциплина: </span> 
-              Основы проектной деятельности
-            </p>
-            <p className="regular-text">
-              <span className="medium-middle-text">Пара: </span> 
-              Лабораторная работа 11
-            </p>
-            <p className="regular-text">
-              <span className="medium-middle-text">Дата: </span> 
-              23.09.2024
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-type QuestionsProps = {
-  questions: questionType[];
-  formData: FormData;
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-};
-
-function Questions({ questions, formData, handleInputChange }: QuestionsProps) {
-  return (
-    <div className="form__questions-block">
-      <h1 className="header-text question-header">Опрос по итогам занятия</h1>
-
-      <div className="form__questions-list">
-        {questions.map((question, index) => (
-          <div key={index} className="item__wrap">
-            <p className="logo-text question-text-wrap">{question.text}</p>
-
-            <p className="regular-big-text question-text-wrap">
-              Оцените свои впечатления по&nbsp;шкале от&nbsp;1&nbsp;до&nbsp;5
-            </p>
-
-            <fieldset className="form__answers_wrap">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <ToggleButton
-                  key={`${question.name}-${value}`}
-                  id={`${question.name}-${value}`}
-                  text={String(value)}
-                  name={question.name}
-                  checked={
-                    formData[question.name as keyof FormData] === String(value)
-                  }
-                  value={String(value)}
-                  onChange={handleInputChange}
-                  role="answer"
-                />
-              ))}
-            </fieldset>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-type CommentsProps = {
-  comments: questionType[];
-  formData: FormData;
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-};
-
-function Comments({ comments, formData, handleInputChange }: CommentsProps) {
-  return (
-    <div className="form__comments-block">
-      <h1 className="header-text question-header">Комментарии</h1>
-
-      <div className="comments__list">
-        {comments.map((comment, index) => (
-          <div key={index} className="item__wrap">
-            <p className="logo-text question-text-wrap">{comment.text}</p>
-
-            <textarea
-              className="question-text-wrap form__comment regular-big-text"
-              placeholder="Введите свой ответ здесь"
-              rows={10}
-              value={formData[comment.name as keyof FormData]}
-              onChange={handleInputChange}
-              name={comment.name}
-              required
-            />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function SurveyForm() {
-  const { formId } = useParams<{ formId: string }>();
+  const { formId } = useParams();
 
   const savedPageNumber = Number(localStorage.getItem("pageNumber") || 1);
   const savedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
@@ -238,7 +94,7 @@ function SurveyForm() {
   useEffect(() => {
     const savedFormID = localStorage.getItem("formId");
     if (savedFormID !== formId) {
-      localStorage.clear();
+      // localStorage.clear();
       localStorage.setItem("formId", formId || "");
       setFormData({
         lastName: "",

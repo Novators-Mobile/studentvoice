@@ -3,19 +3,20 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import TitleBlock from "../../components/TitleBlock";
 import { useNavigate, useParams } from "react-router-dom";
 import StatisticsGraph from "../../components/StatisticsGraph";
-import { getInstitute, TInstitute } from "../../api/institutesApi";
-import { deleteDiscipline, getDisciplines, TDiscipline } from "../../api/disciplineApi";
+import { getInstitute, TInstitute } from "../../api/admin/institutesApi";
+import { deleteDiscipline, getDisciplines, TDiscipline } from "../../api/admin/disciplineApi";
 import { disciplineToListItem, teachersToListItem } from "../../utils/adapter";
-import { deleteTeacher, getTeachers, TTeacher } from "../../api/teacherApi";
+import { deleteTeacher, getTeachers, TTeacher } from "../../api/admin/teacherApi";
 import { sortDisciplines, sortTeachers } from "../../utils/sort";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
+import Skeleton from "../../components/Skeleton";
 
 const graphData = [
-  { name: "Сентябрь", rating: 2 },
-  { name: "Октябрь", rating: 3.4 },
-  { name: "Ноябрь", rating: 1.8 },
-  { name: "Декабрь", rating: 4.2 },
-  { name: "Январь", rating: 4.5 },
+  { name: "Сентябрь", rating: 0 },
+  { name: "Октябрь", rating: 0 },
+  { name: "Ноябрь", rating: 0 },
+  { name: "Декабрь", rating: 0 },
+  { name: "Январь", rating: 0 },
 ];
 
 function Institute() {
@@ -24,13 +25,16 @@ function Institute() {
   const [institute, setInstitute] = useState<TInstitute>();
   const [disciplines, setDisciplines] = useState<TDiscipline[]>([]);
   const [teachers, setTeachers] = useState<TTeacher[]>([]);
-  const [isReverseDisciplines, setIsReverseDisciplines] =
-    useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isReverseDisciplines, setIsReverseDisciplines] = useState<boolean>(false);
   const [isReverseTeachers, setIsReverseTeachers] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const instituteData = await getInstitute(instituteId!);
         const disciplinesData = await getDisciplines({
           universityId: instituteId,
@@ -40,8 +44,12 @@ function Institute() {
         setInstitute(instituteData);
         setDisciplines(sortDisciplines(disciplinesData, isReverseDisciplines));
         setTeachers(sortTeachers(teachersData, isReverseTeachers));
+        
       } catch (err) {
+        setError("Не удалось загрузить данные. Попробуйте позже.");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -90,7 +98,7 @@ function Institute() {
       AlertUpdate(loadingToast, "success", "Успешно удалено!");
     } catch (error) {
       AlertUpdate(loadingToast, "error", "Ошибка при удалении");
-      console.error("Ошибка при удаленииЖ ", error)
+      console.error("Ошибка при удалении: ", error)
     }
   }
 
@@ -102,8 +110,16 @@ function Institute() {
       AlertUpdate(loadingToast, "success", "Успешно удалено!");
     } catch (error) {
       AlertUpdate(loadingToast, "error", "Ошибка при удалении");
-      console.error("Ошибка при удаленииЖ ", error)
+      console.error("Ошибка при удалении: ", error)
     }
+  }
+
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
   }
 
   return (
@@ -111,7 +127,7 @@ function Institute() {
       <TitleBlock
         title="Аббревиатура"
         decryption={institute?.name}
-        rating={2}
+        rating={0}
         editBtn={false}
       />
 

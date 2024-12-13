@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import SelectIcon from "../Icons/SelectIcon";
 
 type Props = {
@@ -8,6 +8,8 @@ type Props = {
   width?: string;
   onChange?: (id: number) => void;
   error?: string;
+  value?: number;
+  disable?: boolean;
 };
 
 export type TSelectOption = {
@@ -16,18 +18,41 @@ export type TSelectOption = {
 };
 
 const Select = React.forwardRef<HTMLDivElement, Props>(
-  ({ label, options, placeholder = "Выбор...", width, onChange, error }, ref) => {
+  (
+    {
+      label,
+      options,
+      placeholder = "Выбор...",
+      width,
+      onChange,
+      error,
+      value,
+      disable,
+    },
+    ref
+  ) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState<TSelectOption>();
     const selectRef = useRef<HTMLDivElement>(null);
+
+    useImperativeHandle(ref, () => selectRef.current as HTMLInputElement);
 
     const style = {
       width: width,
     };
 
+    useEffect(() => {
+      if (value !== undefined) {
+        const initialOption = options.find((option) => option.id === value);
+        setSelectedOption(initialOption);
+      }
+    }, [value, options]);
+
     const handleToggle = (event: React.MouseEvent) => {
-      event.stopPropagation();
-      setIsOpen(!isOpen);
+      if (!disable) {
+        event.stopPropagation();
+        setIsOpen(!isOpen);
+      }
     };
 
     const handleSelect = (option: TSelectOption) => {
@@ -39,7 +64,10 @@ const Select = React.forwardRef<HTMLDivElement, Props>(
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -64,13 +92,13 @@ const Select = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       <div className="input__wrap">
-        {label && <p className="medium-middle-text">{label}</p>}
+        {label && <p className="input-label medium-middle-text">{label}</p>}
 
         <div className={`select-options__wrap ${isOpen ? "open" : ""}`}>
           <div
-            className="select"
+            className={`select ${error && "error"} ${disable && "disable"}`}
             onClick={handleToggle}
-            ref={ref}
+            ref={selectRef}
             style={style}
           >
             <span

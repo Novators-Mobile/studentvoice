@@ -1,13 +1,13 @@
-import axiosInstance from "./axiosAuthInstance";
+import axiosInstance from "./axiosInstanceAdmin";
 
 export interface TTeacher {
   id?: number;
-  first_name: string,
-  second_name: string,
-  patronymic: string,
-  university: number,
-  email: string,
-  username: string
+  first_name: string;
+  second_name: string;
+  patronymic: string;
+  university: number;
+  email: string;
+  username: string;
 }
 
 export interface TTeacherParams {
@@ -17,12 +17,18 @@ export interface TTeacherParams {
 }
 
 // TODO: проверить, работает ли поиск по предмету (сейчас его нет)
-export const getTeachers = async ({ search, subjectId, universityId }: TTeacherParams): Promise<TTeacher[]> => {
-  const response = await axiosInstance.get<TTeacher[]>("/teacher/", { params: {
-    search: search,
-    subject: subjectId,
-    university: universityId
-  }});
+export const getTeachers = async ({
+  search,
+  subjectId,
+  universityId,
+}: TTeacherParams): Promise<TTeacher[]> => {
+  const response = await axiosInstance.get<TTeacher[]>("/teacher/", {
+    params: {
+      search: search,
+      subject: subjectId,
+      university: universityId,
+    },
+  });
   return response.data;
 };
 
@@ -37,5 +43,13 @@ export const deleteTeacher = async (id: string): Promise<void> => {
 
 export const postTeacher = async (data: TTeacher): Promise<TTeacher> => {
   const response = await axiosInstance.post<TTeacher>("/teacher/", data);
+  return response.data;
+};
+
+export const putTeacher = async (
+  id: string,
+  data: TTeacher
+): Promise<TTeacher> => {
+  const response = await axiosInstance.put<TTeacher>(`/teacher/${id}/`, data);
   return response.data;
 };

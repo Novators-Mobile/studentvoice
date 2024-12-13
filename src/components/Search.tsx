@@ -31,7 +31,7 @@ function Search({ label, isBig = false, width, query, onSearch, debounceDelay = 
 
   return (
     <div className="input__wrap">
-      {label && <p className="medium-middle-text">{label}</p>}
+      {label && <p className="input-label medium-middle-text">{label}</p>}
 
       <input
         type="search"

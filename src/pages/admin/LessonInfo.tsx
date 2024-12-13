@@ -4,73 +4,36 @@ import { ToggleButton } from "../../components/ToggleButtons";
 import Button from "../../components/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import StatsIndicators from "../../components/StatsIndicators";
-import { getLesson, TLesson } from "../../api/lessonApi";
-import { getTeacher, TTeacher } from "../../api/teacherApi";
-import { getDiscipline, TDiscipline } from "../../api/disciplineApi";
+import { getLesson, TLesson } from "../../api/admin/lessonApi";
+import { getTeacher, TTeacher } from "../../api/admin/teacherApi";
+import { getDiscipline, TDiscipline } from "../../api/admin/disciplineApi";
 import dayjs from "dayjs";
+import Skeleton from "../../components/Skeleton";
+import Feedback from "../../components/Feedback/Feedback";
+import { getPoll, getPollResults, TPoll, TPollResults } from "../../api/polls/pollsApi";
 
 const STATS_MODE = {
   allStats: "allStats",
   feedback: "feedback",
 };
 
-function FeedbackItem() {
-  return (
-    <div className="feedback__item">
-      <div className="circle"></div>
-
-      <p className="regular-text">
-        Lorem ipsum dolor sit amet consectetur. Amet metus feugiat ut
-        pellentesque et lacus in volutpat. Arcu quis sit arcu facilisis. Euismod
-        tellus ac sit mauris. Urna accumsan molestie consequat arcu.
-      </p>
-    </div>
-  );
-}
-
-function Feedback() {
-  return (
-    <div className="feedback">
-      <div className="feedback__wrap">
-        <p className="feedback__text medium-middle-text">
-          Позитивные впечатления от занятия и чем они вызваны:
-        </p>
-
-        <ul className="feedback__list">
-          {[1, 2, 3].map((item) => (
-            <FeedbackItem key={item} />
-          ))}
-        </ul>
-      </div>
-
-      <div className="feedback__wrap">
-        <p className="feedback__text medium-middle-text">
-          Негативные впечатления от занятия и чем они вызваны:
-        </p>
-
-        <ul className="feedback__list">
-          {[1, 2, 3].map((item) => (
-            <FeedbackItem key={item} />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 function LessonInfo() {
   const [mode, setMode] = useState<string>(STATS_MODE.allStats);
-  const [qrGenerated, setQrGenerated] = useState(false);
   const navigate = useNavigate();
-
   const { lessonId } = useParams();
   const [lesson, setLesson] = useState<TLesson>();
   const [teacher, setTeacher] = useState<TTeacher>();
   const [discipline, setDiscipline] = useState<TDiscipline>();
+  const [stats, setStats] = useState<TPoll>();
+  const [results, setResults] = useState<TPollResults[]>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const lesson = await getLesson(lessonId!);
 
         const [teacher, discipline] = await Promise.all([
@@ -78,11 +41,19 @@ function LessonInfo() {
           getDiscipline(String(lesson.subject)),
         ]);
 
+        const stats = await getPoll(String(lesson.poll));
+        const results = await getPollResults(String(lesson.poll));
+
+        setResults(results);
+        setStats(stats);  
         setLesson(lesson);
         setTeacher(teacher);
         setDiscipline(discipline);
       } catch (err) {
+        setError("Не удалось загрузить данные. Попробуйте позже.");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -90,19 +61,23 @@ function LessonInfo() {
   }, [lessonId]);
 
   const handleQrClick = () => {
-    if (!qrGenerated) {
-      setQrGenerated(true);
-    } else {
-      navigate("./qr");
-    }
+    navigate(`./qr?id=${lesson?.poll}`);
   };
+
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <>
       <TitleBlock
         title={dayjs(lesson?.date).format("DD.MM.YYYY") || ""}
         decryption={discipline?.name}
-        rating={2}
+        rating={0}
         editBtn={true}
       />
 
@@ -142,7 +117,7 @@ function LessonInfo() {
 
           <div className="control-btns__wrap">
             <Button
-              text={qrGenerated ? "Открыть QR" : "Сгенерировать QR"}
+              text="Открыть QR"
               onClick={handleQrClick}
             />
             <Button text="Excel" type="excel" />
@@ -150,7 +125,7 @@ function LessonInfo() {
         </div>
 
         <div className="lesson__stats">
-          {mode === STATS_MODE.allStats ? <StatsIndicators /> : <Feedback />}
+          {mode === STATS_MODE.allStats ? <StatsIndicators stats={stats!} /> : <Feedback results={results!} />}
         </div>
       </div>
     </>

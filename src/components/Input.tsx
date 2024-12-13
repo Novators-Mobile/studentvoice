@@ -15,7 +15,7 @@ type Props = {
 const Input = React.forwardRef<HTMLInputElement, Props>(
   ({ label, placeholder = "Введите текст", type = "text", width, value, onChange, name, isRequired = false, error }, ref) => (
     <div className="input__wrap">
-      {label && <p className="medium-middle-text">{label}</p>}
+      {label && <p className="input-label medium-middle-text">{label}</p>}
 
       <input
         ref={ref}
@@ -23,7 +23,7 @@ const Input = React.forwardRef<HTMLInputElement, Props>(
         value={value}
         name={name}
         onChange={onChange}
-        className={`input ${type === "time" ? "regular-text" : "medium-middle-text"}`}
+        className={`input medium-middle-text ${error && "error"}`}
         placeholder={placeholder}
         style={{ width: width }}
         required={isRequired}

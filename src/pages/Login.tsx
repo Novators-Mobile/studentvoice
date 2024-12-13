@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import LoginInput from "../components/LoginInput";
-import LoginButton from "../components/LoginButton";
-import { login, LoginRequest } from "../api/authApi";
+import LoginInput from "../components/Login/LoginInput";
+import LoginButton from "../components/Login/LoginButton";
+import { login, LoginRequest } from "../api/admin/authApi";
 import { useNavigate } from "react-router-dom";
 import { AlertUpdate, AlertLoading } from "../utils/Notifications";
 

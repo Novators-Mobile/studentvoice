@@ -1,12 +1,14 @@
 import React, { useRef } from "react";
 import Button from "../../components/Button";
 import { QRCodeCanvas } from "qrcode.react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Alert } from "../../utils/Notifications";
 
 function QR() {
   const navigate = useNavigate();
+  const [queryParams] = useSearchParams();
   const qrRef = useRef<HTMLCanvasElement>(null);
-  const qrLink = "http://localhost:5173/2655/viewform";
+  const qrLink = `http://localhost:5173/${queryParams.get("id")}/viewform`;
 
   const downloadQR = () => {
     const canvas = qrRef.current;
@@ -21,7 +23,7 @@ function QR() {
 
   const copyLinkToClipboard = () => {
     navigator.clipboard.writeText(qrLink).then(() => {
-      // alert("Ссылка скопирована в буфер обмена!");
+      Alert("success", "Ссылка скопирована в буфер обмена");
     });
   };
 
@@ -32,7 +34,7 @@ function QR() {
         if (blob) {
           const item = new ClipboardItem({ "image/png": blob });
           await navigator.clipboard.write([item]);
-          // alert("Изображение скопировано в буфер обмена!");
+          Alert("success", "Изображение скопировано в буфер обмена");
         }
       });
     } else {

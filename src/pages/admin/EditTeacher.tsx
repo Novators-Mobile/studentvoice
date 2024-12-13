@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Search from "../../components/Search";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-
-// import GenerateIcon from "../../Icons/GenerateIcon";
-import { getInstitutes, TInstitute } from "../../api/institutesApi";
+import { getInstitutes, TInstitute } from "../../api/admin/institutesApi";
 import { institutesToOption } from "../../utils/adapter";
-import { postTeacher, TTeacher } from "../../api/teacherApi";
+import { getTeacher, postTeacher, putTeacher, TTeacher } from "../../api/admin/teacherApi";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
+import Skeleton from "../../components/Skeleton";
 
 // const departaments = [
 //   "Школа бакалавриата",
@@ -21,58 +20,89 @@ import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 
 function EditTeacher() {
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  let title: string = "";
-  // let isEdit: boolean = false;
-  const normalizedPath = location.pathname.replace(/\/$/, "");
-  if (normalizedPath.endsWith("edit")) {
-    title = "Редактировать профиль";
-    // isEdit = true;
-  } else if (normalizedPath.endsWith("new-profile")) {
-    title = "Новый профиль преподавателя";
-  }
-
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { teacherId } = useParams();
   const [institutes, setInstitutes] = useState<TInstitute[]>([]);
-  const { handleSubmit, control, formState: { errors } } = useForm<TTeacher>({
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<TTeacher>({
     defaultValues: {
       second_name: "",
       first_name: "",
       patronymic: "",
       university: undefined,
       email: "",
-      username: ""
+      username: "",
     },
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await getInstitutes();
-        setInstitutes(result);
+        setLoading(true);
+        setError(null);
+
+        const institutesData = await getInstitutes();
+        setInstitutes(institutesData);
+
+        if (teacherId) {
+          const teacherData = await getTeacher(teacherId);
+          reset({
+            second_name: teacherData.second_name,
+            first_name: teacherData.first_name,
+            patronymic: teacherData.patronymic,
+            university: teacherData.university,
+            email: teacherData.email,
+            username: teacherData.username,
+          });
+        }
       } catch (err) {
+        setError("Не удалось загрузить данные. Попробуйте позже.");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [teacherId, reset]);
 
   const onSubmit: SubmitHandler<TTeacher> = async (data) => {
     const loadingToast = AlertLoading("Отправка...");
     try {
-      await postTeacher(data);
-      AlertUpdate(loadingToast, "success", "Профиль создан успешно!");
+      if (teacherId) {
+        await putTeacher(teacherId, data);
+        AlertUpdate(loadingToast, "success", "Профиль обновлён успешно!");
+      } else {
+        await postTeacher(data);
+        AlertUpdate(loadingToast, "success", "Профиль создан успешно!");
+      }
       navigate(-1);
     } catch (err) {
-      AlertUpdate(loadingToast, "error", "Ошибка при создании профиля");
+      AlertUpdate(loadingToast, "error", "Ошибка при отправке данных");
       console.error("Ошибка при отправке данных: ", err);
     }
   };
 
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
     <>
-      <h1 className="edit__title header-text">{title}</h1>
+      <h1 className="edit__title header-text">
+        {teacherId
+          ? "Редактировать профиль"
+          : "Новый профиль преподавателя"}
+      </h1>
 
       <form className="edit-teacher__form" onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="edit-teacher__fieldset">
@@ -84,25 +114,55 @@ function EditTeacher() {
             <Controller
               name="second_name"
               control={control}
-              rules={{ required: "Фамилия обязательна" }}
+              rules={{
+                required: "Обязательное поле",
+                maxLength: {
+                  value: 30,
+                  message: "Макс. число символов 30",
+                },
+              }}
               render={({ field }) => (
-                <Input label="Фамилия" error={errors.second_name?.message} {...field} />
+                <Input
+                  label="Фамилия"
+                  error={errors.second_name?.message}
+                  {...field}
+                />
               )}
             />
             <Controller
               name="first_name"
               control={control}
-              rules={{ required: "Имя обязательно" }}
+              rules={{
+                required: "Обязательное поле",
+                maxLength: {
+                  value: 150,
+                  message: "Макс. число символов 150",
+                },
+              }}
               render={({ field }) => (
-                <Input label="Имя" error={errors.first_name?.message} {...field} />
+                <Input
+                  label="Имя"
+                  error={errors.first_name?.message}
+                  {...field}
+                />
               )}
             />
             <Controller
               name="patronymic"
               control={control}
-              rules={{ required: "Отчество обязательно" }}
+              rules={{
+                required: "Обязательное поле",
+                maxLength: {
+                  value: 30,
+                  message: "Макс. число символов 30",
+                },
+              }}
               render={({ field }) => (
-                <Input label="Отчество" error={errors.patronymic?.message} {...field} />
+                <Input
+                  label="Отчество"
+                  error={errors.patronymic?.message}
+                  {...field}
+                />
               )}
             />
           </div>
@@ -118,7 +178,7 @@ function EditTeacher() {
               <Controller
                 name="university"
                 control={control}
-                rules={{ required: "Институт обязателен" }}
+                rules={{ required: "Обязательное поле" }}
                 render={({ field }) => (
                   <Select
                     label="Институт"
@@ -126,7 +186,8 @@ function EditTeacher() {
                     placeholder="Выбор института..."
                     width="950px"
                     error={errors.university?.message}
-                    {...field}
+                    value={field.value}
+                    onChange={(id) => field.onChange(id)}
                   />
                 )}
               />
@@ -134,7 +195,6 @@ function EditTeacher() {
             </div>
 
             <div className="fieldset-container">
-              {/* <Search label="Дисциплины" /> */}
               <Search label="Лекции" />
               <Search label="Практики" />
             </div>
@@ -150,33 +210,61 @@ function EditTeacher() {
             <Controller
               name="email"
               control={control}
-              rules={{ required: "Почта обязательна" }}
+              rules={{
+                required: "Почта обязательна",
+                maxLength: {
+                  value: 254,
+                  message: "Максимальное число символов 254",
+                },
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Неверный формат почты",
+                },
+              }}
               render={({ field }) => (
-                <Input label="Почта" placeholder="example@mail.com" error={errors.email?.message} {...field} />
+                <Input
+                  label="Почта"
+                  placeholder="example@mail.com"
+                  error={errors.email?.message}
+                  {...field}
+                />
               )}
             />
             <Controller
               name="username"
               control={control}
-              rules={{ required: "Логин обязателен" }}
+              rules={{
+                required: "Логин обязателен",
+                maxLength: {
+                  value: 150,
+                  message: "Максимально число символов 150",
+                },
+                pattern: {
+                  value: /^[\w.@+-]+$/,
+                  message:
+                    "Можно использовать только буквы, цифры и спец. символы @/./+/-/_",
+                },
+              }}
               render={({ field }) => (
-                <Input label="Логин" placeholder="Логин" error={errors.username?.message} {...field} />
+                <Input
+                  label="Логин"
+                  placeholder="Логин"
+                  error={errors.username?.message}
+                  {...field}
+                />
               )}
             />
-
-            {/* <div className="generate-password__wrap">
-              <Input label="Пароль" type="password" placeholder="Пароль" />
-
-              {!isEdit && (
-                <Button text="Сгенерировать" icon={<GenerateIcon />} />
-              )}
-            </div> */}
           </div>
         </fieldset>
 
         <div className="edit__form-btns">
-          <Button text="Отменить" type="reset" onClick={() => navigate(-1)} />
-          <Button text="Сохранить" type="submit" />
+          <Button
+            text="Отменить"
+            type="reset"
+            onClick={() => navigate(-1)}
+            disabled={isSubmitting}
+          />
+          <Button text={teacherId ? "Обновить" : "Сохранить"} type="submit" disabled={isSubmitting} />
         </div>
       </form>
     </>

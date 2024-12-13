@@ -2,18 +2,20 @@ import React, { useEffect, useState } from "react";
 import TitleBlock from "../../components/TitleBlock";
 import List from "../../components/List/List";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getTeacher, getTeachers, TTeacher } from "../../api/teacherApi";
+import { getTeacher, getTeachers, TTeacher } from "../../api/admin/teacherApi";
 import {
   getDiscipline,
   getDisciplines,
   TDiscipline,
-} from "../../api/disciplineApi";
+} from "../../api/admin/disciplineApi";
 import {
   disciplineToListItem,
   lessonsToListItem,
   teachersToListItem,
 } from "../../utils/adapter";
-import { getLessons, TLesson } from "../../api/lessonApi";
+import { deleteLesson, getLessons, TLesson } from "../../api/admin/lessonApi";
+import Skeleton from "../../components/Skeleton";
+import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 
 type TPageInfo = {
   mainTitle: string;
@@ -30,6 +32,8 @@ type TLessons = {
 function ItemInfo() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const { disciplineId, teacherId } = useParams();
   const [pageInfo, setPageInfo] = useState<TPageInfo>({
@@ -48,6 +52,9 @@ function ItemInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+        setError(null);
+
         if (location.pathname.includes("discipline")) {
           const disciplineData = await getDiscipline(disciplineId!);
           const teachersData = await getTeachers({ subjectId: disciplineId });
@@ -98,12 +105,38 @@ function ItemInfo() {
           });
         }
       } catch (err) {
+        setError("Не удалось загрузить данные. Попробуйте позже.");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [disciplineId, teacherId, location.pathname]);
+
+  const handleDeleteLesson = async (id: string) => {
+    const loadingToast = AlertLoading("Удаление...");
+    try {
+      await deleteLesson(id);
+      setLessons((prev) => ({
+        practice: prev.practice.filter((item) => String(item.id) !== id),
+        lecture: prev.lecture.filter((item) => String(item.id) !== id),
+      }));
+      AlertUpdate(loadingToast, "success", "Успешно удалено!");
+    } catch (error) {
+      AlertUpdate(loadingToast, "error", "Ошибка при удалении");
+      console.error("Ошибка при удалении: ", error);
+    }
+  };
+
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="item-info">
@@ -138,7 +171,9 @@ function ItemInfo() {
         title="Пары"
         firstList={lessonsToListItem(lessons.lecture)}
         secondList={lessonsToListItem(lessons.practice)}
-        onPlusClick={() => navigate("/new-lesson")}
+        onPlusClick={() => navigate("./new-lesson")}
+        onDelete={handleDeleteLesson}
+        disablePlusBtn={!teachers.length && !disciplines.length}
       />
     </div>
   );

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import FilterModal from "./FilterModal";
-import ToolsBtn from "./ToolsBtn";
-import DoubleArrowBtn from "../Icons/DoubleArrowBtn";
-import PlusIcon from "../Icons/PlusIcon";
-import Search from "./Search";
-import Button from "./Button";
-import ArrowIcon from "../Icons/ArrowIcon";
+import ToolsBtn from "../Tools/ToolsBtn";
+import DoubleArrowBtn from "../../Icons/DoubleArrowBtn";
+import PlusIcon from "../../Icons/PlusIcon";
+import Search from "../Search";
+import Button from "../Button";
+import ArrowIcon from "../../Icons/ArrowIcon";
 
 type Props = {
   onPlusClick?: () => void;
@@ -14,9 +14,18 @@ type Props = {
   onSearch?: (query: string) => void;
   debounceDelay?: number;
   isSortReversed?: boolean;
+  disablePlusBtn?: boolean;
 };
 
-function Tools({ onPlusClick, isList = false, onSearch, debounceDelay, onSortClick, isSortReversed }: Props) {
+function Tools({
+  onPlusClick,
+  isList = false,
+  onSearch,
+  debounceDelay,
+  onSortClick,
+  isSortReversed,
+  disablePlusBtn,
+}: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   const toggleFilterModal = (event: React.MouseEvent) => {
@@ -26,7 +35,13 @@ function Tools({ onPlusClick, isList = false, onSearch, debounceDelay, onSortCli
 
   return (
     <div className="tools">
-      {!isList && <ToolsBtn icon={<ArrowIcon />} onClick={onSortClick} isOpen={isSortReversed} />}
+      {!isList && (
+        <ToolsBtn
+          icon={<ArrowIcon />}
+          onClick={onSortClick}
+          isOpen={isSortReversed}
+        />
+      )}
 
       <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
 
@@ -37,7 +52,11 @@ function Tools({ onPlusClick, isList = false, onSearch, debounceDelay, onSortCli
 
       <Search onSearch={onSearch} debounceDelay={debounceDelay} />
 
-      <ToolsBtn icon={<PlusIcon />} onClick={onPlusClick} />
+      <ToolsBtn
+        icon={<PlusIcon />}
+        onClick={onPlusClick}
+        disable={disablePlusBtn}
+      />
 
       <Button text="Excel" type="excel" />
     </div>

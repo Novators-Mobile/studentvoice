@@ -1,4 +1,4 @@
-import axiosInstance from "./axiosAuthInstance";
+import axiosInstance from "./axiosInstanceAdmin";
 
 export interface TInstitute {
   id?: number;

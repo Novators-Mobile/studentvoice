@@ -1,6 +1,23 @@
 import React, { useState } from "react";
 import Search from "../../components/Search";
-import { search, TSearch } from "../../api/searchApi";
+import { search, TSearch } from "../../api/admin/searchApi";
+import { Link } from "react-router-dom";
+
+type TSearchItemProps = {
+  id: number;
+  text: string;
+  link: string;
+};
+
+function SearchPageItem({ id, text, link }: TSearchItemProps) {
+  return (
+    <Link to={link}>
+      <li key={id} className="search__item medium-middle-text">
+        {text}
+      </li>
+    </Link>
+  );
+}
 
 function SearchPage() {
   const [list, setList] = useState<TSearch>({
@@ -32,22 +49,28 @@ function SearchPage() {
       <Search isBig={true} onSearch={handleSearch} />
 
       <ul className="search__items-list">
-        {list?.subjects.map((item, index) => (
-          <li key={index} className="search__item medium-middle-text">
-            {item.name}
-          </li>
+        {list?.subjects.map((item) => (
+          <SearchPageItem
+            id={item.id}
+            text={item.name}
+            link={`/institutes/${item.university_id}/discipline/${item.id}/`}
+          />
         ))}
 
-        {list?.teachers.map((item, index) => (
-          <li key={index} className="search__item medium-middle-text">
-            {`${item.second_name} ${item.first_name} ${item.patronymic}`}
-          </li>
+        {list?.teachers.map((item) => (
+          <SearchPageItem
+            id={item.id}
+            text={`${item.second_name} ${item.first_name} ${item.patronymic}`}
+            link={`/institutes/${item.university_id}/teacher/${item.id}/`}
+          />
         ))}
 
-        {list?.universities.map((item, index) => (
-          <li key={index} className="search__item medium-middle-text">
-            {item.name}
-          </li>
+        {list?.universities.map((item) => (
+          <SearchPageItem
+            id={item.id}
+            text={item.name}
+            link={`/institutes/${item.id}/`}
+          />
         ))}
       </ul>
     </>

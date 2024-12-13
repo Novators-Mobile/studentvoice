@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import List from "../../components/List/List";
 import { useNavigate } from "react-router-dom";
-import { getDisciplines, TDiscipline } from "../../api/disciplineApi";
+import { getDisciplines, TDiscipline } from "../../api/admin/disciplineApi";
 import {
   disciplineToListItem,
   lessonsToListItem,
 } from "../../utils/adapter";
-import { getLessons, TLesson } from "../../api/lessonApi";
+import { getLessons, TLesson } from "../../api/admin/lessonApi";
 
 type TLessons = {
   practice: TLesson[];

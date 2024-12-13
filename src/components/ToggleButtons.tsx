@@ -2,6 +2,9 @@ import React from "react";
 
 type Props = {
   buttons: TToggleButton[];
+  value?: string;
+  onChange: (value: string) => void;
+  error?: string;
 };
 
 type TToggleButton = {
@@ -14,26 +17,33 @@ type TToggleButton = {
   checked?: boolean;
   value?: string;
   role?: "answer" | "";
+  error?: string;
 };
 
-const ToggleButtons = React.forwardRef<HTMLFieldSetElement, Props>(({ buttons }, ref) => {
-  return (
-    <fieldset className="toggle-buttons" ref={ref}>
-      {buttons.map((button, index) => (
-        <ToggleButton
-          key={index}
-          id={button.id}
-          text={button.text}
-          name={button.name}
-          onChange={button.onChange}
-          checked={button.checked}
-          value={button.value}
-          role={button.role}
-        />
-      ))}
-    </fieldset>
-  );
-});
+const ToggleButtons = React.forwardRef<HTMLFieldSetElement, Props>(
+  ({ buttons, value, onChange, error }, ref) => {
+    return (
+      <>
+        <fieldset className="toggle-buttons" ref={ref}>
+          {buttons.map((button, index) => (
+            <ToggleButton
+              key={index}
+              id={button.id}
+              text={button.text}
+              name={button.name}
+              onChange={() => onChange(button.id)}
+              checked={value === button.id}
+              value={button.id}
+              role={button.role}
+              error={error}
+            />
+          ))}
+        </fieldset>
+        <p className="error-input-msg">{error}</p>
+      </>
+    );
+  }
+);
 
 export const ToggleButton = ({
   id,
@@ -42,7 +52,8 @@ export const ToggleButton = ({
   onChange,
   checked,
   value,
-  role = ""
+  role = "",
+  error
 }: TToggleButton) => (
   <>
     <input
@@ -54,7 +65,12 @@ export const ToggleButton = ({
       checked={checked}
       value={value}
     />
-    <label htmlFor={id} className={`button toggle-button ${role} ${role ? "regular-big-text" : "medium-middle-text"}`}>
+    <label
+      htmlFor={id}
+      className={`button toggle-button ${role} ${
+        role ? "regular-big-text" : "medium-middle-text"
+      } ${error && "error"}`}
+    >
       {text}
     </label>
   </>
