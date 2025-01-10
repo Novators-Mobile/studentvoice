@@ -15,9 +15,11 @@ type Props = {
   secondList: TListItem[];
   onPlusClick?: () => void;
   onDelete?: (id: string) => void;
+  onDeleteItem?: (id: string, secondId: string, type: string) => void;
   disablePlusBtn?: boolean;
   onExcelClick?: () => Promise<Blob>;
   disableExcelBtn?: boolean;
+  secondId?: string;
 };
 
 function List({
@@ -27,9 +29,11 @@ function List({
   secondList,
   onPlusClick,
   onDelete,
+  onDeleteItem,
   disablePlusBtn,
   disableExcelBtn,
-  onExcelClick
+  onExcelClick,
+  secondId
 }: Props) {
   return (
     <>
@@ -58,10 +62,13 @@ function List({
                     <ListItem
                       key={index}
                       id={item.id}
+                      secondId={secondId}
                       type={type}
+                      lessonType="lecture"
                       title={item.title}
                       rating={item.rating}
                       onDelete={onDelete}
+                      onDeleteItem={onDeleteItem}
                     />
                   ))}
                 </ul>
@@ -76,10 +83,13 @@ function List({
                     <ListItem
                       key={index}
                       id={item.id}
+                      secondId={secondId} 
                       type={type}
+                      lessonType="practice"
                       title={item.title}
                       rating={item.rating}
                       onDelete={onDelete}
+                      onDeleteItem={onDeleteItem}
                     />
                   ))}
                 </ul>

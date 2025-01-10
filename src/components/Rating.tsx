@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const getRatingColor = (rating: number): string => {
   if (rating >= 4) {
@@ -20,7 +20,7 @@ type Props = {
 };
 
 function Rating({ rating, type = "common", size }: Props) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   let style = "";
 
@@ -39,7 +39,7 @@ function Rating({ rating, type = "common", size }: Props) {
   return (
     <p
       className={`rating ${getRatingColor(rating)} ${style}`} 
-      onClick={() => navigate("/statistics")}
+      // onClick={() => navigate("/statistics")}
       style={size}
     >
       {rating.toFixed(1)}

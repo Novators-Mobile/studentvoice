@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import Skeleton from "../../components/Skeleton";
 import Feedback from "../../components/Feedback/Feedback";
 import { getPoll, getPollResults, TPoll, TPollResults } from "../../api/polls/pollsApi";
+import { getLessonReport } from "../../api/excel/excelApi";
 
 const STATS_MODE = {
   allStats: "allStats",
@@ -64,6 +65,22 @@ function LessonInfo() {
     navigate(`./qr?id=${lesson?.poll}`);
   };
 
+  const excelClickHandler = async () => {
+    try {
+      const fileBlob = await getLessonReport(lessonId!);
+      const fileURL = URL.createObjectURL(fileBlob);
+
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `report.xlsx`;
+      a.click();
+
+      URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.error("Ошибка при скачивании файла:", error);
+    }
+  };
+
   if (loading) {
     return <Skeleton />;
   }
@@ -77,7 +94,7 @@ function LessonInfo() {
       <TitleBlock
         title={`${lesson?.name} (${dayjs(lesson?.date).format("DD.MM.YYYY")})`}
         decryption={discipline?.name}
-        rating={0}
+        rating={lesson?.rating || 0}
         editBtn={true}
       />
 
@@ -120,7 +137,7 @@ function LessonInfo() {
               text="Открыть QR"
               onClick={handleQrClick}
             />
-            <Button text="Excel" type="excel" />
+            <Button text="Excel" type="excel" onClick={excelClickHandler} />
           </div>
         </div>
 

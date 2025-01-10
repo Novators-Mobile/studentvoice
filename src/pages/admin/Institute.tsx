@@ -11,14 +11,15 @@ import { sortDisciplines, sortTeachers } from "../../utils/sort";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 import Skeleton from "../../components/Skeleton";
 import { getDisciplinesFromInstitute, getTeachersFromInstitute } from "../../api/excel/excelApi";
+import { getStatsByMonth, TStats } from "../../api/admin/statsApi";
 
-const graphData = [
-  { name: "Сентябрь", rating: 0 },
-  { name: "Октябрь", rating: 0 },
-  { name: "Ноябрь", rating: 0 },
-  { name: "Декабрь", rating: 0 },
-  { name: "Январь", rating: 0 },
-];
+// const graphData = [
+//   { name: "Сентябрь", rating: 0 },
+//   { name: "Октябрь", rating: 0 },
+//   { name: "Ноябрь", rating: 0 },
+//   { name: "Декабрь", rating: 0 },
+//   { name: "Январь", rating: 0 },
+// ];
 
 function Institute() {
   const navigate = useNavigate();
@@ -30,11 +31,11 @@ function Institute() {
   const [error, setError] = useState<string | null>(null);
   const [isReverseDisciplines, setIsReverseDisciplines] = useState<boolean>(false);
   const [isReverseTeachers, setIsReverseTeachers] = useState<boolean>(false);
+  const [stats, setStats] = useState<TStats>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
         setError(null);
         const instituteData = await getInstitute(instituteId!);
         const disciplinesData = await getDisciplines({
@@ -56,6 +57,19 @@ function Institute() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const statsData = await getStatsByMonth(instituteId!);
+        setStats(statsData);
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, [instituteId]);
 
   const toggleSortDisciplines = () => {
     setDisciplines(sortDisciplines(disciplines, !isReverseDisciplines));
@@ -143,6 +157,7 @@ function Institute() {
         onDelete={handleDeleteDiscipline}
         disableExcelBtn={!disciplines.length}
         onExcelClick={() => getDisciplinesFromInstitute(instituteId!)}
+        listRating={institute?.subjects_rating || 0}
       />
 
       <Dropdown
@@ -156,10 +171,11 @@ function Institute() {
         onDelete={handleDeleteTeacher}
         disableExcelBtn={!teachers.length}
         onExcelClick={() => getTeachersFromInstitute(instituteId!)}
+        listRating={institute?.teachers_rating || 0}
       />
 
       <div className="institute__stats_wrap">
-        <StatisticsGraph data={graphData} width={1100} />
+        <StatisticsGraph data={stats!.months} width={1100} />
       </div>
     </div>
   );

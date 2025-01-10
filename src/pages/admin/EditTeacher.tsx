@@ -38,6 +38,7 @@ function EditTeacher() {
       email: "",
       username: "",
       lecture_subjects: [],
+      practice_subjects: [],
     },
   });
 
@@ -59,7 +60,8 @@ function EditTeacher() {
             university: teacherData.university,
             email: teacherData.email,
             username: teacherData.username,
-            lecture_subjects: teacherData.lecture_subjects
+            lecture_subjects: teacherData.lecture_subjects,
+            practice_subjects: teacherData.practice_subjects,
           });
         }
       } catch (err) {
@@ -76,8 +78,7 @@ function EditTeacher() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const disciplinesData = await getDisciplines({teacherId: teacherId});
-        const disciplinesData = await getDisciplines({});
+        const disciplinesData = await getDisciplines({ });
         setDisciplines(disciplinesData);
       } catch (err) {
         console.error("Ошибка при получении данных: ", err);
@@ -85,7 +86,7 @@ function EditTeacher() {
     };
 
     fetchData();
-  }, []);
+  }, [teacherId]);
 
   const onSubmit: SubmitHandler<TTeacher> = async (data) => {
     const loadingToast = AlertLoading("Отправка...");
@@ -211,10 +212,22 @@ function EditTeacher() {
               <Controller
                 name="lecture_subjects"
                 control={control}
-                rules={{ required: "Обязательное поле" }}
                 render={({ field }) => (
                   <SearchableSelectDiscipline
                     label="Лекции"
+                    value={field.value}
+                    onChange={field.onChange}
+                    disciplines={disciplines}
+                  />
+                )}
+              />
+
+              <Controller
+                name="practice_subjects"
+                control={control}
+                render={({ field }) => (
+                  <SearchableSelectDiscipline
+                    label="Практики"
                     value={field.value}
                     onChange={field.onChange}
                     disciplines={disciplines}

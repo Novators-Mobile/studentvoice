@@ -37,7 +37,7 @@ function Tools({
     setFilterModalOpen(!isFilterModalOpen);
   };
 
-  const excelClickHandle = async () => {
+  const excelClickHandler = async () => {
     try {
       const fileBlob = await onExcelClick!();
       const fileURL = URL.createObjectURL(fileBlob);
@@ -82,7 +82,7 @@ function Tools({
         text="Excel"
         type="excel"
         disabled={disableExcelBtn}
-        onClick={excelClickHandle}
+        onClick={excelClickHandler}
       />
     </div>
   );

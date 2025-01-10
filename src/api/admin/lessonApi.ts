@@ -9,6 +9,7 @@ export interface TLesson {
   type: "lecture" | "practice";
   time?: string;
   name: string;
+  rating?: number | null;
 }
 
 export interface TLessonParams {

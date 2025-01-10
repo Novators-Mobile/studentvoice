@@ -20,11 +20,11 @@ type DataType = {
 
 function StatsIndicators({ stats }: Props) {
   const [data, setData] = useState<DataType[]>([
-    { subject: "Информативность", value: 1 },
-    { subject: "Доступность", value: 1 },
-    { subject: "Взаимодействие с аудиторией", value: 1 },
-    { subject: "Интерес", value: 1 },
-    { subject: "Подача материала", value: 1 },
+    { subject: "Информативность", value: 0 },
+    { subject: "Доступность", value: 0 },
+    { subject: "Взаимодействие с аудиторией", value: 0 },
+    { subject: "Интерес", value: 0 },
+    { subject: "Подача материала", value: 0 },
   ]);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function StatsIndicators({ stats }: Props) {
           tick={{ fill: "#292929" }}
           tickSize={25}
         />
-        <PolarRadiusAxis scale="pow" angle={90} domain={[1, 5]} />
+        <PolarRadiusAxis scale="pow" angle={90} domain={[0, 5]} />
         <Radar
           name="Рейтинг"
           dataKey="value"

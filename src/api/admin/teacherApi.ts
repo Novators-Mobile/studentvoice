@@ -10,6 +10,7 @@ export interface TTeacher {
   username: string;
   lecture_subjects?: number[];
   practice_subjects?: number[],
+  rating?: number | null;
 }
 
 export interface TTeacherParams {

@@ -9,14 +9,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-type DataPoint = {
-  name: string;
-  rating: number;
-};
+import { TStatsItem } from "../api/admin/statsApi";
 
 type Props = {
-  data: DataPoint[];
+  data: TStatsItem[];
   width?: number;
   height?: number;
 };

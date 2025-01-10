@@ -65,10 +65,9 @@ function EditLesson() {
         setLoading(true);
         setError(null);
 
-        // const teachersData = await getTeachers({ subjectId: disciplineId });
-        // const disciplinesData = await getDisciplines({ teacherId: teacherId });
-        const teachersData = await getTeachers({ });
-        const disciplinesData = await getDisciplines({ });
+        const teachersData = await getTeachers({ subjectId: disciplineId });
+        const disciplinesData = await getDisciplines({ teacherId: teacherId });
+        // const teachersData = await getTeachers({ });
         setTeachers(teachersData);
         setDisciplines(disciplinesData);
 

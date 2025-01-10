@@ -6,7 +6,7 @@ import EditIcon from "../Icons/EditIcon";
 type Props = {
   title?: string;
   decryption?: string;
-  rating: number;
+  rating: number | null;
   editBtn?: boolean;
 };
 
@@ -30,7 +30,7 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
             </div>
           )}
 
-          <Rating rating={rating} type="big" />
+          <Rating rating={rating || 0} type="big" />
         </div>
       </div>
 

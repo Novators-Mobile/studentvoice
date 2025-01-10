@@ -4,7 +4,15 @@ import { useParams } from "react-router-dom";
 import Comments from "../components/SurveyForm/Comments";
 import Greeting from "../components/SurveyForm/Greeting";
 import Questions from "../components/SurveyForm/Questions";
-// import { getPoll, TPoll } from "../api/polls/pollsApi";
+import {
+  getPoll,
+  getPollMeeting,
+  postPollResults,
+  TPoll,
+  TPollMeeting,
+  TPollResults,
+} from "../api/polls/pollsApi";
+import { AlertLoading, AlertUpdate } from "../utils/Notifications";
 
 export type questionType = {
   type: "question" | "comment";
@@ -59,9 +67,9 @@ const questionsInfo = {
 };
 
 export type FormData = {
-  lastName: string;
-  firstName: string;
-  patronymic: string;
+  student_second_name: string;
+  student_first_name: string;
+  student_patronymic: string;
   question1: string;
   question2: string;
   question3: string;
@@ -74,17 +82,19 @@ export type FormData = {
 function SurveyForm() {
   const { formId } = useParams();
 
-  // const [pollInfo, setPollInfo] = useState<TPoll>();
+  const [pollInfo, setPollInfo] = useState<TPoll>();
+  const [meetingInfo, setMeetingInfo] = useState<TPollMeeting>();
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const savedPageNumber = Number(localStorage.getItem("pageNumber") || 1);
   const savedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
 
   const [pageNumber, setPageNumber] = useState<number>(savedPageNumber);
   const [formData, setFormData] = useState<FormData>({
-    lastName: "",
-    firstName: "",
-    patronymic: "",
+    student_second_name: "",
+    student_first_name: "",
+    student_patronymic: "",
     question1: "",
     question2: "",
     question3: "",
@@ -98,16 +108,22 @@ function SurveyForm() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const surveyFormInfo = await getPoll(formId!);
-        // setPollInfo(surveyFormInfo);
+        const surveyFormInfo = await getPoll(formId!);
+        setPollInfo(surveyFormInfo);
+        const pollMeetingInfo = await getPollMeeting(
+          String(surveyFormInfo?.id)
+        );
+        setMeetingInfo(pollMeetingInfo);
       } catch (err) {
-        setError("Опрос не найден 😢\nПопробуйте позже")
+        setError("Опрос не найден 😢\nПопробуйте позже");
         console.error("Ошибка при получении данных: ", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [formId]);
+  }, [formId, pollInfo?.id]);
 
   useEffect(() => {
     const savedFormID = localStorage.getItem("formId");
@@ -115,9 +131,9 @@ function SurveyForm() {
       // localStorage.clear();
       localStorage.setItem("formId", formId || "");
       setFormData({
-        lastName: "",
-        firstName: "",
-        patronymic: "",
+        student_second_name: "",
+        student_first_name: "",
+        student_patronymic: "",
         question1: "",
         question2: "",
         question3: "",
@@ -151,9 +167,9 @@ function SurveyForm() {
     localStorage.removeItem("pageNumber");
 
     setFormData({
-      lastName: "",
-      firstName: "",
-      patronymic: "",
+      student_second_name: "",
+      student_first_name: "",
+      student_patronymic: "",
       question1: "",
       question2: "",
       question3: "",
@@ -165,13 +181,37 @@ function SurveyForm() {
     setPageNumber(1);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    clearForm();
+    const pollResults: TPollResults = {
+      student_first_name: formData.student_first_name,
+      student_second_name: formData.student_second_name,
+      student_patronymic: formData.student_patronymic,
+      question1: Number(formData.question1),
+      question2: Number(formData.question2),
+      question3: Number(formData.question3),
+      question4: Number(formData.question4),
+      question5: Number(formData.question5),
+      comment1: formData.comment1,
+      comment2: formData.comment2,
+      poll: pollInfo!.id,
+    };
+
+    const loadingToast = AlertLoading("Отправка...");
+    try {
+      await postPollResults(String(pollInfo!.id), pollResults);
+      AlertUpdate(loadingToast, "success", "Ваш ответ успешно отправлен!");
+      clearForm();
+    } catch (err) {
+      AlertUpdate(loadingToast, "error", "Ошибка при отправке данных");
+      console.error("Ошибка при отправке данных: ", err);
+    }
   };
 
   const isGreetingComplete = Boolean(
-    formData.lastName && formData.firstName && formData.patronymic
+    formData.student_second_name &&
+      formData.student_first_name &&
+      formData.student_patronymic
   );
 
   const isSurveyComplete = [
@@ -181,6 +221,10 @@ function SurveyForm() {
     "question4",
     "question5",
   ].every((key) => formData[key as keyof FormData]);
+
+  if (loading) {
+    return "Загрузка...";
+  }
 
   if (error) {
     return (
@@ -196,7 +240,11 @@ function SurveyForm() {
       onSubmit={handleFormSubmit}
     >
       {pageNumber === 1 && (
-        <Greeting formData={formData} handleInputChange={handleInputChange} />
+        <Greeting
+          formData={formData}
+          handleInputChange={handleInputChange}
+          meetingInfo={meetingInfo!}
+        />
       )}
 
       {pageNumber === 2 && (

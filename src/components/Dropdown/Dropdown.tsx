@@ -22,6 +22,7 @@ type Props = {
   onDelete?: (id: string) => void;
   onExcelClick?: () => Promise<Blob>;
   disableExcelBtn?: boolean;
+  listRating?: number;
 };
 
 function Dropdown({
@@ -35,7 +36,8 @@ function Dropdown({
   isSortReversed,
   onDelete,
   disableExcelBtn,
-  onExcelClick
+  onExcelClick,
+  listRating
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -53,7 +55,7 @@ function Dropdown({
           {title}
         </p>
 
-        {!isOpen && <Rating rating={0} />}
+        {!isOpen && <Rating rating={listRating || 0} />}
 
         {isOpen && (
           <Tools

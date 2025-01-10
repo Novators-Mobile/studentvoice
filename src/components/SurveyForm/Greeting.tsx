@@ -1,15 +1,18 @@
 import React from "react";
 import Input from "../Input";
 import { FormData } from "../../pages/SurveyForm";
+import { TPollMeeting } from "../../api/polls/pollsApi";
+import dayjs from "dayjs";
 
 type GreetingProps = {
   formData: FormData;
   handleInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
+  meetingInfo: TPollMeeting;
 };
 
-function Greeting({ formData, handleInputChange }: GreetingProps) {
+function Greeting({ formData, handleInputChange, meetingInfo }: GreetingProps) {
   const inputWidth = "448px";
 
   return (
@@ -25,25 +28,25 @@ function Greeting({ formData, handleInputChange }: GreetingProps) {
           <Input
             label="Фамилия"
             width={inputWidth}
-            value={formData.lastName}
+            value={formData.student_second_name}
             onChange={handleInputChange}
-            name="lastName"
+            name="student_second_name"
           />
 
           <Input
             label="Имя"
             width={inputWidth}
-            value={formData.firstName}
+            value={formData.student_first_name}
             onChange={handleInputChange}
-            name="firstName"
+            name="student_first_name"
           />
 
           <Input
             label="Отчество"
             width={inputWidth}
-            value={formData.patronymic}
+            value={formData.student_patronymic}
             onChange={handleInputChange}
-            name="patronymic"
+            name="student_patronymic"
           />
         </div>
 
@@ -51,15 +54,19 @@ function Greeting({ formData, handleInputChange }: GreetingProps) {
           <div className="form__lesson-info">
             <p className="regular-text">
               <span className="medium-middle-text">Дисциплина: </span> 
-              Основы проектной деятельности
+              {meetingInfo.subject_name}
+            </p>
+            <p className="regular-text">
+              <span className="medium-middle-text">Преподаватель: </span> 
+              {meetingInfo.teacher_name}
             </p>
             <p className="regular-text">
               <span className="medium-middle-text">Пара: </span> 
-              Лабораторная работа 11
+              {meetingInfo.name}
             </p>
             <p className="regular-text">
               <span className="medium-middle-text">Дата: </span> 
-              23.09.2024
+              {dayjs(meetingInfo.date).format("DD.MM.YYYY")}
             </p>
           </div>
         </div>

@@ -72,7 +72,6 @@ function EditDiscipline() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const teachersData = await getTeachers({subjectId: disciplineId});
         const teachersData = await getTeachers({});
         setTeachers(teachersData);
       } catch (err) {
@@ -81,7 +80,7 @@ function EditDiscipline() {
     };
 
     fetchData();
-  }, []);
+  }, [disciplineId]);
 
   const onSubmit: SubmitHandler<TDiscipline> = async (data) => {
     const loadingToast = AlertLoading("Отправка...");

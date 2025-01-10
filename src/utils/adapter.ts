@@ -12,7 +12,7 @@ export const disciplineToListItem = (data: TDiscipline[]): DropdownListItem[] =>
     return {
       id: item.id!,
       title: item.name,
-      rating: 0,
+      rating: item.rating!,
     };
   });
 };
@@ -22,7 +22,7 @@ export const teachersToListItem = (data: TTeacher[]): DropdownListItem[] => {
     return {
       id: item.id!,
       title: `${item.second_name} ${item.first_name} ${item.patronymic}`,
-      rating: 0,
+      rating: item.rating!,
     };
   });
 };
@@ -32,7 +32,7 @@ export const lessonsToListItem = (data: TLesson[]): TListItem[] => {
     return {
       id: item.id!,
       title: `${item.name} (${dayjs(item.date).format("DD.MM.YYYY")})`,
-      rating: 0,
+      rating: item.rating!,
     };
   });
 };

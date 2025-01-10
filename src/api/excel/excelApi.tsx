@@ -29,3 +29,8 @@ export const getLessonsFromTeacher = async (teacherId: string): Promise<Blob> =>
   const response = await axiosInstance.get<Blob>(`/teacher/${teacherId}/meetings`, { responseType: "blob" });
   return response.data;
 };
+
+export const getLessonReport = async (lessonId: string): Promise<Blob> => {
+  const response = await axiosInstance.get<Blob>(`/meeting/${lessonId}`, { responseType: "blob" });
+  return response.data;
+};

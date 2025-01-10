@@ -4,6 +4,7 @@ import List from "../../components/List/List";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getTeacher, getTeachers, TTeacher } from "../../api/admin/teacherApi";
 import {
+  deleteDisciplineFromTeacher,
   getDiscipline,
   getDisciplines,
   TDiscipline,
@@ -61,8 +62,7 @@ function ItemInfo() {
         if (location.pathname.includes("discipline")) {
           const disciplineData = await getDiscipline(disciplineId!);
           setDisciplineInfo(disciplineData);
-          // const teachersData = await getTeachers({ subjectId: disciplineId });
-          const teachersData = await getTeachers({ });
+          const teachersData = await getTeachers({ subjectId: disciplineId });
           const lessonsLecture = await getLessons({
             subjectId: disciplineId,
             type: "lecture",
@@ -86,8 +86,7 @@ function ItemInfo() {
         } else if (location.pathname.includes("teacher")) {
           const teacherData = await getTeacher(teacherId!);
           setTeacherInfo(teacherData);
-          // const disciplinesData = await getDisciplines({teacherId: teacherId});
-          const disciplinesData = await getDisciplines({ });
+          const disciplinesData = await getDisciplines({teacherId: teacherId});
           const lessonsLecture = await getLessons({
             teacherId: teacherId,
             type: "lecture",
@@ -135,6 +134,22 @@ function ItemInfo() {
     }
   };
 
+  const handleDeleteItem = async (id: string, secondId: string, type: string) => {
+    const loadingToast = AlertLoading("Удаление...");
+    try {
+      await deleteDisciplineFromTeacher(id, secondId, type);
+      if (location.pathname.includes("discipline")) {
+        setTeachers((prev => prev.filter((item) => String(item.id) !== secondId)));
+      } else {
+        setDisciplines((prev => prev.filter((item) => String(item.id) !== id)));
+      }
+      AlertUpdate(loadingToast, "success", "Успешно удалено!");
+    } catch (error) {
+      AlertUpdate(loadingToast, "error", "Ошибка при удалении");
+      console.error("Ошибка при удалении: ", error);
+    }
+  };
+
   if (loading) {
     return <Skeleton />;
   }
@@ -148,7 +163,11 @@ function ItemInfo() {
       <TitleBlock
         title={pageInfo.mainTitle}
         decryption={pageInfo.decryption}
-        rating={4}
+        rating={
+          location.pathname.includes("discipline")
+            ? (disciplineInfo?.rating || 0)
+            : (teacherInfo?.rating || 0)
+        }
       />
 
       <List
@@ -179,6 +198,12 @@ function ItemInfo() {
             ? () => getTeachersFromDiscipline(disciplineId!)
             : () => getDisciplinesFromTeacher(teacherId!)
         }
+        secondId={
+          location.pathname.includes("discipline")
+            ? disciplineId
+            : teacherId
+        }
+        onDeleteItem={handleDeleteItem}
       />
 
       <List

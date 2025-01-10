@@ -218,8 +218,8 @@ label {
   border-radius: var(--border-radius);
   background-color: var(--color-rate-gray);
 
-  cursor: pointer;
-  transition: .2s;
+  /* cursor: pointer; */
+  /* transition: .2s; */
 }
 
 .rating.big {
@@ -238,23 +238,23 @@ label {
 .rating.excellent {
   background-color: var(--color-green);
 }
-.rating.excellent:hover {
+/* .rating.excellent:hover {
   background-color: var(--color-active-green);
-}
+} */
 
 .rating.good {
   background-color: var(--color-yellow);
 }
-.rating.good:hover {
+/* .rating.good:hover {
   background-color: var(--color-active-yellow);
-}
+} */
 
 .rating.bad {
   background-color: var(--color-red);
 }
-.rating.bad:hover {
+/* .rating.bad:hover {
   background-color: var(--color-active-red);
-}
+} */
 
 
 .search {

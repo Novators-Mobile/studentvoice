@@ -6,15 +6,26 @@ import DeleteIcon from "../../Icons/DeleteIcon";
 
 type Props = {
   id: number;
+  secondId?: string;
   title: string;
   rating: number;
   type: string;
+  lessonType?: "lecture" | "practice";
   onDelete?: (id: string) => void;
+  onDeleteItem?: (id: string, secondId: string, type: string) => void;
 };
 
-function ListItem({ id, title, rating, type, onDelete }: Props) {
+function ListItem({ id, secondId, title, rating, type, lessonType, onDelete, onDeleteItem }: Props) {
   const handleDelete = () => {
-    onDelete!(String(id));
+    if (secondId && lessonType) {
+      if (type === "discipline") {
+        onDeleteItem!(String(id), secondId, lessonType);
+      } else {
+        onDeleteItem!(secondId, String(id), lessonType);
+      }
+    } else {
+      onDelete!(String(id));
+    }
   };
 
   return (

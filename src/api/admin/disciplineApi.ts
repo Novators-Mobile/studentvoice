@@ -6,6 +6,7 @@ export interface TDiscipline {
   practice_teachers: number[];
   university: number;
   name: string;
+  rating?: number | null;
 }
 
 export interface TDisciplineParams {
@@ -54,4 +55,8 @@ export const putDiscipline = async (
     data
   );
   return response.data;
+};
+
+export const deleteDisciplineFromTeacher = async (disciplineId: string, teacherId: string, type: string): Promise<void> => {
+  await axiosInstance.delete(`/subject/${disciplineId}/teacher/${teacherId}/${type}/`);
 };
