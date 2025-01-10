@@ -66,7 +66,7 @@ function List({
                       type={type}
                       lessonType="lecture"
                       title={item.title}
-                      rating={item.rating}
+                      rating={item.rating || 0}
                       onDelete={onDelete}
                       onDeleteItem={onDeleteItem}
                     />
@@ -87,7 +87,7 @@ function List({
                       type={type}
                       lessonType="practice"
                       title={item.title}
-                      rating={item.rating}
+                      rating={item.rating || 0}
                       onDelete={onDelete}
                       onDeleteItem={onDeleteItem}
                     />
