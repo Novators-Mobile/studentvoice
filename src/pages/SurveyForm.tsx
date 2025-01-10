@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Comments from "../components/SurveyForm/Comments";
 import Greeting from "../components/SurveyForm/Greeting";
 import Questions from "../components/SurveyForm/Questions";
-import { getPoll, TPoll } from "../api/polls/pollsApi";
+// import { getPoll, TPoll } from "../api/polls/pollsApi";
 
 export type questionType = {
   type: "question" | "comment";
@@ -74,7 +74,7 @@ export type FormData = {
 function SurveyForm() {
   const { formId } = useParams();
 
-  const [pollInfo, setPollInfo] = useState<TPoll>();
+  // const [pollInfo, setPollInfo] = useState<TPoll>();
   const [error, setError] = useState<string | null>(null);
 
   const savedPageNumber = Number(localStorage.getItem("pageNumber") || 1);
@@ -98,8 +98,8 @@ function SurveyForm() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const surveyFormInfo = await getPoll(formId!);
-        setPollInfo(surveyFormInfo);
+        // const surveyFormInfo = await getPoll(formId!);
+        // setPollInfo(surveyFormInfo);
       } catch (err) {
         setError("Опрос не найден 😢\nПопробуйте позже")
         console.error("Ошибка при получении данных: ", err);
