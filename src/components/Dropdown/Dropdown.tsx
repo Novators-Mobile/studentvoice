@@ -80,7 +80,7 @@ function Dropdown({
                 id={item.id}
                 type={type}
                 title={item.title}
-                rating={item.rating}
+                rating={item.rating || 0}
                 onDelete={onDelete}
               />
             ))}
