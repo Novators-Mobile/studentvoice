@@ -25,7 +25,7 @@ export interface TPollResults {
 }
 
 export const getPoll = async (id: string): Promise<TPoll> => {
-  const response = await axiosInstance.get<TPoll>(`/${id}/`);
+  const response = await axiosInstance.get<TPoll>(`/noauth/${id}/`);
   return response.data;
 };
 
@@ -35,6 +35,6 @@ export const getPollResults = async (id: string): Promise<TPollResults[]> => {
 };
 
 export const postPollResults = async (id: string): Promise<TPollResults> => {
-  const response = await axiosInstance.post<TPollResults>(`/${id}/pollresults/`);
+  const response = await axiosInstance.post<TPollResults>(`/noauth/${id}/pollresults/`);
   return response.data;
 };

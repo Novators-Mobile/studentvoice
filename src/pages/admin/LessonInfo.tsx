@@ -75,7 +75,7 @@ function LessonInfo() {
   return (
     <>
       <TitleBlock
-        title={dayjs(lesson?.date).format("DD.MM.YYYY") || ""}
+        title={`${lesson?.name} (${dayjs(lesson?.date).format("DD.MM.YYYY")})`}
         decryption={discipline?.name}
         rating={0}
         editBtn={true}

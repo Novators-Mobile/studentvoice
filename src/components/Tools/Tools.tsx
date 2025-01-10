@@ -15,6 +15,8 @@ type Props = {
   debounceDelay?: number;
   isSortReversed?: boolean;
   disablePlusBtn?: boolean;
+  disableExcelBtn?: boolean;
+  onExcelClick?: () => Promise<Blob>;
 };
 
 function Tools({
@@ -25,12 +27,30 @@ function Tools({
   onSortClick,
   isSortReversed,
   disablePlusBtn,
+  disableExcelBtn,
+  onExcelClick,
 }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   const toggleFilterModal = (event: React.MouseEvent) => {
     event.stopPropagation();
     setFilterModalOpen(!isFilterModalOpen);
+  };
+
+  const excelClickHandle = async () => {
+    try {
+      const fileBlob = await onExcelClick!();
+      const fileURL = URL.createObjectURL(fileBlob);
+
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `report.xlsx`;
+      a.click();
+
+      URL.revokeObjectURL(fileURL);
+    } catch (error) {
+      console.error("Ошибка при скачивании файла:", error);
+    }
   };
 
   return (
@@ -58,7 +78,12 @@ function Tools({
         disable={disablePlusBtn}
       />
 
-      <Button text="Excel" type="excel" />
+      <Button
+        text="Excel"
+        type="excel"
+        disabled={disableExcelBtn}
+        onClick={excelClickHandle}
+      />
     </div>
   );
 }

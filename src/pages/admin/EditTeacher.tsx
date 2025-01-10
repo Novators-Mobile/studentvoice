@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Search from "../../components/Search";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { getInstitutes, TInstitute } from "../../api/admin/institutesApi";
 import { institutesToOption } from "../../utils/adapter";
-import { getTeacher, postTeacher, putTeacher, TTeacher } from "../../api/admin/teacherApi";
+import {
+  getTeacher,
+  postTeacher,
+  putTeacher,
+  TTeacher,
+} from "../../api/admin/teacherApi";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 import Skeleton from "../../components/Skeleton";
-
-// const departaments = [
-//   "Школа бакалавриата",
-//   "Кафедра вкусных булочек",
-//   "Департамент ИТиА",
-//   "Департамент ИИТ",
-// ];
+import SearchableSelectDiscipline from "../../components/SearchableSelectDiscipline";
+import { getDisciplines, TDiscipline } from "../../api/admin/disciplineApi";
 
 function EditTeacher() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { teacherId } = useParams();
+  const [disciplines, setDisciplines] = useState<TDiscipline[]>();
   const [institutes, setInstitutes] = useState<TInstitute[]>([]);
   const {
     handleSubmit,
@@ -37,6 +37,7 @@ function EditTeacher() {
       university: undefined,
       email: "",
       username: "",
+      lecture_subjects: [],
     },
   });
 
@@ -58,6 +59,7 @@ function EditTeacher() {
             university: teacherData.university,
             email: teacherData.email,
             username: teacherData.username,
+            lecture_subjects: teacherData.lecture_subjects
           });
         }
       } catch (err) {
@@ -70,6 +72,20 @@ function EditTeacher() {
 
     fetchData();
   }, [teacherId, reset]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const disciplinesData = await getDisciplines({teacherId: teacherId});
+        const disciplinesData = await getDisciplines({});
+        setDisciplines(disciplinesData);
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const onSubmit: SubmitHandler<TTeacher> = async (data) => {
     const loadingToast = AlertLoading("Отправка...");
@@ -99,9 +115,7 @@ function EditTeacher() {
   return (
     <>
       <h1 className="edit__title header-text">
-        {teacherId
-          ? "Редактировать профиль"
-          : "Новый профиль преподавателя"}
+        {teacherId ? "Редактировать профиль" : "Новый профиль преподавателя"}
       </h1>
 
       <form className="edit-teacher__form" onSubmit={handleSubmit(onSubmit)}>
@@ -191,12 +205,22 @@ function EditTeacher() {
                   />
                 )}
               />
-              {/* <Select label="Кафедра" options={departaments} /> */}
             </div>
 
             <div className="fieldset-container">
-              <Search label="Лекции" />
-              <Search label="Практики" />
+              <Controller
+                name="lecture_subjects"
+                control={control}
+                rules={{ required: "Обязательное поле" }}
+                render={({ field }) => (
+                  <SearchableSelectDiscipline
+                    label="Лекции"
+                    value={field.value}
+                    onChange={field.onChange}
+                    disciplines={disciplines}
+                  />
+                )}
+              />
             </div>
           </div>
         </fieldset>
@@ -264,7 +288,11 @@ function EditTeacher() {
             onClick={() => navigate(-1)}
             disabled={isSubmitting}
           />
-          <Button text={teacherId ? "Обновить" : "Сохранить"} type="submit" disabled={isSubmitting} />
+          <Button
+            text={teacherId ? "Обновить" : "Сохранить"}
+            type="submit"
+            disabled={isSubmitting}
+          />
         </div>
       </form>
     </>

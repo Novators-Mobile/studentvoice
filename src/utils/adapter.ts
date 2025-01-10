@@ -31,7 +31,7 @@ export const lessonsToListItem = (data: TLesson[]): TListItem[] => {
   return data.map((item) => {
     return {
       id: item.id!,
-      title: dayjs(item.date).format("DD.MM.YYYY HH:mm"),
+      title: `${item.name} (${dayjs(item.date).format("DD.MM.YYYY")})`,
       rating: 0,
     };
   });

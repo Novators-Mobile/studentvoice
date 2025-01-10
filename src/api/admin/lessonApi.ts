@@ -8,6 +8,7 @@ export interface TLesson {
   teacher: number;
   type: "lecture" | "practice";
   time?: string;
+  name: string;
 }
 
 export interface TLessonParams {

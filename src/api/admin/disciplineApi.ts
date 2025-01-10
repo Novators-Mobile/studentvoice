@@ -2,7 +2,8 @@ import axiosInstance from "./axiosInstanceAdmin";
 
 export interface TDiscipline {
   id?: number;
-  teachers?: number[];
+  lecture_teachers: number[];
+  practice_teachers: number[];
   university: number;
   name: string;
 }

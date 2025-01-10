@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../../utils/const";
 
 const axiosInstanceAdmin = axios.create({
-  baseURL: `${BASE_URL}/admin_api/`,
+  baseURL: `${BASE_URL}/excel/`,
   headers: {
     "Content-Type": "application/json",
   },

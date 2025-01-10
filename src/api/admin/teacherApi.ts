@@ -8,6 +8,8 @@ export interface TTeacher {
   university: number;
   email: string;
   username: string;
+  lecture_subjects?: number[];
+  practice_subjects?: number[],
 }
 
 export interface TTeacherParams {

@@ -7,6 +7,10 @@ interface Props {
 }
 
 function Feedback({ results }: Props) {
+  if (results.length === 0) {
+    return <div className="feedback">Отзывов пока нет.</div>;
+  }
+
   return (
     <div className="feedback">
       <div className="feedback__wrap">

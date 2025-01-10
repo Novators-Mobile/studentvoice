@@ -10,6 +10,7 @@ import { deleteTeacher, getTeachers, TTeacher } from "../../api/admin/teacherApi
 import { sortDisciplines, sortTeachers } from "../../utils/sort";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 import Skeleton from "../../components/Skeleton";
+import { getDisciplinesFromInstitute, getTeachersFromInstitute } from "../../api/excel/excelApi";
 
 const graphData = [
   { name: "Сентябрь", rating: 0 },
@@ -125,9 +126,9 @@ function Institute() {
   return (
     <div className="institute">
       <TitleBlock
-        title="Аббревиатура"
+        title={institute?.short_name}
         decryption={institute?.name}
-        rating={0}
+        rating={institute?.rating || 0}
         editBtn={false}
       />
 
@@ -140,6 +141,8 @@ function Institute() {
         onSortClick={toggleSortDisciplines}
         isSortReversed={isReverseDisciplines}
         onDelete={handleDeleteDiscipline}
+        disableExcelBtn={!disciplines.length}
+        onExcelClick={() => getDisciplinesFromInstitute(instituteId!)}
       />
 
       <Dropdown
@@ -151,6 +154,8 @@ function Institute() {
         onSortClick={toggleSortTeachers}
         isSortReversed={isReverseTeachers}
         onDelete={handleDeleteTeacher}
+        disableExcelBtn={!teachers.length}
+        onExcelClick={() => getTeachersFromInstitute(instituteId!)}
       />
 
       <div className="institute__stats_wrap">

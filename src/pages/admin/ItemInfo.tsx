@@ -16,6 +16,7 @@ import {
 import { deleteLesson, getLessons, TLesson } from "../../api/admin/lessonApi";
 import Skeleton from "../../components/Skeleton";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
+import { getDisciplinesFromTeacher, getLessonsFromDiscipline, getLessonsFromTeacher, getTeachersFromDiscipline } from "../../api/excel/excelApi";
 
 type TPageInfo = {
   mainTitle: string;
@@ -36,6 +37,8 @@ function ItemInfo() {
   const [error, setError] = useState<string | null>(null);
 
   const { disciplineId, teacherId } = useParams();
+  const [teacherInfo, setTeacherInfo] = useState<TTeacher>();
+  const [disciplineInfo, setDisciplineInfo] = useState<TDiscipline>();
   const [pageInfo, setPageInfo] = useState<TPageInfo>({
     mainTitle: "",
     decryption: "",
@@ -57,7 +60,9 @@ function ItemInfo() {
 
         if (location.pathname.includes("discipline")) {
           const disciplineData = await getDiscipline(disciplineId!);
-          const teachersData = await getTeachers({ subjectId: disciplineId });
+          setDisciplineInfo(disciplineData);
+          // const teachersData = await getTeachers({ subjectId: disciplineId });
+          const teachersData = await getTeachers({ });
           const lessonsLecture = await getLessons({
             subjectId: disciplineId,
             type: "lecture",
@@ -80,9 +85,9 @@ function ItemInfo() {
           });
         } else if (location.pathname.includes("teacher")) {
           const teacherData = await getTeacher(teacherId!);
-          const disciplinesData = await getDisciplines({
-            teacherId: teacherId,
-          });
+          setTeacherInfo(teacherData);
+          // const disciplinesData = await getDisciplines({teacherId: teacherId});
+          const disciplinesData = await getDisciplines({ });
           const lessonsLecture = await getLessons({
             teacherId: teacherId,
             type: "lecture",
@@ -151,18 +156,28 @@ function ItemInfo() {
         title={pageInfo.subTitle}
         firstList={
           location.pathname.includes("discipline")
-            ? teachersToListItem(teachers)
-            : disciplineToListItem(disciplines)
+            ? teachersToListItem(teachers.filter(teacher => disciplineInfo?.lecture_teachers?.includes(teacher.id!)))
+            : disciplineToListItem(disciplines.filter(discipline => teacherInfo?.lecture_subjects?.includes(discipline.id!)))
         }
         secondList={
           location.pathname.includes("discipline")
-            ? teachersToListItem(teachers)
-            : disciplineToListItem(disciplines)
+            ? teachersToListItem(teachers.filter(teacher => disciplineInfo?.practice_teachers?.includes(teacher.id!)))
+            : disciplineToListItem(disciplines.filter(discipline => teacherInfo?.practice_subjects?.includes(discipline.id!)))
         }
         onPlusClick={() =>
           navigate(
             `/new-${pageInfo.type === "discipline" ? pageInfo.type : "profile"}`
           )
+        }
+        disableExcelBtn={
+          location.pathname.includes("discipline")
+            ? !teachers.length
+            : !disciplines.length
+        }
+        onExcelClick={
+          location.pathname.includes("discipline")
+            ? () => getTeachersFromDiscipline(disciplineId!)
+            : () => getDisciplinesFromTeacher(teacherId!)
         }
       />
 
@@ -174,6 +189,12 @@ function ItemInfo() {
         onPlusClick={() => navigate("./new-lesson")}
         onDelete={handleDeleteLesson}
         disablePlusBtn={!teachers.length && !disciplines.length}
+        disableExcelBtn={!lessons.lecture.length && !lessons.practice.length}
+        onExcelClick={
+          location.pathname.includes("discipline")
+            ? () => getLessonsFromDiscipline(disciplineId!)
+            : () => getLessonsFromTeacher(teacherId!)
+        }
       />
     </div>
   );

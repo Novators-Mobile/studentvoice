@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Input from "../../components/Input";
-import Search from "../../components/Search";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import { getInstitutes, TInstitute } from "../../api/admin/institutesApi";
@@ -15,6 +14,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { institutesToOption } from "../../utils/adapter";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 import Skeleton from "../../components/Skeleton";
+import SearchableSelectTeacher from "../../components/SearchableSelectTeacher";
+import { getTeachers, TTeacher } from "../../api/admin/teacherApi";
 
 const inputWidth = "912px";
 
@@ -23,6 +24,7 @@ function EditDiscipline() {
   const { disciplineId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [teachers, setTeachers] = useState<TTeacher[]>();
   const [institutes, setInstitutes] = useState<TInstitute[]>([]);
   const {
     handleSubmit,
@@ -33,6 +35,8 @@ function EditDiscipline() {
     defaultValues: {
       name: "",
       university: undefined,
+      lecture_teachers: [],
+      practice_teachers: [],
     },
   });
 
@@ -50,6 +54,8 @@ function EditDiscipline() {
           reset({
             name: disciplineData.name,
             university: disciplineData.university,
+            lecture_teachers: disciplineData.lecture_teachers,
+            practice_teachers: disciplineData.practice_teachers,
           });
         }
       } catch (err) {
@@ -62,6 +68,20 @@ function EditDiscipline() {
 
     fetchData();
   }, [disciplineId, reset]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // const teachersData = await getTeachers({subjectId: disciplineId});
+        const teachersData = await getTeachers({});
+        setTeachers(teachersData);
+      } catch (err) {
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const onSubmit: SubmitHandler<TDiscipline> = async (data) => {
     const loadingToast = AlertLoading("Отправка...");
@@ -92,9 +112,7 @@ function EditDiscipline() {
   return (
     <>
       <h1 className="edit__title header-text">
-        {disciplineId
-          ? "Редактировать дисциплину"
-          : "Новая дисциплина"}
+        {disciplineId ? "Редактировать дисциплину" : "Новая дисциплина"}
       </h1>
 
       <form className="edit-discipline__form" onSubmit={handleSubmit(onSubmit)}>
@@ -139,8 +157,37 @@ function EditDiscipline() {
         <h2 className="edit-disipline__title medium-big-text">Преподаватели</h2>
 
         <fieldset className="edit-discipline__fieldset small">
-          <Search label="Лекции" width={inputWidth} />
-          <Search label="Практики" width={inputWidth} />
+          <Controller
+            name="lecture_teachers"
+            control={control}
+            rules={{ required: "Обязательное поле" }}
+            render={({ field }) => (
+              <SearchableSelectTeacher
+                label="Лекции"
+                width={inputWidth}
+                error = {errors.lecture_teachers?.message} 
+                value={field.value}
+                onChange={field.onChange}
+                teachers={teachers}
+              />
+            )}
+          />
+
+          <Controller
+            name="practice_teachers"
+            control={control}
+            rules={{ required: "Обязательное поле" }}
+            render={({ field }) => (
+              <SearchableSelectTeacher
+                label="Практики"
+                width={inputWidth}
+                error = {errors.practice_teachers?.message} 
+                value={field.value}
+                onChange={field.onChange}
+                teachers={teachers}
+              />
+            )}
+          />
         </fieldset>
 
         <div className="edit__form-btns">

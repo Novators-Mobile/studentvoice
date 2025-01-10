@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from "../../utils/const";
 
 const axiosInstancePolls = axios.create({
-  baseURL: "http://localhost:8000/api/polls/",
+  baseURL: `${BASE_URL}/polls/`,
   headers: {
     "Content-Type": "application/json",
   },

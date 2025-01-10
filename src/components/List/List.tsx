@@ -16,6 +16,8 @@ type Props = {
   onPlusClick?: () => void;
   onDelete?: (id: string) => void;
   disablePlusBtn?: boolean;
+  onExcelClick?: () => Promise<Blob>;
+  disableExcelBtn?: boolean;
 };
 
 function List({
@@ -26,6 +28,8 @@ function List({
   onPlusClick,
   onDelete,
   disablePlusBtn,
+  disableExcelBtn,
+  onExcelClick
 }: Props) {
   return (
     <>
@@ -38,6 +42,8 @@ function List({
           onPlusClick={onPlusClick}
           isList={true}
           disablePlusBtn={disablePlusBtn}
+          onExcelClick={onExcelClick}
+          disableExcelBtn={disableExcelBtn}
         />
       </div>
 

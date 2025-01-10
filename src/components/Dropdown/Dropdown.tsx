@@ -20,6 +20,8 @@ type Props = {
   onSearch?: (query: string) => void;
   debounceDelay?: number;
   onDelete?: (id: string) => void;
+  onExcelClick?: () => Promise<Blob>;
+  disableExcelBtn?: boolean;
 };
 
 function Dropdown({
@@ -32,6 +34,8 @@ function Dropdown({
   onSortClick,
   isSortReversed,
   onDelete,
+  disableExcelBtn,
+  onExcelClick
 }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -58,6 +62,8 @@ function Dropdown({
             debounceDelay={debounceDelay}
             onSortClick={onSortClick}
             isSortReversed={isSortReversed}
+            onExcelClick={onExcelClick}
+            disableExcelBtn={disableExcelBtn}
           />
         )}
       </div>

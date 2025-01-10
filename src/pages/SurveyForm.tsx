@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Comments from "../components/SurveyForm/Comments";
 import Greeting from "../components/SurveyForm/Greeting";
 import Questions from "../components/SurveyForm/Questions";
+import { getPoll, TPoll } from "../api/polls/pollsApi";
 
 export type questionType = {
   type: "question" | "comment";
@@ -73,6 +74,9 @@ export type FormData = {
 function SurveyForm() {
   const { formId } = useParams();
 
+  const [pollInfo, setPollInfo] = useState<TPoll>();
+  const [error, setError] = useState<string | null>(null);
+
   const savedPageNumber = Number(localStorage.getItem("pageNumber") || 1);
   const savedFormData = JSON.parse(localStorage.getItem("formData") || "{}");
 
@@ -90,6 +94,20 @@ function SurveyForm() {
     comment2: "",
     ...savedFormData,
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const surveyFormInfo = await getPoll(formId!);
+        setPollInfo(surveyFormInfo);
+      } catch (err) {
+        setError("Опрос не найден 😢\nПопробуйте позже")
+        console.error("Ошибка при получении данных: ", err);
+      }
+    };
+
+    fetchData();
+  }, [formId]);
 
   useEffect(() => {
     const savedFormID = localStorage.getItem("formId");
@@ -163,6 +181,14 @@ function SurveyForm() {
     "question4",
     "question5",
   ].every((key) => formData[key as keyof FormData]);
+
+  if (error) {
+    return (
+      <div className="not-found">
+        <p className="logo-text">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <form

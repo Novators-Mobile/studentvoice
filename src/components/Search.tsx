@@ -8,7 +8,6 @@ type Props = {
   query?: string;
   onSearch?: (query: string) => void;
   debounceDelay?: number;
-  
 };
 
 function Search({ label, isBig = false, width, query, onSearch, debounceDelay = 500 }: Props) {

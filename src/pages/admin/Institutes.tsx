@@ -58,14 +58,14 @@ function Institutes() {
       <ul className="institutes__list">
         {error && <p>{error}</p>}
 
-        {!institutes.length && "Список пуст"}
+        {!institutes.length && !error && "Список пуст"}
         
         {!error && institutes.map((item) => (
           <InstitutesItem
             key={item.id}
             id={item.id!}
             name={item.name}
-            rating={0}
+            rating={item.rating || 0}
           />
         ))}
       </ul>

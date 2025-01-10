@@ -3,6 +3,10 @@ import axiosInstance from "./axiosInstanceAdmin";
 export interface TInstitute {
   id?: number;
   name: string;
+  short_name: string;
+  rating?: number | null;
+  teachers_rating?: number | null;
+  subjects_rating?: number | null;
 }
 
 export const getInstitutes = async (): Promise<TInstitute[]> => {

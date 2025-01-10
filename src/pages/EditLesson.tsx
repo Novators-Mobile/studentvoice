@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "../components/Select";
 import Input from "../components/Input";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ToggleButtons from "../components/ToggleButtons";
 import DatePicker from "../components/DatePicker";
 import Button from "../components/Button";
@@ -10,12 +10,17 @@ import { getTeachers, TTeacher } from "../api/admin/teacherApi";
 import { disciplinesToOption, teachersToOption } from "../utils/adapter";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import Skeleton from "../components/Skeleton";
-import { getLesson, postLesson, putLesson, TLesson } from "../api/admin/lessonApi";
+import {
+  getLesson,
+  postLesson,
+  putLesson,
+  TLesson,
+} from "../api/admin/lessonApi";
 import dayjs from "dayjs";
 import { AlertLoading, AlertUpdate } from "../utils/Notifications";
 
 const selectWidth = "480px";
-// const time = ["Не повторять", "Ежедневно", "Еженедельно", "Каждый будний день"];
+
 const toggleButtons = [
   {
     id: "lecture",
@@ -31,17 +36,6 @@ const toggleButtons = [
 
 function EditLesson() {
   const navigate = useNavigate();
-
-  const location = useLocation();
-  let title: string = "";
-  let decryption: string = "";
-  const normalizedPath = location.pathname.replace(/\/$/, "");
-  if (normalizedPath.endsWith("edit")) {
-    title = "Название пары";
-    decryption = "Расшифровка аббревиатуры";
-  } else if (normalizedPath.endsWith("new-lesson")) {
-    title = "Новая пара";
-  }
 
   const { disciplineId, teacherId, lessonId } = useParams();
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,6 +55,7 @@ function EditLesson() {
       teacher: undefined,
       type: undefined,
       time: "",
+      name: ""
     },
   });
 
@@ -70,8 +65,10 @@ function EditLesson() {
         setLoading(true);
         setError(null);
 
-        const teachersData = await getTeachers({ subjectId: disciplineId });
-        const disciplinesData = await getDisciplines({ teacherId: teacherId });
+        // const teachersData = await getTeachers({ subjectId: disciplineId });
+        // const disciplinesData = await getDisciplines({ teacherId: teacherId });
+        const teachersData = await getTeachers({ });
+        const disciplinesData = await getDisciplines({ });
         setTeachers(teachersData);
         setDisciplines(disciplinesData);
 
@@ -87,6 +84,7 @@ function EditLesson() {
             teacher: lessonData.teacher,
             type: lessonData.type,
             time: dayjs(lessonData.date).format("HH:mm").toString(),
+            name: lessonData.name
           });
         }
       } catch (err) {
@@ -138,8 +136,12 @@ function EditLesson() {
   return (
     <>
       <div className="title-block__wrap">
-        <h1 className="header-text">{title}</h1>
-        <p className="title__decryption medium-middle-text">{decryption}</p>
+        <h1 className="header-text">
+          {lessonId ? "Название пары" : "Новая пара"}
+        </h1>
+        <p className="title__decryption medium-middle-text">
+          {!!lessonId && "Расшифровка"}
+        </p>
       </div>
 
       <form className="edit-lesson__form" onSubmit={handleSubmit(onSubmit)}>
@@ -154,7 +156,9 @@ function EditLesson() {
                 error={errors.date?.message}
                 onChange={field.onChange}
                 ref={field.ref}
-                value={field.value ? dayjs(field.value).format("DD.MM.YYYY") : ""}
+                value={
+                  field.value ? dayjs(field.value).format("DD.MM.YYYY") : ""
+                }
               />
             )}
           />
@@ -221,6 +225,28 @@ function EditLesson() {
                   error={errors.type?.message}
                   value={field.value}
                   onChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+
+          <div className="edit-lesson__inner_wrap">
+            <Controller
+              name="name"
+              control={control}
+              rules={{
+                required: "Обязательное поле",
+                maxLength: {
+                  value: 100,
+                  message: "Макс. число символов 100",
+                },
+              }}
+              render={({ field }) => (
+                <Input
+                  label="Название пары"
+                  width={selectWidth}
+                  error={errors.name?.message}
+                  {...field}
                 />
               )}
             />

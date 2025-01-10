@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "../Icons/EditIcon";
 
 type Props = {
-  title: string;
+  title?: string;
   decryption?: string;
   rating: number;
   editBtn?: boolean;

@@ -468,6 +468,17 @@ label {
   transform: rotate(180deg);
 }
 
+
+.selected-item {
+  display: flex;
+  gap: 15px;
+}
+
+.selected-item__delete:hover {
+  color: var(--color-blue);
+  cursor: pointer;
+}
+
 /* Dropdown - start */
 
 .dropdown__wrapper {
@@ -1240,6 +1251,10 @@ input[type="time"] {
 
   justify-content: center;
   align-items: center;
+}
+
+.not-found > p {
+  white-space: pre-line
 }
 
 
