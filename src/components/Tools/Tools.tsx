@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FilterModal from "./FilterModal";
 import ToolsBtn from "../Tools/ToolsBtn";
-import DoubleArrowBtn from "../../Icons/DoubleArrowBtn";
+// import DoubleArrowBtn from "../../Icons/DoubleArrowBtn";
 import PlusIcon from "../../Icons/PlusIcon";
 import Search from "../Search";
 import Button from "../Button";
@@ -32,10 +32,10 @@ function Tools({
 }: Props) {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
-  const toggleFilterModal = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    setFilterModalOpen(!isFilterModalOpen);
-  };
+  // const toggleFilterModal = (event: React.MouseEvent) => {
+  //   event.stopPropagation();
+  //   setFilterModalOpen(!isFilterModalOpen);
+  // };
 
   const excelClickHandler = async () => {
     try {
@@ -63,7 +63,9 @@ function Tools({
         />
       )}
 
-      <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
+      {/* {!(localStorage.getItem("role") === "teacher") && (
+        <ToolsBtn icon={<DoubleArrowBtn />} onClick={toggleFilterModal} />
+      )} */}
 
       <FilterModal
         isOpen={isFilterModalOpen}
@@ -78,12 +80,14 @@ function Tools({
         disable={disablePlusBtn}
       />
 
-      <Button
-        text="Excel"
-        type="excel"
-        disabled={disableExcelBtn}
-        onClick={excelClickHandler}
-      />
+      {!(localStorage.getItem("role") === "teacher") && (
+        <Button
+          text="Excel"
+          type="excel"
+          disabled={disableExcelBtn}
+          onClick={excelClickHandler}
+        />
+      )}
     </div>
   );
 }

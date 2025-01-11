@@ -1,4 +1,5 @@
 import { TDiscipline } from "../api/admin/disciplineApi";
+import { TStatsItem } from "../api/admin/statsApi";
 import { TTeacher } from "../api/admin/teacherApi";
 
 export const sortDisciplines = (disciplines: TDiscipline[], isReverse: boolean = false ): TDiscipline[] => {
@@ -20,5 +21,31 @@ export const sortTeachers = (teachers: TTeacher[], isReverse: boolean = false): 
     if (fullNameA < fullNameB) return isReverse ? 1 : -1;
     if (fullNameA > fullNameB) return isReverse ? -1 : 1;
     return 0;
+  });
+};
+
+export const sortByYearAndMonth = (data: TStatsItem[]) => {
+  const monthOrder = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return data.sort((a, b) => {
+    const yearDiff = parseInt(a.year) - parseInt(b.year);
+    if (yearDiff !== 0) return yearDiff;
+
+    const monthIndexA = monthOrder.indexOf(a.name);
+    const monthIndexB = monthOrder.indexOf(b.name);
+    return monthIndexA - monthIndexB;
   });
 };

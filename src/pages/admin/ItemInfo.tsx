@@ -56,9 +56,6 @@ function ItemInfo() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
         if (location.pathname.includes("discipline")) {
           const disciplineData = await getDiscipline(disciplineId!);
           setDisciplineInfo(disciplineData);
@@ -72,6 +69,13 @@ function ItemInfo() {
             type: "practice",
           });
 
+          const sortedLectures = lessonsLecture.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+          const sortedPractices = lessonsPractice.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+
           setTeachers(teachersData);
           setPageInfo({
             mainTitle: "Аббревиатура",
@@ -80,8 +84,8 @@ function ItemInfo() {
             subTitle: "Преподаватели",
           });
           setLessons({
-            practice: lessonsPractice,
-            lecture: lessonsLecture,
+            practice: sortedPractices,
+            lecture: sortedLectures,
           });
         } else if (location.pathname.includes("teacher")) {
           const teacherData = await getTeacher(teacherId!);
@@ -96,6 +100,13 @@ function ItemInfo() {
             type: "practice",
           });
 
+          const sortedLectures = lessonsLecture.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+          const sortedPractices = lessonsPractice.sort(
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+          );
+
           setDisciplines(disciplinesData);
           setPageInfo({
             mainTitle: `${teacherData.second_name} ${teacherData.first_name} ${teacherData.patronymic}`,
@@ -104,8 +115,8 @@ function ItemInfo() {
             subTitle: "Дисциплины",
           });
           setLessons({
-            practice: lessonsPractice,
-            lecture: lessonsLecture,
+            practice: sortedPractices,
+            lecture: sortedLectures,
           });
         }
       } catch (err) {

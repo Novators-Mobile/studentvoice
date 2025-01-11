@@ -10,6 +10,7 @@ export interface TLesson {
   time?: string;
   name: string;
   rating?: number | null;
+  subject_name?: string;
 }
 
 export interface TLessonParams {

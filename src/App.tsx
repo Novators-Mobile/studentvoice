@@ -71,7 +71,14 @@ export default function App() {
           <Route path="/" element={<PrivateRoute requiredRole="teacher" />}>
             <Route path="/" element={<Sidemenu />}>
               <Route index element={<Profile />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile">
+                <Route index element={<Profile />} />
+                <Route path="lesson/:lessonId">
+                  <Route index element={<LessonInfo />} />
+                  <Route path="edit" element={<EditLesson />} />
+                  <Route path="qr" element={<QR />} />
+                </Route>
+              </Route>
               <Route path="new-lesson" element={<EditLesson />} />
             </Route>
           </Route>

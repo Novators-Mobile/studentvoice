@@ -18,6 +18,12 @@ import {
 } from "../api/admin/lessonApi";
 import dayjs from "dayjs";
 import { AlertLoading, AlertUpdate } from "../utils/Notifications";
+import {
+  getTeacherDisciplines,
+  getTeacherLesson,
+  postTeacherLesson,
+  putTeacherLesson,
+} from "../api/teacher/teacherApi";
 
 const selectWidth = "480px";
 
@@ -55,36 +61,51 @@ function EditLesson() {
       teacher: undefined,
       type: undefined,
       time: "",
-      name: ""
+      name: "",
     },
   });
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
-        const teachersData = await getTeachers({ subjectId: disciplineId });
-        const disciplinesData = await getDisciplines({ teacherId: teacherId });
-        // const teachersData = await getTeachers({ });
-        setTeachers(teachersData);
-        setDisciplines(disciplinesData);
-
-        if (disciplineId) {
-          reset({ subject: Number(disciplineId) });
-        } else if (teacherId) {
-          reset({ teacher: Number(teacherId) });
-        } else if (lessonId) {
-          const lessonData = await getLesson(lessonId);
-          reset({
-            subject: lessonData.subject,
-            date: lessonData.date,
-            teacher: lessonData.teacher,
-            type: lessonData.type,
-            time: dayjs(lessonData.date).format("HH:mm").toString(),
-            name: lessonData.name
+        if (localStorage.getItem("role") === "admin") {
+          const teachersData = await getTeachers({ subjectId: disciplineId });
+          const disciplinesData = await getDisciplines({
+            teacherId: teacherId,
           });
+          setTeachers(teachersData);
+          setDisciplines(disciplinesData);
+
+          if (disciplineId) {
+            reset({ subject: Number(disciplineId) });
+          } else if (teacherId) {
+            reset({ teacher: Number(teacherId) });
+          } else if (lessonId) {
+            const lessonData = await getLesson(lessonId);
+            reset({
+              subject: lessonData.subject,
+              date: lessonData.date,
+              teacher: lessonData.teacher,
+              type: lessonData.type,
+              time: dayjs(lessonData.date).format("HH:mm").toString(),
+              name: lessonData.name,
+            });
+          }
+        } else if (localStorage.getItem("role") === "teacher") {
+          const disciplinesData = await getTeacherDisciplines();
+          setDisciplines(disciplinesData);
+          
+          if (lessonId) {
+            const lessonData = await getTeacherLesson(lessonId);
+            reset({
+              subject: lessonData.subject,
+              date: lessonData.date,
+              teacher: lessonData.teacher,
+              type: lessonData.type,
+              time: dayjs(lessonData.date).format("HH:mm").toString(),
+              name: lessonData.name,
+            });
+          }
         }
       } catch (err) {
         setError("Не удалось загрузить данные. Попробуйте позже.");
@@ -111,10 +132,18 @@ function EditLesson() {
     const loadingToast = AlertLoading("Отправка...");
     try {
       if (lessonId) {
-        await putLesson(lessonId, transformedData);
+        if (localStorage.getItem("role") === "teacher") {
+          await putTeacherLesson(lessonId, transformedData);
+        } else {
+          await putLesson(lessonId, transformedData);
+        }
         AlertUpdate(loadingToast, "success", "Пара обновлена успешно!");
       } else {
-        await postLesson(transformedData);
+        if (localStorage.getItem("role") === "teacher") {
+          await postTeacherLesson(transformedData);
+        } else {
+          await postLesson(transformedData);
+        }
         AlertUpdate(loadingToast, "success", "Пара создана успешно!");
       }
       navigate(-1);
@@ -136,11 +165,8 @@ function EditLesson() {
     <>
       <div className="title-block__wrap">
         <h1 className="header-text">
-          {lessonId ? "Название пары" : "Новая пара"}
+          {lessonId ? "Редактирование пары" : "Новая пара"}
         </h1>
-        <p className="title__decryption medium-middle-text">
-          {!!lessonId && "Расшифровка"}
-        </p>
       </div>
 
       <form className="edit-lesson__form" onSubmit={handleSubmit(onSubmit)}>
@@ -193,22 +219,24 @@ function EditLesson() {
               />
             )}
           />
-          <Controller
-            name="teacher"
-            control={control}
-            rules={{ required: "Обязательное поле" }}
-            render={({ field }) => (
-              <Select
-                label="Преподаватель"
-                options={teachersToOption(teachers)}
-                error={errors.teacher?.message}
-                value={field.value}
-                onChange={(id) => field.onChange(id)}
-                width={selectWidth}
-                disable={!!teacherId || !!lessonId}
-              />
-            )}
-          />
+          {localStorage.getItem("userId") === "admin" && (
+            <Controller
+              name="teacher"
+              control={control}
+              rules={{ required: "Обязательное поле" }}
+              render={({ field }) => (
+                <Select
+                  label="Преподаватель"
+                  options={teachersToOption(teachers)}
+                  error={errors.teacher?.message}
+                  value={field.value}
+                  onChange={(id) => field.onChange(id)}
+                  width={selectWidth}
+                  disable={!!teacherId || !!lessonId}
+                />
+              )}
+            />
+          )}
         </fieldset>
 
         <fieldset className="fieldset-container">

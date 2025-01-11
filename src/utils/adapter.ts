@@ -6,6 +6,8 @@ import { TTeacher } from "../api/admin/teacherApi";
 import { DropdownListItem } from "../components/Dropdown/Dropdown";
 import { TListItem } from "../components/List/List";
 import { TSelectOption } from "../components/Select";
+import { TStatsWeekItem } from "../api/admin/statsApi";
+import { TGraphItem } from "../components/StatisticsGraph";
 
 export const disciplineToListItem = (data: TDiscipline[]): DropdownListItem[] => {
   return data.map((item) => {
@@ -61,6 +63,15 @@ export const teachersToOption = (data: TTeacher[]): TSelectOption[] => {
     return {
       id: item.id!,
       name: `${item.second_name} ${item.first_name} ${item.patronymic}`
+    };
+  });
+};
+
+export const statsWeekToGraph = (data: TStatsWeekItem[]): TGraphItem[] => {
+  return data.map((item) => {
+    return {
+      name: String(item.week_number),
+      rating: item.rating || 0
     };
   });
 };

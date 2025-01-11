@@ -8,6 +8,7 @@ import NewProfileMenuIcon from "../Icons/NewProfileMenuIcon";
 import NewDisciplineMenuIcon from "../Icons/NewDisciplineMenuIcon";
 import Button from "./Button";
 import { logout } from "../api/admin/authApi";
+import MyProfile from "../Icons/MyProfile";
 
 function Sidemenu() {
   const location = useLocation();
@@ -36,54 +37,100 @@ function Sidemenu() {
         <div className="menu__user-info">
           <img src={userLogo} alt="Изображение профиля" />
           <p className="menu__user-info_fio semi-bold-text">
-            {localStorage.getItem("role") === "admin" ? "Администрация" : localStorage.getItem("fio") }
+            {localStorage.getItem("role") === "admin"
+              ? "Администрация"
+              : localStorage.getItem("fio")}
           </p>
         </div>
 
         <nav className="menu__nav">
           <ul className="menu__nav_list">
-            <li
-              className={`menu__nav_list-item ${
-                location.pathname.startsWith("/institutes") ||
-                location.pathname === "/"
-                  ? "active"
-                  : ""
-              }`}
-            >
-              <Link to="/institutes" className="menu__nav_link semi-bold-text">
-                <InstitutesMenuIcon /> Общая база
-              </Link>
-            </li>
-            <li
-              className={`menu__nav_list-item ${
-                location.pathname.startsWith("/search") ? "active" : ""
-              }`}
-            >
-              <Link to="/search" className="menu__nav_link semi-bold-text">
-                <SearchMenuIcon /> Поиск
-              </Link>
-            </li>
-            <li
-              className={`menu__nav_list-item ${
-                location.pathname.startsWith("/new-profile") ? "active" : ""
-              }`}
-            >
-              <Link to="/new-profile" className="menu__nav_link semi-bold-text">
-                <NewProfileMenuIcon /> Создать новый профиль
-              </Link>
-            </li>
-            <li
-              className={`menu__nav_list-item ${
-                location.pathname.startsWith("/new-discipline") ? "active" : ""
-              }`}
-            >
-              <Link
-                to="/new-discipline"
-                className="menu__nav_link semi-bold-text"
+            {localStorage.getItem("role") === "admin" ? (
+              <>
+                <li
+                  className={`menu__nav_list-item ${
+                    location.pathname.startsWith("/institutes") ||
+                    location.pathname === "/"
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link
+                    to="/institutes"
+                    className="menu__nav_link semi-bold-text"
+                  >
+                    <InstitutesMenuIcon /> Общая база
+                  </Link>
+                </li>
+                <li
+                  className={`menu__nav_list-item ${
+                    location.pathname.startsWith("/search") ? "active" : ""
+                  }`}
+                >
+                  <Link to="/search" className="menu__nav_link semi-bold-text">
+                    <SearchMenuIcon /> Поиск
+                  </Link>
+                </li>
+                <li
+                  className={`menu__nav_list-item ${
+                    location.pathname.startsWith("/new-profile") ? "active" : ""
+                  }`}
+                >
+                  <Link
+                    to="/new-profile"
+                    className="menu__nav_link semi-bold-text"
+                  >
+                    <NewProfileMenuIcon /> Создать новый профиль
+                  </Link>
+                </li>
+                <li
+                  className={`menu__nav_list-item ${
+                    location.pathname.startsWith("/new-discipline")
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link
+                    to="/new-discipline"
+                    className="menu__nav_link semi-bold-text"
+                  >
+                    <NewDisciplineMenuIcon /> Создать новую дисциплину
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li
+                  className={`menu__nav_list-item ${
+                    location.pathname.startsWith("/profile")
+                      ? "active"
+                      : ""
+                  }`}
+                >
+                  <Link
+                    to="/profile"
+                    className="menu__nav_link semi-bold-text"
+                  >
+                    <MyProfile /> Мой профиль
+                  </Link>
+                </li>
+
+                <li
+                className={`menu__nav_list-item ${
+                  location.pathname.startsWith("/new-lesson")
+                    ? "active"
+                    : ""
+                }`}
               >
-                <NewDisciplineMenuIcon /> Создать новую дисциплину
-              </Link>
-            </li>
+                <Link
+                  to="/new-lesson"
+                  className="menu__nav_link semi-bold-text"
+                >
+                  <NewDisciplineMenuIcon /> Создать новую пару
+                </Link>
+              </li>
+              </>
+            )}
           </ul>
         </nav>
 

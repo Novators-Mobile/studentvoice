@@ -15,7 +15,16 @@ type Props = {
   onDeleteItem?: (id: string, secondId: string, type: string) => void;
 };
 
-function ListItem({ id, secondId, title, rating, type, lessonType, onDelete, onDeleteItem }: Props) {
+function ListItem({
+  id,
+  secondId,
+  title,
+  rating,
+  type,
+  lessonType,
+  onDelete,
+  onDeleteItem,
+}: Props) {
   const handleDelete = () => {
     if (secondId && lessonType) {
       if (type === "discipline") {
@@ -30,12 +39,21 @@ function ListItem({ id, secondId, title, rating, type, lessonType, onDelete, onD
 
   return (
     <li className="list__item">
-      <Link to={`../${type}/${id}`} className="list__item_link regular-text">
+      <Link
+        to={
+          localStorage.getItem("role") === "teacher"
+            ? `./${type}/${id}`
+            : `../${type}/${id}`
+        }
+        className="list__item_link regular-text"
+      >
         {title}
       </Link>
 
       <div className="dropdown__item_icons-wrap">
-        <Rating rating={rating} />
+        {!(localStorage.getItem("role") === "teacher") && (
+          <Rating rating={rating} />
+        )}
 
         <ToolsBtn icon={<DeleteIcon />} onClick={handleDelete} />
       </div>

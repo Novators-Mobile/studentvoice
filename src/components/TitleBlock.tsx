@@ -30,7 +30,9 @@ function TitleBlock({ title, decryption, rating, editBtn = true }: Props) {
             </div>
           )}
 
-          <Rating rating={rating || 0} type="big" />
+          {localStorage.getItem("role") === "admin" && (
+            <Rating rating={rating || 0} type="big" />
+          )}
         </div>
       </div>
 

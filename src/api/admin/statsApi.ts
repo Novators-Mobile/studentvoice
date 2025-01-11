@@ -10,8 +10,36 @@ export interface TStatsItem {
   rating: number;
 }
 
+export interface TStatsWeek {
+  weeks: TStatsWeekItem[];
+}
 
-export const getStatsByMonth = async (instituteId: string): Promise<TStats> => {
+export interface TStatsWeekItem {
+  week_number: number;
+  rating: number;
+}
+
+export interface TStatsParams {
+  instituteId: string;
+  year: string;
+  month: string;
+}
+
+export const getStatsByMonth = async (instituteId: string) => {
   const response = await axiosInstance.get<TStats>(`university/${instituteId}/statistics/`);
-  return response.data;
+  return response.data.months;
+};
+
+export const getStatsByWeek = async ({
+  instituteId,
+  year,
+  month
+}: TStatsParams) => {
+  const response = await axiosInstance.get<TStatsWeek>(`university/${instituteId}/statistics/weeks/`, {
+    params: {
+      year: year,
+      month: month
+    },
+  });
+  return response.data.weeks;
 };

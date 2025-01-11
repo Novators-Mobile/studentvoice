@@ -7,19 +7,11 @@ import { getInstitute, TInstitute } from "../../api/admin/institutesApi";
 import { deleteDiscipline, getDisciplines, TDiscipline } from "../../api/admin/disciplineApi";
 import { disciplineToListItem, teachersToListItem } from "../../utils/adapter";
 import { deleteTeacher, getTeachers, TTeacher } from "../../api/admin/teacherApi";
-import { sortDisciplines, sortTeachers } from "../../utils/sort";
+import { sortByYearAndMonth, sortDisciplines, sortTeachers } from "../../utils/sort";
 import { AlertLoading, AlertUpdate } from "../../utils/Notifications";
 import Skeleton from "../../components/Skeleton";
 import { getDisciplinesFromInstitute, getTeachersFromInstitute } from "../../api/excel/excelApi";
-import { getStatsByMonth, TStats } from "../../api/admin/statsApi";
-
-// const graphData = [
-//   { name: "Сентябрь", rating: 0 },
-//   { name: "Октябрь", rating: 0 },
-//   { name: "Ноябрь", rating: 0 },
-//   { name: "Декабрь", rating: 0 },
-//   { name: "Январь", rating: 0 },
-// ];
+import { getStatsByMonth, TStatsItem } from "../../api/admin/statsApi";
 
 function Institute() {
   const navigate = useNavigate();
@@ -31,7 +23,7 @@ function Institute() {
   const [error, setError] = useState<string | null>(null);
   const [isReverseDisciplines, setIsReverseDisciplines] = useState<boolean>(false);
   const [isReverseTeachers, setIsReverseTeachers] = useState<boolean>(false);
-  const [stats, setStats] = useState<TStats>();
+  const [stats, setStats] = useState<TStatsItem[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +54,8 @@ function Institute() {
     const fetchData = async () => {
       try {
         const statsData = await getStatsByMonth(instituteId!);
-        setStats(statsData);
+        const sortedData = sortByYearAndMonth(statsData);
+        setStats(sortedData);
       } catch (err) {
         console.error("Ошибка при получении данных: ", err);
       }
@@ -175,7 +168,7 @@ function Institute() {
       />
 
       <div className="institute__stats_wrap">
-        <StatisticsGraph data={stats!.months} width={1100} />
+        <StatisticsGraph data={stats!} width={1100} />
       </div>
     </div>
   );

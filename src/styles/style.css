@@ -81,7 +81,7 @@
 
   --border-radius: 20px;
 
-  --list-width: 912px;
+  --list-width: 860px;
   --input-width: 293px;
   --input-height: 49px;
   --inputs-gap: 165px;
@@ -294,8 +294,14 @@ label {
   padding: 10px 20px;
   
   border-radius: var(--border-radius);
-  color: var(--color-white);
+  color: var(--color-white); 
   background-color: var(--color-blue);
+
+  transition: .2s;
+}
+
+.button.link {
+  color: var(--color-white);
 }
 
 .button.icon {
@@ -1405,6 +1411,17 @@ input[type="time"] {
   max-width: 1064px;
   
   margin-bottom: 32px;
+}
+
+.lesson__participants-wrap {
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+
+.lesson__participants_list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .lesson__statistics_control-btns {

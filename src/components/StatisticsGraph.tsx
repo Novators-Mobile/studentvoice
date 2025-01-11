@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -9,10 +9,15 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { TStatsItem } from "../api/admin/statsApi";
+
+export type TGraphItem = {
+  name: string;
+  rating: number;
+  year?: string;
+}
 
 type Props = {
-  data: TStatsItem[];
+  data: TGraphItem[];
   width?: number;
   height?: number;
 };
@@ -24,9 +29,15 @@ type CustomTickProps = {
 }
   
 function StatisticsGraph({ data, width = 1000, height = 400 }: Props) {
+  const { instituteId } = useParams();
+  
   const renderCustomTick = (props: CustomTickProps) => {
     const { x, y, payload } = props;
-    const url = `/statistics?month=${payload.value.toLowerCase()}`; // временно
+
+    const matchingData = data.find(item => item.name === payload.value);
+    const year = matchingData?.year || "unknown";
+
+    const url = `/statistics?month=${payload.value}&year=${year}&instituteId=${instituteId}`; 
 
     return (
       <g transform={`translate(${x},${y})`}>
@@ -47,7 +58,7 @@ function StatisticsGraph({ data, width = 1000, height = 400 }: Props) {
           margin={{
             top: 20,
             right: 40,
-            left: 0,
+            left: 30,
             bottom: 35,
           }}
         >
